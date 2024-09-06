@@ -67,7 +67,7 @@ Todavía no está disponible para descargas (próximamente)
 Mientras tanto, te ofrecemos ver un demo en video aquí: [próximamente].
 
 ## Documentación
-Toda la documentación del proyecto está disponible en la Wiki del repositorio en GitHub, incluyendo el plan de seguridad, los diagramas de base de datos, y las especificaciones técnicas. Además, se han adjuntado gráficos y diseños en el formato IEEE830.
+Toda la documentación del proyecto está disponible en la Wiki del repositorio en GitHub, incluyendo el plan de seguridad, los casos de testing y las especificaciones técnicas. Además, se han adjuntado gráficos y diseños en el formato IEEE830.
 
 -------------------------------------------
 
