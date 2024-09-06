@@ -37,7 +37,7 @@ El diseño es coherente, homogéneo y optimizado para pantallas móviles.
 Para ejecutar la aplicación en tu entorno local, sigue los siguientes pasos:
 1. Clonar el repositorio:
     ```bash
-   git clone https://github.com/[nombre-organización]/frontend-mobile.git
+   git clone https://github.com/CodeSquadMobile/Mercado-Libro-Mobile.git
 2. Abrir el proyecto en Android Studio:
 * Abre Android Studio y selecciona "Open an existing project".
 * Navega a la carpeta donde clonaste el repositorio y selecciona la carpeta del proyecto.
