@@ -17,22 +17,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/dashb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="146dp"
-        android:layout_marginTop="17dp"
-        android:text="Dashboard"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="250dp"
-        android:layout_height="111dp"
-        android:text="Botón provisorio para probar la redirección a la activity. Si esta activity es la de logueo debería direcciónar al dashboard"
-        tools:layout_editor_absoluteX="80dp"
-        tools:layout_editor_absoluteY="441dp" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
