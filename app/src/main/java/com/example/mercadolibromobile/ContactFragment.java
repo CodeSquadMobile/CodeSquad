@@ -1,42 +1,28 @@
 package com.example.mercadolibromobile;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ContactFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import androidx.fragment.app.Fragment;
+
 public class ContactFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    // Parámetros de inicialización opcionales si los necesitas
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     public ContactFragment() {
-        // Required empty public constructor
+        // Constructor vacío requerido
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ContactFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static ContactFragment newInstance(String param1, String param2) {
         ContactFragment fragment = new ContactFragment();
         Bundle args = new Bundle();
@@ -56,9 +42,25 @@ public class ContactFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_contact, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflar el layout personalizado (activity_contacto.xml)
+        View view = inflater.inflate(R.layout.activity_main, container, false);
+
+        // Obtén las referencias a los elementos del layout
+        EditText consultaEditText = view.findViewById(R.id.etConsulta);
+        Button enviarConsultaButton = view.findViewById(R.id.btnEnviarConsulta);
+
+        // Establece el comportamiento del botón "Enviar consulta"
+        enviarConsultaButton.setOnClickListener(v -> {
+            String consulta = consultaEditText.getText().toString();
+            if (!consulta.isEmpty()) {
+                // Lógica para manejar el envío de la consulta
+                Toast.makeText(getActivity(), "Consulta enviada: " + consulta, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getActivity(), "Por favor, escribe tu consulta.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return view;
     }
 }
