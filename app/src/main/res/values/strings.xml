@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">MercadoLibroMobile</string>
+<<<<<<< HEAD
    
+=======
+    <string name="navigation_drawer_open">Open drawer</string>
+    <string name="navigation_drawer_close">Close drawer</string>
+>>>>>>> ef9244f949a5e00ea009c7752868d2738a7fa76b
 </resources>
