@@ -41,23 +41,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        // Cerrar el Drawer si está abierto cuando se presiona el botón de retroceso
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            super.onBackPressed();  // Llama a la funcionalidad predeterminada del botón "Atrás"
         }
     }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.nav_products) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProductsFragment()).commit();
+            // Reemplazar el fragmento de productos y permitir retroceso
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new ProductsFragment())
+                    .addToBackStack(null)  // Esto agrega el fragmento a la pila de retroceso
+                    .commit();
         } else if (id == R.id.nav_contact) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ContactFragment()).commit();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new ContactFragment())
+                    .addToBackStack(null)
+                    .commit();
         } else if (id == R.id.nav_profile) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).commit();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new ProfileFragment())
+                    .addToBackStack(null)
+                    .commit();
         } else if (id == R.id.nav_logout) {
             Toast.makeText(this, "Cerrando sesión...", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
@@ -65,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             finish();
         }
 
+        // Cerrar el drawer después de seleccionar un ítem
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
