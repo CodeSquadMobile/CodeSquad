@@ -1,0 +1,73 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@drawable/manos"
+    android:layout_height="match_parent"
+    android:padding="50dp">
+
+    <!-- Título de contacto -->
+    <TextView
+        android:id="@+id/tvContactoTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Contact"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
+
+    <!-- Saludo personalizado -->
+    <TextView
+        android:id="@+id/tvSaludo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Saludo"
+        android:textSize="18sp"
+        android:layout_below="@id/tvContactoTitulo"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"/>
+
+    <!-- Mensaje adicional -->
+
+    <!-- Cuadro de input para la consulta -->
+
+    <!-- Botón para enviar la consulta -->
+
+    <TextView
+        android:id="@+id/tvMensaje"
+        android:layout_width="311dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvSaludo"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="75dp"
+        android:layout_marginEnd="6dp"
+        android:text="@string/consulta1"/>
+
+    <EditText
+    android:id="@+id/etConsulta"
+    android:layout_width="287dp"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/tvMensaje"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentEnd="true"
+    android:layout_marginStart="46dp"
+    android:layout_marginTop="132dp"
+    android:layout_marginEnd="28dp"
+    android:inputType="text"
+    android:text="@string/consulta2" />
+
+    <Button
+        android:id="@+id/btnEnviarConsulta"
+        android:layout_width="221dp"
+        android:layout_height="89dp"
+        android:layout_below="@id/etConsulta"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="83dp"
+        android:layout_marginTop="132dp"
+        android:layout_marginEnd="58dp"
+        android:text="@string/enviar" />
+</RelativeLayout>
