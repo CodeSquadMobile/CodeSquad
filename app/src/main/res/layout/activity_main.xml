@@ -7,8 +7,18 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+=======
+    <!-- AppBar -->
+=======
+>>>>>>> 84e4dab01d9ebbfed1f4008f5572b289fcf3c6ca
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
+>>>>>>> ef9244f949a5e00ea009c7752868d2738a7fa76b
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
 
