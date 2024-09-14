@@ -2,6 +2,8 @@ package com.example.mercadolibromobile;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -33,11 +35,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Añade logo al Toolbar
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setLogo(R.drawable.logo);  //Logo en drawable
+            getSupportActionBar().setLogo(R.drawable.logo);
             getSupportActionBar().setDisplayUseLogoEnabled(true);
 
             // Título de la app
             getSupportActionBar().setTitle("Mercado Libro");
+
         }
 
         // Configura el Drawer Layout y el icono de hamburguesa
@@ -58,21 +61,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navigationView.setCheckedItem(R.id.nav_products);
         }
 
-        // Añade icono de carrito al Toolbar
-        toolbar.inflateMenu(R.menu.toolbar_menu);  // menu"carrito/finalizar compra"
-
-        // Configura acción del icono del carrito(finalizar compra)
-        toolbar.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.action_cart) {
-                // abre el fragmento del carrito(finalizar compra)
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, new fragment_Finalizar())
-                        .addToBackStack(null)
-                        .commit();
-                return true;
-            }
-            return false;
-        });
     }
 
     @Override
@@ -111,5 +99,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_cart) {
+            // Aquí manejas lo que ocurre cuando el usuario hace clic en el carrito.
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new fragment_Finalizar())
+                    .addToBackStack(null)
+                    .commit();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
