@@ -11,11 +11,11 @@ import android.view.ViewGroup;
 
 import org.jetbrains.annotations.Nullable;
 
-public class FinalizarCompraFragment extends Fragment {
+public class finalizarcomprafragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_finalizarCompra, container, false);
+        return inflater.inflate(R.layout.fragment_finalizarcompra, container, false);
     }
 }
