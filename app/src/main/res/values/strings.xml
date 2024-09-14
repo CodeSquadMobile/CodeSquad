@@ -1,19 +1,29 @@
-
-
 <resources>
-
     <string name="app_name">MercadoLibroMobile</string>
-    //login
-    <string name="usuario">Usuario</string>
-    <string name="contraseña">Contraseña</string>
-    <string name="inputUsuario">ingrese usuario</string>
-    <string name="inputContra">ingrese contraseña</string>
-    <string name="ingresar">Ingresar</string>
-    <string name="registrarse">registrarse</string>
+
+    <string name="navigation_drawer_open">Open drawer</string>
+    <string name="navigation_drawer_close">Close drawer</string>
 
 
+    <!-- Tabla -->
+    <string name="titTable">Finalizar Compra</string>
+    <string name="FirCol">Libro</string>
+    <string name="SecCol">Cantidad</string>
+    <string name="ThiCol">Precio Unitario</string>
+    <string name="Lib1">Manuelita</string>
+    <string name="Lib2">50 Sombras</string>
+    <string name="Pre1">$500</string>
+    <string name="Pre2">$150.000.000</string>
+    <string name="c1">1</string>
+    <string name="c2">4</string>
 
 
+    <!-- Contacto -->
+    <string name="Contact">Contacto</string>
+    <string name="Saludo">Hola, Bienvenido a MercadoLibro</string>
+    <string name="consulta1">Porfavor escribe tu consulta a continuacion</string>
+    <string name="consulta2">Escribenos aqui</string>
+    <string name="enviar">Enviar Consulta</string>
 
 
 
