@@ -4,7 +4,6 @@
     <item name="android:windowBackground">@drawable/splash_screen</item>
 </style>
 
-<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-<!-- atributos para el tema principal de la app -->
+<style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
 </style>
 </resources>
