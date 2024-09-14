@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MercadoLibroMobile</string>
+    <string name="app_name">Mercado Libro</string>
 
     <string name="navigation_drawer_open">Open drawer</string>
     <string name="navigation_drawer_close">Close drawer</string>
@@ -24,8 +24,6 @@
     <string name="consulta1">Porfavor escribe tu consulta a continuacion</string>
     <string name="consulta2">Escribenos aqui</string>
     <string name="enviar">Enviar Consulta</string>
-
-
 
 
 </resources>
