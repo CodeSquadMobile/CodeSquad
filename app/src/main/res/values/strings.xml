@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Mercado Libro</string>
+    <string name="app_name">MercadoLibroMobile</string>
 
     <string name="navigation_drawer_open">Open drawer</string>
     <string name="navigation_drawer_close">Close drawer</string>
@@ -24,6 +24,16 @@
     <string name="consulta1">Porfavor escribe tu consulta a continuacion</string>
     <string name="consulta2">Escribenos aqui</string>
     <string name="enviar">Enviar Consulta</string>
+
+    //login
+    <string name="usuario">Usuario</string>
+    <string name="contraseña">Contraseña</string>
+    <string name="inputUsuario">ingrese usuario</string>
+    <string name="inputContra">ingrese contraseña</string>
+    <string name="ingresar">Ingresar</string>
+    <string name="registrarse">registrarse</string>
+    <string name="politicas">Politicas de Seguridad y Privacidad</string>
+    <string name="seguridad_priv">Como cuidadamos tu privacidad.\n Ver contratos de adhesión (Ley Nº.24.240- Defensa del Consumidor.\n Términos y Condiciones.\n Accesibilidad.</string>
 
 
 </resources>
