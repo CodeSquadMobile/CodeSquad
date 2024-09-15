@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        // Si el estado es nulo (primera vez que se abre), cargar fragmento de productos por defecto
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, new ProductsFragment())
@@ -82,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .commit();
         } else if (id == R.id.nav_contact) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new ContactFragment())  // Esto asegura que el fragmento se llame
+                    .replace(R.id.fragment_container, new ContactFragment())
                     .addToBackStack(null)
                     .commit();
         } else if (id == R.id.nav_profile) {
