@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         usernameEditText = findViewById(R.id.textInputEditTextUsername); // Campo de texto para el correo electrónico
         passwordEditText = findViewById(R.id.textInputEditTextPassword); // Campo de texto para la contraseña
         loginButton = findViewById(R.id.button); // Botón de iniciar sesión
-        
+
 
         // Vincular el TextView de políticas de privacidad y seg
         TextView politicasTextView = findViewById(R.id.textView11);
