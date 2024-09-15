@@ -15,7 +15,8 @@ public class ContactFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflar el layout personalizado (activity_contacto.xml)
-        View view = inflater.inflate(R.layout.activity_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_contact, container, false);
+
 
         // Obtén las referencias a los elementos del layout
         EditText consultaEditText = view.findViewById(R.id.etConsulta);
