@@ -31,7 +31,6 @@
             android:theme="@style/AppTheme">
         </activity>
 
-        <!-- Aquí se agrega la actividad Politicas -->
         <activity android:name=".Politicas" />
 
         <meta-data
