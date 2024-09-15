@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .commit();
         } else if (id == R.id.nav_contact) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new ContactFragment())
+                    .replace(R.id.fragment_container, new ContactFragment())  // Esto asegura que el fragmento se llame
                     .addToBackStack(null)
                     .commit();
         } else if (id == R.id.nav_profile) {
