@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/amarillo"
+    android:background="@drawable/manos"
     tools:context=".LoginActivity">
 
     <androidx.constraintlayout.widget.Guideline
@@ -128,8 +128,8 @@
 
     <Button
         android:id="@+id/button3"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
+        android:layout_width="136dp"
+        android:layout_height="48dp"
         android:layout_marginTop="16dp"
         android:backgroundTint="@color/naranja_claro"
         android:text="@string/registrarse"
