@@ -12,35 +12,6 @@ import androidx.fragment.app.Fragment;
 
 public class ContactFragment extends Fragment {
 
-    // Parámetros de inicialización opcionales si los necesitas
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
-
-    public ContactFragment() {
-        // Constructor vacío requerido
-    }
-
-    public static ContactFragment newInstance(String param1, String param2) {
-        ContactFragment fragment = new ContactFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflar el layout personalizado (activity_contacto.xml)

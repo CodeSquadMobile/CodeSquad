@@ -6,7 +6,7 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_logo_foreground"
+        android:icon="@mipmap/ic_logo_foreground_f"
         android:label="@string/app_name"
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
@@ -31,7 +31,6 @@
             android:theme="@style/AppTheme">
         </activity>
 
-        <!-- Aquí se agrega la actividad Politicas -->
         <activity android:name=".Politicas" />
 
         <meta-data
