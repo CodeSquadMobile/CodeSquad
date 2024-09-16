@@ -25,7 +25,7 @@
     <string name="consulta2">Escribenos aqui</string>
     <string name="enviar">Enviar Consulta</string>
 
-    //login
+    <!-- login -->
     <string name="usuario">Usuario</string>
     <string name="contraseña">Contraseña</string>
     <string name="inputUsuario">ingrese usuario</string>
@@ -35,5 +35,22 @@
     <string name="politicas">Politicas de Seguridad y Privacidad</string>
     <string name="seguridad_priv">Como cuidadamos tu privacidad.\n Ver contratos de adhesión (Ley Nº.24.240- Defensa del Consumidor.\n Términos y Condiciones.\n Accesibilidad.</string>
 
+    <!-- productos -->
+    <string name="categoria">Aventura</string>
+    <string name="categoria1">Ficción</string>
+    <string name="categoria2">Ciencia</string>
+    <string name="categoria3">Fantasía</string>
+    <string name="categoria4">Historia</string>
+    <string name="categoria5">Arte</string>
+    <string name="categoria6">Tecnología</string>
+    <string name="categoria7">Romance</string>
+
+    <string name="atributo1">Título del Libro</string>
+    <string name="atributo2">Autor del Libro</string>
+    <string name="atributo3">Precio: $100.00</string>
+    <string name="atributo4">En stock: 9</string>
+
+    <string name="método1">Comprar</string>
+    <string name="método2">Sinopsis</string>
 
 </resources>
