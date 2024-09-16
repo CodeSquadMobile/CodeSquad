@@ -34,7 +34,5 @@
     <include
         layout="@layout/item_book" />
 
-    <include
-        layout="@layout/item_book" />
 
 </LinearLayout>
