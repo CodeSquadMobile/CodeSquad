@@ -1,10 +1,32 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:background="@drawable/manos"
+    android:padding="16dp"
+    android:layout_marginTop="?attr/actionBarSize">
+
+    <!-- Input de buscador -->
+    <EditText
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Busca tu próxima historia"
+        android:padding="8dp"
+        android:background="@android:drawable/edit_text"
+        android:drawableStart="@android:drawable/ic_menu_search"
+        android:textColorHint="#72696A"/>
+
+    <!-- Selector de categorías -->
+    <Spinner
+        android:id="@+id/category_selector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/editbox_background"
+        android:padding="8dp"
+        android:layout_margin="8dp"
+        android:entries="@array/categorias_random"/>
 
     <include
         layout="@layout/item_book" />
@@ -16,4 +38,3 @@
         layout="@layout/item_book" />
 
 </LinearLayout>
-
