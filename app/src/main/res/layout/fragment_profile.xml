@@ -1,164 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout"
-    android:background="@drawable/manos"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ProfileFragment">
+    android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/button10"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="19dp"
-        android:text="Editar mis datos"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        android:background="@drawable/manos"
+        tools:context=".ProfileFragment">
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="328dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="22dp"
-        android:text="Mis Libros"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        <Button
+            android:id="@+id/button10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="19dp"
+            android:text="Editar mis datos"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button" />
 
-    <Button
-        android:id="@+id/button8"
-        android:layout_width="328dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="12dp"
-        android:text="Estado de mi envío"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button3" />
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="328dp"
+            android:layout_height="46dp"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="22dp"
+            android:text="Mis Libros"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="328dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="10dp"
-        android:text="Mis Reseñas"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button8" />
+        <Button
+            android:id="@+id/button8"
+            android:layout_width="328dp"
+            android:layout_height="46dp"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="12dp"
+            android:text="Estado de mi envío"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button3" />
 
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="187dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="14dp"
-        android:text="Dato desde el back"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/textView7"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="328dp"
+            android:layout_height="46dp"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="10dp"
+            android:text="Mis Reseñas"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button8" />
 
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="187dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="44dp"
-        android:text="Dato desde el back"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="187dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="14dp"
+            android:text="Dato desde el back"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/textView7"
+            app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="132dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="38dp"
-        android:layout_marginTop="14dp"
-        android:background="#64D53A"
-        android:text="Nombre:"
-        android:textColor="#512DA8"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="187dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="44dp"
+            android:text="Dato desde el back"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/textView6"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="132dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="38dp"
-        android:layout_marginTop="41dp"
-        android:background="#64D53A"
-        android:text="Usuario:"
-        android:textColor="#512DA8"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="132dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="38dp"
+            android:layout_marginTop="14dp"
+            android:background="#64D53A"
+            android:text="Nombre:"
+            android:textColor="#512DA8"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="342dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="88dp"
-        android:background="#512DA8"
-        android:fontFamily="@font/abril_fatface"
-        android:text="¡Bienvenido amante de los libros!"
-        android:textAlignment="center"
-        android:textColor="#3AABE9"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="132dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="38dp"
+            android:layout_marginTop="41dp"
+            android:background="#64D53A"
+            android:text="Usuario:"
+            android:textColor="#512DA8"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="132dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="38dp"
-        android:layout_marginTop="17dp"
-        android:background="#64D53A"
-        android:text="Apellido:"
-        android:textColor="#512DA8"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="243dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/abril_fatface"
+            android:text="!Hola querido Lector!"
+            android:textAlignment="textEnd"
+            android:textColor="#4015B8"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="187dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="20dp"
-        android:text="Dato desde el back"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="132dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="38dp"
+            android:layout_marginTop="17dp"
+            android:background="#64D53A"
+            android:text="Apellido:"
+            android:textColor="#512DA8"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="328dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="10dp"
-        android:text="Mis Cupones"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="187dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="20dp"
+            android:text="Dato desde el back"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/textView5"
+            app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
-    <Button
-        android:id="@+id/button9"
-        android:layout_width="149dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="26dp"
-        android:layout_marginTop="19dp"
-        android:text="Cerrar Sesión"
-        app:layout_constraintStart_toEndOf="@+id/button10"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/button"
+            android:layout_width="328dp"
+            android:layout_height="46dp"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="10dp"
+            android:text="Mis Cupones"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button2" />
+
+        <Button
+            android:id="@+id/button9"
+            android:layout_width="149dp"
+            android:layout_height="47dp"
+            android:layout_marginStart="26dp"
+            android:layout_marginTop="19dp"
+            android:text="Dar de Baja"
+            app:layout_constraintStart_toEndOf="@+id/button10"
+            app:layout_constraintTop_toBottomOf="@+id/button" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
