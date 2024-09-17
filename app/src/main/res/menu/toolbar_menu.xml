@@ -4,6 +4,6 @@
     <item
         android:id="@+id/action_cart"
         android:icon="@drawable/ic_cart"
-        android:title="Mi selección"
-        app:showAsAction="always"/>
+        android:title="Carrito"
+        app:showAsAction="ifRoom" />
 </menu>
