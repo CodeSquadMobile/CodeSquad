@@ -3,113 +3,66 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/manos"
-    android:padding="50dp">
-
+    android:padding="40dp">
 
     <!-- Título -->
-
-    <!-- Tabla de resumen de compra -->
-
     <TextView
         android:id="@+id/tvFinalizarCompra"
-        android:layout_width="wrap_content"
+        android:layout_width="318dp"
         android:layout_height="wrap_content"
-        android:textColor="@color/crim"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="70dp"
-
-        android:layout_marginEnd="70dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginEnd="26dp"
         android:text="@string/titTable"
         android:textAlignment="center"
+        android:textColor="@color/crim"
         android:textSize="22sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
+    <!-- Tabla de resumen de compra -->
     <TableLayout
         android:id="@+id/tableOverview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/crim"
+        android:layout_width="wrap_content"
+        android:layout_height="267dp"
         android:layout_above="@+id/button4"
         android:layout_below="@id/tvFinalizarCompra"
         android:layout_marginTop="100dp"
-        android:layout_marginBottom="303dp"
-
-        android:stretchColumns="1">
-
+        android:layout_marginBottom="166dp"
+        android:stretchColumns="1"
+        android:textColor="@color/crim">
 
         <!-- Cabecera de la tabla -->
-        <TableRow>
+        <TableRow
+            android:layout_width="325dp"
+            android:layout_height="56dp">
 
             <TextView
-                android:layout_width="60dp"
+                android:layout_width="83dp"
+                android:layout_height="match_parent"
                 android:text="@string/FirCol"
                 android:textAlignment="center"
                 android:textColor="@color/crim"
-                android:textStyle="bold"
-                />
+                android:textStyle="bold" />
 
             <TextView
-                android:layout_width="82dp"
+                android:layout_width="75dp"
+                android:layout_height="match_parent"
                 android:text="@string/SecCol"
                 android:textAlignment="center"
                 android:textColor="@color/crim"
                 android:textStyle="bold" />
 
             <TextView
+                android:layout_width="75dp"
+                android:layout_height="match_parent"
                 android:text="@string/ThiCol"
-                android:textColor="@color/crim"
                 android:textAlignment="center"
+                android:textColor="@color/crim"
                 android:textStyle="bold" />
         </TableRow>
 
-        <!-- Aquí irían las filas de los libros (dinámicas en Java) -->
-        <!-- Ejemplos de filas -->
-        <TableRow
-            android:layout_width="match_parent"
-            android:textColor="@color/crim"
-            android:layout_height="match_parent" />
-
-        <TableRow>
-
-            <TextView
-                android:layout_width="80dp"
-                android:textColor="@color/crim"
-                android:text="@string/Lib1"
-                android:textAlignment="center" />
-
-            <TextView
-                android:layout_width="88dp"
-                android:text="@string/c1"
-                android:textColor="@color/crim"
-                android:textAlignment="center" />
-
-            <TextView
-                android:text="@string/Pre1"
-                android:textColor="@color/crim"
-                android:textAlignment="center" />
-        </TableRow>
-
-        <TableRow>
-
-            <TextView
-                android:layout_width="80dp"
-                android:text="@string/Lib2"
-                android:textColor="@color/crim"
-                android:textAlignment="center" />
-
-            <TextView
-                android:layout_width="82dp"
-                android:text="@string/c2"
-                android:textColor="@color/crim"
-                android:textAlignment="center" />
-
-            <TextView
-                android:text="@string/Pre2"
-                android:textColor="@color/crim"
-                android:textAlignment="center" />
-        </TableRow>
-
+        <!-- Aquí irán las filas de los libros (dinámicas en Java) -->
     </TableLayout>
 
     <Button
@@ -117,7 +70,8 @@
         android:textColor="@color/crim"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/titTable"
+        android:text="@string/btnfin"
+        android:background="?attr/selectableItemBackground"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp" />

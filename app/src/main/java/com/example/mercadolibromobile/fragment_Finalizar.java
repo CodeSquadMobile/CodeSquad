@@ -1,64 +1,125 @@
 package com.example.mercadolibromobile;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
+import android.widget.Toast;
+import androidx.fragment.app.Fragment;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link fragment_Finalizar#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class fragment_Finalizar extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    // TableLayout to display the list of books
+    private TableLayout tableLayout;
 
-    // TODO: Rename and change types of parameters
-    private String param1;
-    private String param2;
+    // Button to finalize the purchase
+    private Button finalizarButton;
 
+    // List of books retrieved from the backend or cart
+    private List<Libro> listaLibros;
+
+    // Empty constructor required for fragments
     public fragment_Finalizar() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment fragment_Finalizar.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static fragment_Finalizar newInstance(String param1, String param2) {
-        fragment_Finalizar fragment = new fragment_Finalizar();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+        // Constructor público vacío requerido
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            param1 = getArguments().getString(ARG_PARAM1);
-            param2 = getArguments().getString(ARG_PARAM2);
-        }
+        // Retrieve the list of books from the backend or cart
+        listaLibros = obtenerLibrosDelCarrito();  // Método que se conecta al backend/carrito
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment__finalizar, container, false);
+        View view = inflater.inflate(R.layout.fragment__finalizar, container, false);
+
+        // Reference the table and button
+        tableLayout = view.findViewById(R.id.tableOverview);
+        finalizarButton = view.findViewById(R.id.button4);
+
+        // Dynamically add rows to the table with the list of books
+        for (Libro libro : listaLibros) {
+            addProductToTable(libro.getNombre(), String.valueOf(libro.getCantidad()), "$" + libro.getPrecio());
+        }
+
+        // Set the action for the "Finalizar compra" button
+        finalizarButton.setOnClickListener(v -> {
+            Toast.makeText(getActivity(), "Compra finalizada", Toast.LENGTH_SHORT).show();
+            // Here would go the logic to process the purchase
+        });
+
+        return view;
+    }
+
+    // Method to add products to the table
+    private void addProductToTable(String nombre, String cantidad, String precio) {
+        TableRow row = new TableRow(getContext());
+
+        TextView nombreView = new TextView(getContext());
+        nombreView.setText(nombre);
+        nombreView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        nombreView.setTextColor(getResources().getColor(R.color.crim));
+
+        TextView cantidadView = new TextView(getContext());
+        cantidadView.setText(cantidad);
+        cantidadView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        cantidadView.setTextColor(getResources().getColor(R.color.crim));
+
+        TextView precioView = new TextView(getContext());
+        precioView.setText(precio);
+        precioView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        precioView.setTextColor(getResources().getColor(R.color.crim));
+
+        // Add TextViews to the row
+        row.addView(nombreView);
+        row.addView(cantidadView);
+        row.addView(precioView);
+
+        // Add row to the table
+        tableLayout.addView(row);
+    }
+
+    // Simulation of the method to retrieve books from the cart or backend
+    private List<Libro> obtenerLibrosDelCarrito() {
+        List<Libro> libros = new ArrayList<>();
+
+        libros.add(new Libro("Harry Potter", 2, 20.99));
+        libros.add(new Libro("The Lord of the Rings", 1, 15.99));
+        libros.add(new Libro("Pride and Prejudice", 3, 12.99));
+
+        return libros;
+    }
+}
+
+class Libro {
+    private String nombre;
+    private int cantidad;
+    private double precio;
+
+    public Libro(String nombre, int cantidad, double precio) {
+        this.nombre = nombre;
+        this.cantidad = cantidad;
+        this.precio = precio;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public double getPrecio() {
+        return precio;
     }
 }
