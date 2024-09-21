@@ -22,7 +22,7 @@
     <string name="Contact">Contacto</string>
     <string name="Saludo">  Bienvenido a MercadoLibro!</string>
     <string name="consulta1">Porfavor escribe tu consulta a continuacion</string>
-    <string name="consulta2">Escribenos aqui</string>
+    <string name="consulta_hint">Escribenos aqui</string>
     <string name="enviar">Enviar Consulta</string>
 
     <!-- login -->
