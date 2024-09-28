@@ -6,6 +6,54 @@
     android:padding="35dp">
 
     <!-- Título de contacto -->
+
+    <EditText
+        android:id="@+id/etNombre"
+        android:layout_width="353dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etAsunto"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        android:hint="Nombre"
+        android:inputType="textPersonName"
+        android:textColor="@color/crim"
+        android:textColorHint="@color/black" />
+
+    <EditText
+        android:id="@+id/etAsunto"
+        android:layout_width="353dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvContactoTitulo"
+        android:layout_alignParentStart="true"
+
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginEnd="20dp"
+        android:hint="Asunto"
+        android:inputType="text"
+        android:textColor="@color/crim"
+        android:textColorHint="@color/black" />
+
+    <EditText
+        android:id="@+id/etEmail"
+        android:layout_width="353dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etNombre"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="20dp"
+
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:textColor="@color/crim"
+        android:textColorHint="@color/black" />
+
     <TextView
         android:id="@+id/tvContactoTitulo"
         android:layout_width="wrap_content"
@@ -19,39 +67,28 @@
         android:layout_centerHorizontal="true" />
 
     <!-- Saludo personalizado -->
-    <TextView
-        android:id="@+id/tvSaludo"
-        android:layout_width="376dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tvContactoTitulo"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="45dp"
-        android:layout_marginEnd="0dp"
-        android:text="@string/Saludo"
-        android:textAlignment="center"
-        android:textColor="@color/crim"
-        android:textSize="20sp" />
 
     <!-- Cuadro de input para la consulta -->
+
+    <!-- Botón para enviar la consulta -->
+
     <EditText
         android:id="@+id/etConsulta"
-        android:layout_width="322dp"
+        android:layout_width="353dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvSaludo"
+
+        android:layout_below="@+id/etEmail"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="189dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="20dp"
         android:hint="@string/consulta_hint"
         android:inputType="text"
         android:textColor="@color/crim"
-        android:textSize="18sp"
-        android:textColorHint="@color/black" />
+        android:textColorHint="@color/black"
+        android:textSize="18sp" />
 
-    <!-- Botón para enviar la consulta -->
     <Button
         android:id="@+id/btnEnviarConsulta"
         android:layout_width="340dp"
@@ -60,7 +97,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="17dp"
-        android:layout_marginTop="135dp"
+        android:layout_marginTop="55dp"
         android:layout_marginEnd="5dp"
         android:background="?attr/selectableItemBackground"
         android:text="@string/enviar"
