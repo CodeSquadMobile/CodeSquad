@@ -3,6 +3,7 @@ package com.example.mercadolibromobile;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TableLayout;
@@ -60,23 +61,26 @@ public class fragment_Finalizar extends Fragment {
         return view;
     }
 
-    // Method to add products to the table
+    // Método para agregar productos a la tabla
     private void addProductToTable(String nombre, String cantidad, String precio) {
         TableRow row = new TableRow(getContext());
 
         TextView nombreView = new TextView(getContext());
         nombreView.setText(nombre);
-        nombreView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        nombreView.setGravity(Gravity.CENTER); // Centra el texto
+        nombreView.setBackgroundResource(R.drawable.border); // Agrega un borde
         nombreView.setTextColor(getResources().getColor(R.color.crim));
 
         TextView cantidadView = new TextView(getContext());
         cantidadView.setText(cantidad);
-        cantidadView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        cantidadView.setGravity(Gravity.CENTER); // Centra el texto
+        cantidadView.setBackgroundResource(R.drawable.border); // Agrega un borde
         cantidadView.setTextColor(getResources().getColor(R.color.crim));
 
         TextView precioView = new TextView(getContext());
         precioView.setText(precio);
-        precioView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        precioView.setGravity(Gravity.CENTER); // Centra el texto
+        precioView.setBackgroundResource(R.drawable.border); // Agrega un borde
         precioView.setTextColor(getResources().getColor(R.color.crim));
 
         // Add TextViews to the row
