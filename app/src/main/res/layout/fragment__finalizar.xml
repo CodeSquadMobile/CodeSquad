@@ -2,7 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/manos"
+    android:background="@drawable/fondo2"
     android:padding="50dp">
 
 
@@ -14,7 +14,7 @@
         android:id="@+id/tvFinalizarCompra"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/crim"
+        android:textColor="@color/black"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="70dp"
@@ -29,11 +29,12 @@
         android:id="@+id/tableOverview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/crim"
+        android:textColor="@color/black"
         android:layout_above="@+id/button4"
         android:layout_below="@id/tvFinalizarCompra"
         android:layout_marginTop="100dp"
         android:layout_marginBottom="303dp"
+        android:background="@color/white"
 
         android:stretchColumns="1">
 
@@ -45,7 +46,7 @@
                 android:layout_width="60dp"
                 android:text="@string/FirCol"
                 android:textAlignment="center"
-                android:textColor="@color/crim"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 />
 
@@ -53,12 +54,12 @@
                 android:layout_width="82dp"
                 android:text="@string/SecCol"
                 android:textAlignment="center"
-                android:textColor="@color/crim"
+                android:textColor="@color/black"
                 android:textStyle="bold" />
 
             <TextView
                 android:text="@string/ThiCol"
-                android:textColor="@color/crim"
+                android:textColor="@color/black"
                 android:textAlignment="center"
                 android:textStyle="bold" />
         </TableRow>
@@ -67,26 +68,26 @@
         <!-- Ejemplos de filas -->
         <TableRow
             android:layout_width="match_parent"
-            android:textColor="@color/crim"
+            android:textColor="@color/black"
             android:layout_height="match_parent" />
 
         <TableRow>
 
             <TextView
                 android:layout_width="80dp"
-                android:textColor="@color/crim"
+                android:textColor="@color/black"
                 android:text="@string/Lib1"
                 android:textAlignment="center" />
 
             <TextView
                 android:layout_width="88dp"
                 android:text="@string/c1"
-                android:textColor="@color/crim"
+                android:textColor="@color/black"
                 android:textAlignment="center" />
 
             <TextView
                 android:text="@string/Pre1"
-                android:textColor="@color/crim"
+                android:textColor="@color/black"
                 android:textAlignment="center" />
         </TableRow>
 
@@ -95,18 +96,18 @@
             <TextView
                 android:layout_width="80dp"
                 android:text="@string/Lib2"
-                android:textColor="@color/crim"
+                android:textColor="@color/black"
                 android:textAlignment="center" />
 
             <TextView
                 android:layout_width="82dp"
                 android:text="@string/c2"
-                android:textColor="@color/crim"
+                android:textColor="@color/black"
                 android:textAlignment="center" />
 
             <TextView
                 android:text="@string/Pre2"
-                android:textColor="@color/crim"
+                android:textColor="@color/black"
                 android:textAlignment="center" />
         </TableRow>
 
@@ -114,9 +115,10 @@
 
     <Button
         android:id="@+id/button4"
-        android:textColor="@color/crim"
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/azul"
         android:text="@string/titTable"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
