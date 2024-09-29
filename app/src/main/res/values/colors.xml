@@ -3,8 +3,14 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="azul">#004987</color>
-    <color name="amarillo">#FFD200</color>
+    <color name="amarillo">#FFC107</color>
     <color name="rojo">#FF0000</color>
     <color name="naranja_claro">#FF7F50</color>
     <color name="crim">#a0203a</color>
+    <color name="vino">#6d597a</color>
+    <color name="mostaza">#ffc107</color>
+    <color name="azul_electrico">#1e3a5f</color>
+
+
+
 </resources>
