@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Añade logo al Toolbar
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setLogo(R.drawable.logoremake);
+            getSupportActionBar().setLogo(R.drawable.logo);
             getSupportActionBar().setDisplayUseLogoEnabled(true);
 
             // Título de la app

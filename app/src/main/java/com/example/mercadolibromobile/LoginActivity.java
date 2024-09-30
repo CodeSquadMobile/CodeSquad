@@ -121,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Cambia el color de fondo del botón según su estado
         if (isEnabled) {
-            loginButton.setBackgroundColor(getResources().getColor(R.color.azul_electrico)); // Cambiar color a azul
+            loginButton.setBackgroundColor(getResources().getColor(R.color.azul)); // Cambiar color a azul
         } else {
             loginButton.setBackgroundColor(getResources().getColor(android.R.color.darker_gray)); // Color gris si está deshabilitado
         }

@@ -1,9 +1,9 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-
-    android:background="@drawable/fondo2"
-
+    android:layout_height="match_parent"
+    android:background="@drawable/manos"
+    android:padding="35dp">
 
     <!-- Título de contacto -->
 
@@ -91,13 +91,15 @@
 
     <Button
         android:id="@+id/btnEnviarConsulta"
-
-        android:backgroundTint="@color/azul"
-        android:layout_width="266dp"
-        android:layout_height="wrap_content"
-
         android:layout_width="340dp"
         android:layout_height="63dp"
         android:layout_below="@id/etConsulta"
-
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="55dp"
+        android:layout_marginEnd="5dp"
+        android:background="?attr/selectableItemBackground"
+        android:text="@string/enviar"
+        android:textColor="@color/crim" />
 </RelativeLayout>
