@@ -1,4 +1,4 @@
- # Mercado Libro Mobile 📖
+# Mercado Libro Mobile 📖
 
 ## Descripción del Proyecto 📝
 La aplicación móvil MercadoLibro es una extensión de la plataforma web desarrollada previamente en el Módulo de Programador Web. Esta aplicación está diseñada para ofrecer una experiencia fluida y eficiente en dispositivos móviles, permitiendo a los usuarios realizar acciones básicas como la compra de libros, la edición de datos personales, realizar una compra, etc. mediante un sistema CRUD, integrado con un backend desarrollado en Django.

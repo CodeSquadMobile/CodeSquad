@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFEB3B"
+    android:background="@drawable/fondo2"
     android:visibility="visible"
     tools:context=".dashboardUsuario">
 
@@ -17,11 +17,10 @@
         android:layout_marginTop="11dp"
         android:layout_marginEnd="58dp"
         android:layout_marginBottom="17dp"
-        android:background="#38F63F"
         android:fontFamily="monospace"
         android:text="Bienvenido amante de los libros!"
         android:textAlignment="center"
-        android:textColor="#C71C1C"
+        android:textColor="@color/black"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textView3"
@@ -39,7 +38,7 @@
         app:layout_constraintBottom_toTopOf="@+id/dashbord_user_Saludo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/logoremake" />
 
     <TextView
         android:id="@+id/textView3"
@@ -48,10 +47,9 @@
         android:layout_marginStart="37dp"
         android:layout_marginTop="11dp"
         android:layout_marginEnd="16dp"
-        android:background="#3F51B5"
         android:text="Usuario:"
         android:textAlignment="center"
-        android:textColor="#FFEB3B"
+        android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/textView4"
@@ -77,8 +75,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
-        android:background="#D32F2F"
         android:text="Editar mis Datos"
+        android:backgroundTint="@color/vino"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -89,6 +87,7 @@
         android:layout_marginStart="35dp"
         android:layout_marginTop="68dp"
         android:text="Mis Compras"
+        android:backgroundTint="@color/vino"
         app:layout_constraintStart_toEndOf="@+id/button6"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -99,6 +98,7 @@
         android:layout_marginStart="48dp"
         android:layout_marginTop="64dp"
         android:text="Biblioteca"
+        android:backgroundTint="@color/vino"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -110,6 +110,7 @@
         android:layout_marginTop="320dp"
         android:layout_marginEnd="32dp"
         android:text="Cerrar Sesión"
+        android:backgroundTint="@color/naranja_claro"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
