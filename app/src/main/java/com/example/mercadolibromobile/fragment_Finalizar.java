@@ -4,6 +4,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Gravity;
+import android.text.InputType;
+import android.text.TextWatcher;
+import android.text.Editable;
+import android.widget.EditText;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TableLayout;
@@ -61,36 +65,66 @@ public class fragment_Finalizar extends Fragment {
         return view;
     }
 
-    // Método para agregar productos a la tabla
     private void addProductToTable(String nombre, String cantidad, String precio) {
-        TableRow row = new TableRow(getContext());
+        final TableRow row = new TableRow(getContext());
 
+        // Añadir un borde solo a la fila (esto será el borde externo)
+        row.setBackgroundResource(R.drawable.border);
+
+        // Configuración de la celda "Nombre"
         TextView nombreView = new TextView(getContext());
         nombreView.setText(nombre);
-        nombreView.setGravity(Gravity.CENTER); // Centra el texto
-        nombreView.setBackgroundResource(R.drawable.border); // Agrega un borde
+        nombreView.setGravity(Gravity.CENTER);
+        nombreView.setPadding(8, 8, 8, 8);
         nombreView.setTextColor(getResources().getColor(R.color.crim));
+        nombreView.setBackgroundResource(R.drawable.border_vertical);  // Borde vertical entre las celdas
 
-        TextView cantidadView = new TextView(getContext());
+        // Configuración del campo modificable "Cantidad"
+        final EditText cantidadView = new EditText(getContext());
         cantidadView.setText(cantidad);
-        cantidadView.setGravity(Gravity.CENTER); // Centra el texto
-        cantidadView.setBackgroundResource(R.drawable.border); // Agrega un borde
-        cantidadView.setTextColor(getResources().getColor(R.color.crim));
+        cantidadView.setGravity(Gravity.CENTER);
+        cantidadView.setPadding(8, 8, 8, 8);
+        cantidadView.setInputType(InputType.TYPE_CLASS_NUMBER);
+        cantidadView.setEms(3);
+        cantidadView.setTextSize(14);
+        cantidadView.setTextColor(getResources().getColor(android.R.color.black));  // Cambiar color del texto a negro
+        cantidadView.setBackgroundResource(R.drawable.border_vertical);  // Borde vertical entre las celdas
 
+        cantidadView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 0 && Integer.parseInt(s.toString()) == 0) {
+                    tableLayout.removeView(row); // Elimina la fila si la cantidad es 0
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        // Configuración de la celda "Precio"
         TextView precioView = new TextView(getContext());
         precioView.setText(precio);
-        precioView.setGravity(Gravity.CENTER); // Centra el texto
-        precioView.setBackgroundResource(R.drawable.border); // Agrega un borde
+        precioView.setGravity(Gravity.CENTER);
+        precioView.setPadding(8, 8, 8, 8);
         precioView.setTextColor(getResources().getColor(R.color.crim));
+        precioView.setBackgroundResource(R.drawable.border_vertical);  // Borde vertical entre las celdas
 
-        // Add TextViews to the row
+        // Añadir las vistas a la fila
         row.addView(nombreView);
         row.addView(cantidadView);
         row.addView(precioView);
 
-        // Add row to the table
+        // Añadir la fila a la tabla
         tableLayout.addView(row);
     }
+
+
 
     // Simulation of the method to retrieve books from the cart or backend
     private List<Libro> obtenerLibrosDelCarrito() {
