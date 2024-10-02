@@ -24,7 +24,7 @@ public class SinopsisFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public SinopsisFragment() {
+    public ProfileFragment() {
         // Required empty public constructor
     }
 
