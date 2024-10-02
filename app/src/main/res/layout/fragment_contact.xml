@@ -2,7 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
 
-    android:background="@drawable/fondo2"
+    android:background="@drawable/fondo2" android:layout_height="730dp">
 
 
     <!-- Título de contacto -->
@@ -91,13 +91,15 @@
 
     <Button
         android:id="@+id/btnEnviarConsulta"
-
-        android:backgroundTint="@color/azul"
+        android:text="@string/enviar"
         android:layout_width="266dp"
         android:layout_height="wrap_content"
-
-        android:layout_width="340dp"
-        android:layout_height="63dp"
         android:layout_below="@id/etConsulta"
+        android:textColor="@color/crim"
+        android:background="?attr/selectableItemBackground"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="67dp"
+        android:layout_marginTop="118dp"/>
+
 
 </RelativeLayout>
