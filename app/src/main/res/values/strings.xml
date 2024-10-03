@@ -16,14 +16,17 @@
     <string name="Pre2">$150.000.000</string>
     <string name="c1">1</string>
     <string name="c2">4</string>
+    <string name="btnfin">Pagar</string>
 
 
-    <!-- Contacto -->
-    <string name="Contact">Contacto</string>
-    <string name="Saludo">  Bienvenido a MercadoLibro!</string>
-    <string name="consulta1">Porfavor escribe tu consulta a continuacion</string>
-    <string name="consulta2">Escribenos aqui</string>
-    <string name="enviar">Enviar Consulta</string>
+    <!-- Contacto sanitizando datos con atributo formated CiberSec -->
+    <string name="Contact" formatted="false">Contacto</string>
+    <string name="Email" formatted="false">  Email</string>
+    <string name="asunto" formatted="false">  Asunto</string>
+    <string name="nombre" formatted="false">  Nombre</string>
+    <string name="consulta1" formatted="false">Porfavor escribe tu consulta a continuacion</string>
+    <string name="consulta_hint" formatted="false">Escribenos aqui</string>
+    <string name="enviar" formatted="false">Enviar Consulta</string>
 
     <!-- login -->
     <string name="usuario">Usuario</string>
