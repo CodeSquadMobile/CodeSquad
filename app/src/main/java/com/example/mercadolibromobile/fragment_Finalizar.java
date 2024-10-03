@@ -142,9 +142,9 @@ public class fragment_Finalizar extends Fragment {
 }
 
 class Libro {
-    private String nombreS;
-    private int cantidad;
-    private double precioS;
+    private final String nombreS;
+    private final int cantidad;
+    private final double precioS;
 
     public Libro(String nombreS, int cantidad, double precioS) {
         this.nombreS = nombreS;
