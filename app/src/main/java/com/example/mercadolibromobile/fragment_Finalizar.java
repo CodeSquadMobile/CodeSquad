@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Gravity;
+import android.text.Html;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.Editable;
@@ -71,15 +72,16 @@ public class fragment_Finalizar extends Fragment {
         // Añadir un borde solo a la fila (esto será el borde externo)
         row.setBackgroundResource(R.drawable.border);
 
-        // Configuración de la celda "Nombre"
+        // Configuración de la celda "Nombre" sanitizada con escapeHTML para cyberSec
         TextView nombreView = new TextView(getContext());
-        nombreView.setText(nombre);
+        String nombreS = Html.escapeHtml(nombre);
+        nombreView.setText(nombreS);
         nombreView.setGravity(Gravity.CENTER);
         nombreView.setPadding(8, 8, 8, 8);
         nombreView.setTextColor(getResources().getColor(R.color.crim));
         nombreView.setBackgroundResource(R.drawable.border_vertical);  // Borde vertical entre las celdas
 
-        // Configuración del campo modificable "Cantidad"
+        // Configuración del campo modificable "Cantidad" no hace falta sanitizar porque es formato solo numeros
         final EditText cantidadView = new EditText(getContext());
         cantidadView.setText(cantidad);
         cantidadView.setGravity(Gravity.CENTER);
@@ -107,9 +109,10 @@ public class fragment_Finalizar extends Fragment {
             }
         });
 
-        // Configuración de la celda "Precio"
+        // Configuración de la celda "Precio" sanitizada con escapeHTML para cyberSec
         TextView precioView = new TextView(getContext());
-        precioView.setText(precio);
+        String precioS = Html.escapeHtml(precio);
+        precioView.setText(precioS);
         precioView.setGravity(Gravity.CENTER);
         precioView.setPadding(8, 8, 8, 8);
         precioView.setTextColor(getResources().getColor(R.color.crim));
@@ -139,18 +142,18 @@ public class fragment_Finalizar extends Fragment {
 }
 
 class Libro {
-    private String nombre;
+    private String nombreS;
     private int cantidad;
-    private double precio;
+    private double precioS;
 
-    public Libro(String nombre, int cantidad, double precio) {
-        this.nombre = nombre;
+    public Libro(String nombreS, int cantidad, double precioS) {
+        this.nombreS = nombreS;
         this.cantidad = cantidad;
-        this.precio = precio;
+        this.precioS = precioS;
     }
 
     public String getNombre() {
-        return nombre;
+        return nombreS;
     }
 
     public int getCantidad() {
@@ -158,6 +161,6 @@ class Libro {
     }
 
     public double getPrecio() {
-        return precio;
+        return precioS;
     }
 }
