@@ -130,7 +130,7 @@
         android:layout_width="136dp"
         android:layout_height="48dp"
         android:layout_marginTop="16dp"
-        android:backgroundTint="@color/naranja_claro"
+        android:backgroundTint="@color/vino"
         android:text="@string/registrarse"
         android:textColor="@color/white"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
