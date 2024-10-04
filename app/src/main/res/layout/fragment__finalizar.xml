@@ -1,5 +1,17 @@
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.coFinalizar
+
+    <androidx.cardview.widget.CardView
+       p_content
+        android:layout_marginBottom="16
+        android:elevation="4dp"
+        app:cardCornerRadius="8dp"
+        app:cardUseCompatPadding="true">
+
+     
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="match_paren
     android:layout_height="match_parent"
     android:background="@drawable/fondo2"
     android:orientation="vertical"
@@ -34,61 +46,25 @@
         <!-- Cabecera de la tabla -->
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="56dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:
+
+            <LinearLayout
+                android:id="@+id/contenedorLibros"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="16dp" />
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/border"
-                android:text="@string/FirCol"
-                android:gravity="center"
-                android:textAlignment="center"
+                android:id="@+id/precioTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total: $0.00"
+                android:textSize="20sp"
+                android:textStyle="bold"
                 android:textColor="@color/black"
-                android:textStyle="bold" />
+                android:layout_marginTop="16dp"
+                android:layout_ch_parent"
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/border"
-                android:gravity="center"
-                android:text="@string/SecCol"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/border"
-                android:gravity="center"
-                android:text="@string/ThiCol"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-        </TableRow>
-
-    </TableLayout>
-
-    <!-- Totales -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="vertical">
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="@color/azul"
-        android:layout_gravity="center"
-        android:text="@string/titTable"
-        android:textColor="@color/white" />
-
-
-</LinearLayout>

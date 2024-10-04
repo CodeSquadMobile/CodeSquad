@@ -5,6 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="8dp"
     android:elevation="4dp"
+
+    android:background="@drawable/borde_card"
     android:background="@color/amarillo"
     android:layout_marginBottom="16dp">
 
@@ -14,6 +16,7 @@
         android:layout_height="155dp"
         android:scaleType="centerCrop"
         android:src="@drawable/annakarenina"
+        android:background="@drawable/card_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,6 +29,7 @@
         android:textStyle="bold"
         android:textColor="@android:color/black"
         android:textSize="18sp"
+        android:layout_marginLeft="5dp"
         app:layout_constraintStart_toEndOf="@id/ivBookCover"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,6 +41,7 @@
         android:layout_height="wrap_content"
         android:text="Autor del Libro"
         android:textColor="@android:color/black"
+        android:layout_marginLeft="5dp"
         app:layout_constraintStart_toEndOf="@id/ivBookCover"
         app:layout_constraintTop_toBottomOf="@id/tvBookTitle"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -47,6 +52,7 @@
         android:layout_height="wrap_content"
         android:text="Precio: $100.00"
         android:textColor="@android:color/black"
+        android:layout_marginLeft="5dp"
         app:layout_constraintStart_toEndOf="@id/ivBookCover"
         app:layout_constraintTop_toBottomOf="@id/tvBookAuthor"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -57,6 +63,7 @@
         android:layout_height="wrap_content"
         android:text="En stock: 9"
         android:textColor="@android:color/black"
+        android:layout_marginLeft="5dp"
         app:layout_constraintStart_toEndOf="@id/ivBookCover"
         app:layout_constraintTop_toBottomOf="@id/tvBookPrice"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -78,6 +85,7 @@
             android:text="Comprar"
             android:textSize="16sp"
             android:padding="4dp"
+            android:layout_marginTop="5dp"
             android:textColor="@color/white"
             android:backgroundTint="@color/azul"
             android:layout_marginRight="5dp"
@@ -91,6 +99,7 @@
             android:text="Sinopsis"
             android:textSize="16sp"
             android:padding="4dp"
+            android:layout_marginTop="5dp"
             android:textColor="@android:color/white"
             android:backgroundTint="@color/rojo"/>
     </LinearLayout>
