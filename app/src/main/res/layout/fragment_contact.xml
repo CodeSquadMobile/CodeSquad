@@ -1,9 +1,9 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/fondo2"
-    android:padding="35dp">
+
+    android:background="@drawable/fondo2" android:layout_height="match_parent">
+
 
     <!-- Título de contacto -->
 
@@ -15,9 +15,10 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="20dp"
+        android:autofillHints="username"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="20dp"
-        android:hint="Nombre"
+        android:hint="@string/nombre"
         android:inputType="textPersonName"
         android:textColor="@color/crim"
         android:textColorHint="@color/black" />
@@ -28,12 +29,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvContactoTitulo"
         android:layout_alignParentStart="true"
-
+        android:autofillHints="none"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="20dp"
         android:layout_marginTop="45dp"
         android:layout_marginEnd="20dp"
-        android:hint="Asunto"
+        android:hint="@string/asunto"
         android:inputType="text"
         android:textColor="@color/crim"
         android:textColorHint="@color/black" />
@@ -46,10 +47,10 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="20dp"
-
+        android:autofillHints="emailAddress"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="20dp"
-        android:hint="Email"
+        android:hint="@string/Email"
         android:inputType="textEmailAddress"
         android:textColor="@color/crim"
         android:textColorHint="@color/black" />
@@ -76,7 +77,7 @@
         android:id="@+id/etConsulta"
         android:layout_width="353dp"
         android:layout_height="wrap_content"
-
+        android:autofillHints="none"
         android:layout_below="@+id/etEmail"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
@@ -91,15 +92,15 @@
 
     <Button
         android:id="@+id/btnEnviarConsulta"
-        android:layout_width="340dp"
-        android:layout_height="63dp"
-        android:layout_below="@id/etConsulta"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="55dp"
-        android:layout_marginEnd="5dp"
-        android:background="?attr/selectableItemBackground"
         android:text="@string/enviar"
-        android:textColor="@color/crim" />
+        android:layout_width="266dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etConsulta"
+        android:textColor="@color/crim"
+        android:background="?attr/selectableItemBackground"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="67dp"
+        android:layout_marginTop="118dp"/>
+
+
 </RelativeLayout>
