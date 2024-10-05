@@ -28,7 +28,7 @@ public class fragment_Finalizar extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        listaLibros = obtenerLibrosDelCarrito();
+        listaLibros = obtenerLibrosDelCarrito(); // Llamamos la función aquí
     }
 
     @Override
@@ -41,21 +41,25 @@ public class fragment_Finalizar extends Fragment {
 
         double precioTotal = 0.0;
 
+        // Agregar libros al contenedor
         for (Libro libro : listaLibros) {
             agregarProducto(libro.getNombre(), libro.getCantidad(), libro.getPrecio());
             precioTotal += libro.getCantidad() * libro.getPrecio();
         }
 
+        // Mostrar precio total
         precioTotalTextView.setText("Total: $" + String.format("%.2f", precioTotal));
 
+        // Acción del botón finalizar
         finalizarButton.setOnClickListener(v -> {
             Toast.makeText(getActivity(), "Compra finalizada", Toast.LENGTH_SHORT).show();
-            // logica de compra
+            // lógica de compra
         });
 
         return view;
     }
 
+    // Función para agregar productos a la vista
     private void agregarProducto(String nombre, int cantidad, double precio) {
         CardView cardView = new CardView(getContext());
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
@@ -67,47 +71,50 @@ public class fragment_Finalizar extends Fragment {
         cardView.setRadius(8);
         cardView.setCardElevation(4);
 
-        // color del card
+        // Color del card
         cardView.setCardBackgroundColor(getResources().getColor(R.color.beige_transparente));
 
         LinearLayout layoutLibro = new LinearLayout(getContext());
         layoutLibro.setOrientation(LinearLayout.VERTICAL);
         layoutLibro.setPadding(16, 16, 16, 16);
 
+        // Crear vistas de texto para mostrar información del libro
         TextView nombreView = new TextView(getContext());
         nombreView.setText("Libro: " + nombre);
         nombreView.setTextSize(16);
-        nombreView.setTextColor(getResources().getColor(R.color.black)); // color del texto
+        nombreView.setTextColor(getResources().getColor(R.color.black));
 
         TextView cantidadView = new TextView(getContext());
         cantidadView.setText("Cantidad: " + cantidad);
         cantidadView.setTextSize(16);
-        cantidadView.setTextColor(getResources().getColor(R.color.black)); // color del texto
+        cantidadView.setTextColor(getResources().getColor(R.color.black));
 
         TextView precioView = new TextView(getContext());
         precioView.setText("Precio: $" + String.format("%.2f", precio));
         precioView.setTextSize(16);
-        precioView.setTextColor(getResources().getColor(R.color.black)); //  color del texto
+        precioView.setTextColor(getResources().getColor(R.color.black));
 
+        // Añadir las vistas al layout
         layoutLibro.addView(nombreView);
         layoutLibro.addView(cantidadView);
         layoutLibro.addView(precioView);
 
+        // Añadir el layout al CardView
         cardView.addView(layoutLibro);
         contenedorLibros.addView(cardView);
     }
 
+    // Método para obtener los libros del carrito
     private List<Libro> obtenerLibrosDelCarrito() {
         List<Libro> libros = new ArrayList<>();
-
         libros.add(new Libro("Harry Potter", 2, 20.99));
         libros.add(new Libro("The Lord of the Rings", 1, 15.99));
         libros.add(new Libro("Pride and Prejudice", 3, 12.99));
-
         return libros;
     }
 }
 
+// Clase Libro
 class Libro {
     private String nombre;
     private int cantidad;

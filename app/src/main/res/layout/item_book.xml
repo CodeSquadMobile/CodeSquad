@@ -14,7 +14,6 @@
         android:layout_height="155dp"
         android:scaleType="centerCrop"
         android:src="@drawable/annakarenina"
-        android:background="@drawable/card_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
