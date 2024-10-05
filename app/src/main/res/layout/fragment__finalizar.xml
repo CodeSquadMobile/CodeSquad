@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:background="@drawable/fondo2"
-    tools:context=".fragment_Finalizar">
+    tools:context=".fragments.fragment_Finalizar">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

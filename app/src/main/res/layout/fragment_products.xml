@@ -27,8 +27,9 @@
         android:layout_margin="8dp"
         android:entries="@array/categorias_random" />
 
-    <include layout="@layout/item_book" />
-
-    <include layout="@layout/item_book" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewBooks"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </LinearLayout>
