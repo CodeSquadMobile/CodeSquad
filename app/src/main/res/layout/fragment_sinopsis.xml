@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp"
-            android:background="@color/mostaza">
+            android:background="@drawable/borde_card">
 
             <!-- Imagen del libro -->
             <ImageView
@@ -66,20 +66,19 @@
                 android:layout_marginBottom="8dp"
                 android:lineSpacingExtra="4dp"
                 android:text="El Diario de Ana Frank es el relato personal de una niña judía de 13 años que, junto con su familia y otras personas, se ocultó durante dos años en un anexo secreto de Ámsterdam para escapar de la persecución nazi durante la Segunda Guerra Mundial. ."
-                android:textColor="@android:color/white"
+                android:textColor="@color/vino"
                 android:textSize="16sp" />
-
 
 
             <Button
                 android:id="@+id/btnvolversinopsis"
                 android:layout_width="272dp"
                 android:layout_height="wrap_content"
-                android:text="Volver"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/white"
                 android:layout_gravity="center_horizontal"
-                android:backgroundTint="@color/vino"/>
+                android:layout_marginTop="10dp"
+                android:backgroundTint="@color/vino"
+                android:text="Volver"
+                android:textColor="@color/white" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

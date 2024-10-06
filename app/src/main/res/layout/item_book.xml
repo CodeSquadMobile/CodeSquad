@@ -84,7 +84,7 @@
             android:padding="4dp"
             android:layout_marginTop="5dp"
             android:textColor="@color/white"
-            android:backgroundTint="@color/azul_electrico"
+            android:backgroundTint="@color/azul"
             android:layout_marginRight="5dp"
             android:layout_marginLeft="5dp"/>
 
