@@ -104,7 +104,7 @@
         android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:backgroundTint="@color/azul"
+        android:backgroundTint="@color/azul_electrico"
         android:text="@string/ingresar"
         android:textColor="@color/white"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
