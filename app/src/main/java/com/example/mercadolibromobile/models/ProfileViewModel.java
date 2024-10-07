@@ -1,4 +1,4 @@
-package com.example.mercadolibromobile;
+package com.example.mercadolibromobile.models;
 
 import androidx.lifecycle.ViewModel;
 
