@@ -19,7 +19,7 @@
             android:id="@+id/frameLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:context=".ProfileFragment">
+            tools:context=".fragments.ProfileFragment">
 
             <Button
                 android:id="@+id/button10"

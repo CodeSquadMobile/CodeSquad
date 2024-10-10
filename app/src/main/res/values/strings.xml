@@ -48,10 +48,11 @@
     <string name="categoria6">Tecnología</string>
     <string name="categoria7">Romance</string>
 
-    <string name="atributo1">Título del Libro</string>
-    <string name="atributo2">Autor del Libro</string>
-    <string name="atributo3">Precio: $100.00</string>
-    <string name="atributo4">En stock: 9</string>
+    <string name="atributo1">titulo</string>
+    <string name="atributo2">autor</string>
+    <string name="atributo3">precio</string>
+    <string name="atributo4">portada</string>
+    <string name="atributo5">categoria</string>
 
     <string name="método1">Comprar</string>
     <string name="método2">Sinopsis</string>
