@@ -9,4 +9,3 @@ public interface BookApi {
     @GET("libros/")
     Call<List<Book>> getBooks();
 }
-

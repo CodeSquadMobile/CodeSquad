@@ -15,15 +15,24 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.example.mercadolibromobile.R;
+import com.example.mercadolibromobile.api.DirApi;
+import com.example.mercadolibromobile.models.Direccion;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class fragment_Finalizar extends Fragment {
 
     private LinearLayout contenedorLibros;
     private Button finalizarButton;
     private List<Libro> listaLibros;
+    private TextView precioTotalTextView;
 
     public fragment_Finalizar() {
         // Constructor público vacío requerido
@@ -41,22 +50,21 @@ public class fragment_Finalizar extends Fragment {
 
         contenedorLibros = view.findViewById(R.id.contenedorLibros);
         finalizarButton = view.findViewById(R.id.button4);
-        TextView precioTotalTextView = view.findViewById(R.id.precioTotal);
+        precioTotalTextView = view.findViewById(R.id.precioTotal);
 
         // Inicializar precio total
-        actualizarVistaLibros(precioTotalTextView);
+        actualizarVistaLibros();
 
         // Acción del botón finalizar
         finalizarButton.setOnClickListener(v -> {
-            Toast.makeText(getActivity(), "Compra finalizada", Toast.LENGTH_SHORT).show();
-            // lógica de compra
+            obtenerDirecciones();  // Llamada a la API de direcciones
         });
 
         return view;
     }
 
     // Método para actualizar la vista de los libros y el precio total
-    private void actualizarVistaLibros(TextView precioTotalTextView) {
+    private void actualizarVistaLibros() {
         contenedorLibros.removeAllViews(); // Limpiar el contenedor antes de actualizarlo
         double precioTotal = 0.0;
 
@@ -220,36 +228,83 @@ public class fragment_Finalizar extends Fragment {
         for (Libro libro : listaLibros) {
             precioTotal += libro.getCantidad() * libro.getPrecio();
         }
-        TextView precioTotalTextView = getView().findViewById(R.id.precioTotal);
         precioTotalTextView.setText("Total: $" + String.format("%.2f", precioTotal));
     }
-}
 
-// Clase modelo para Libro
-class Libro {
-    private String nombre;
-    private int cantidad;
-    private double precio;
+    // Retrofit para obtener direcciones
+    private void obtenerDirecciones() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://192.168.0.50:8000/api/direcciones/") // URL del backend
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-    public Libro(String nombre, int cantidad, double precio) {
-        this.nombre = nombre;
-        this.cantidad = cantidad;
-        this.precio = precio;
+        DirApi dirApi = retrofit.create(DirApi.class);
+
+        Call<List<Direccion>> call = dirApi.getDirecciones();
+
+        call.enqueue(new Callback<List<Direccion>>() {
+            @Override
+            public void onResponse(Call<List<Direccion>> call, Response<List<Direccion>> response) {
+                if (response.isSuccessful()) {
+                    List<Direccion> direcciones = response.body();
+                    mostrarDirecciones(direcciones);
+                } else {
+                    Toast.makeText(getActivity(), "Error al obtener direcciones", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Direccion>> call, Throwable t) {
+                Toast.makeText(getActivity(), "Fallo en la conexión", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    public String getNombre() {
-        return nombre;
+    private void mostrarDirecciones(List<Direccion> direcciones) {
+        if (direcciones != null && !direcciones.isEmpty()) {
+            for (Direccion direccion : direcciones) {
+                // código para mostrar las direcciones
+                Toast.makeText(getActivity(), "Dirección: " + direccion.getCalle(), Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(getActivity(), "No hay direcciones disponibles", Toast.LENGTH_SHORT).show();
+        }
     }
 
-    public int getCantidad() {
-        return cantidad;
-    }
 
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
-    }
+    public class Libro {
+        private String nombre;
+        private int cantidad;
+        private double precio;
 
-    public double getPrecio() {
-        return precio;
+        public Libro(String nombre, int cantidad, double precio) {
+            this.nombre = nombre;
+            this.cantidad = cantidad;
+            this.precio = precio;
+        }
+
+        public String getNombre() {
+            return nombre;
+        }
+
+        public void setNombre(String nombre) {
+            this.nombre = nombre;
+        }
+
+        public int getCantidad() {
+            return cantidad;
+        }
+
+        public void setCantidad(int cantidad) {
+            this.cantidad = cantidad;
+        }
+
+        public double getPrecio() {
+            return precio;
+        }
+
+        public void setPrecio(double precio) {
+            this.precio = precio;
+        }
     }
 }
