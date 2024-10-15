@@ -24,7 +24,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputEditText usernameEditText, passwordEditText, nameEditText;
     private Button loginButton, toggleModeButton;
     private boolean isLoginMode = true;
-    private final String BASE_URL = "http://192.168.100.26:8000/api/"; // Cambia por tu URL del backend
+    private final String BASE_URL = "http://192.168.0.50:8000/api/"; // Cambia por tu URL del backend
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
