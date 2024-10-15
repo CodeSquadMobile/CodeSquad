@@ -47,8 +47,8 @@ public class ProductsFragment extends Fragment {
 
     private void fetchBooks() {
         // Inicializa Retrofit
-        String baseUrl = "http://192.168.0.244:8000/api/";
-        BookApi bookApi = RetrofitClient.getInstance(baseUrl).create(BookApi.class); // Cambia aquí
+        String baseUrl = "http://192.168.100.26:8000/api/"; // Asegúrate de que esta URL sea correcta
+        BookApi bookApi = RetrofitClient.getInstance(baseUrl).create(BookApi.class);
 
         Call<List<Book>> call = bookApi.getBooks();
         call.enqueue(new Callback<List<Book>>() {
@@ -59,16 +59,18 @@ public class ProductsFragment extends Fragment {
                     // Configurar el adaptador con los libros
                     booksAdapter = new BooksAdapter(books);
                     recyclerViewBooks.setAdapter(booksAdapter);
+                } else {
+                    // Manejo del error cuando la respuesta no es exitosa
+                    Log.e("API Error", "Código de respuesta: " + response.code() + ", Mensaje: " + response.message());
+                    Toast.makeText(getContext(), "Error en la respuesta: " + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Book>> call, Throwable t) {
-                Log.e("API Error", t.getMessage());
+                Log.e("API Error", "Error: " + t.getMessage());
                 Toast.makeText(getContext(), "Error al cargar los libros: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
-
-
 }
