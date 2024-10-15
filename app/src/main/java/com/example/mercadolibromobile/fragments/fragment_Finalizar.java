@@ -263,7 +263,7 @@ public class fragment_Finalizar extends Fragment {
     private void mostrarDirecciones(List<Direccion> direcciones) {
         if (direcciones != null && !direcciones.isEmpty()) {
             for (Direccion direccion : direcciones) {
-                // Aquí puedes agregar código para mostrar las direcciones
+                // código para mostrar las direcciones
                 Toast.makeText(getActivity(), "Dirección: " + direccion.getCalle(), Toast.LENGTH_SHORT).show();
             }
         } else {
@@ -271,7 +271,7 @@ public class fragment_Finalizar extends Fragment {
         }
     }
 
-    // Clase Libro, asumo que tienes algo similar en tu código original
+
     public class Libro {
         private String nombre;
         private int cantidad;
