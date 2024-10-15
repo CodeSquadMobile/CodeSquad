@@ -47,7 +47,9 @@ public class ProductsFragment extends Fragment {
 
     private void fetchBooks() {
         // Inicializa Retrofit
+
         String baseUrl = "http://192.168.0.50:8000/api/"; // Asegúrate de que esta URL sea correcta
+
         BookApi bookApi = RetrofitClient.getInstance(baseUrl).create(BookApi.class);
 
         Call<List<Book>> call = bookApi.getBooks();
@@ -73,4 +75,6 @@ public class ProductsFragment extends Fragment {
             }
         });
     }
+
 }
+
