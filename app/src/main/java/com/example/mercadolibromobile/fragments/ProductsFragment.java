@@ -5,6 +5,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,6 +32,8 @@ public class ProductsFragment extends Fragment {
 
     private RecyclerView recyclerViewBooks;
     private BooksAdapter booksAdapter;
+    private EditText searchBar;
+    private Spinner categorySelector;
 
     @Nullable
     @Override
@@ -39,6 +44,29 @@ public class ProductsFragment extends Fragment {
         recyclerViewBooks = view.findViewById(R.id.recyclerViewBooks);
         recyclerViewBooks.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        // Inicializar el campo de búsqueda y el spinner de categorías
+        searchBar = view.findViewById(R.id.search_bar);
+        categorySelector = view.findViewById(R.id.category_selector);
+
+        // Escuchar cambios en el buscador (cuando el usuario presiona "Enter")
+        searchBar.setOnEditorActionListener((v, actionId, event) -> {
+            fetchBooks();
+            return true;
+        });
+
+        // Escuchar cambios en la selección de categoría
+        categorySelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                fetchBooks();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // No hacer nada
+            }
+        });
+
         // Llamar a la API y obtener los libros
         fetchBooks();
 
@@ -46,11 +74,16 @@ public class ProductsFragment extends Fragment {
     }
 
     private void fetchBooks() {
+        // Obtener el texto de búsqueda y la categoría seleccionada
+        String searchQuery = searchBar.getText().toString();
+        String selectedCategory = categorySelector.getSelectedItem().toString();
+
         // Inicializa Retrofit
         String baseUrl = "http://192.168.0.244:8000/api/";
-        BookApi bookApi = RetrofitClient.getInstance(baseUrl).create(BookApi.class); // Cambia aquí
+        BookApi bookApi = RetrofitClient.getInstance(baseUrl).create(BookApi.class);
 
-        Call<List<Book>> call = bookApi.getBooks();
+        // Llamada a la API con los filtros
+        Call<List<Book>> call = bookApi.getBooks(searchQuery, selectedCategory);
         call.enqueue(new Callback<List<Book>>() {
             @Override
             public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {
@@ -69,6 +102,4 @@ public class ProductsFragment extends Fragment {
             }
         });
     }
-
-
 }
