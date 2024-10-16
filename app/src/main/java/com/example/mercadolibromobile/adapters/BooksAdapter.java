@@ -36,6 +36,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
         holder.tvBookAuthor.setText(book.getAutor());
         holder.tvBookPrice.setText("Precio: $" + book.getPrecio());
         holder.tvBookStock.setText("En stock: " + book.getStock());
+        holder.tvBookCategory.setText("Categoría: " + book.getCategoria()); // Mostrar la categoría
 
         // Cargar la portada del libro con Glide
         Glide.with(holder.itemView.getContext())
@@ -51,7 +52,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
 
     static class BookViewHolder extends RecyclerView.ViewHolder {
         ImageView ivBookCover;
-        TextView tvBookTitle, tvBookAuthor, tvBookPrice, tvBookStock;
+        TextView tvBookTitle, tvBookAuthor, tvBookPrice, tvBookStock, tvBookCategory; // Nuevo campo para categoría
 
         public BookViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -60,6 +61,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
             tvBookAuthor = itemView.findViewById(R.id.tvBookAuthor);
             tvBookPrice = itemView.findViewById(R.id.tvBookPrice);
             tvBookStock = itemView.findViewById(R.id.tvBookStock);
+            tvBookCategory = itemView.findViewById(R.id.tvBookCategory); // Asignar el TextView para la categoría
         }
     }
 }
