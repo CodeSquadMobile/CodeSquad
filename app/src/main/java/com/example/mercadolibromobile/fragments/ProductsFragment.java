@@ -117,14 +117,19 @@ public class ProductsFragment extends Fragment {
                     // Configurar el adaptador con los libros
                     booksAdapter = new BooksAdapter(books);
                     recyclerViewBooks.setAdapter(booksAdapter);
+                } else {
+                    // Manejo del error cuando la respuesta no es exitosa
+                    Log.e("API Error", "Código de respuesta: " + response.code() + ", Mensaje: " + response.message());
+                    Toast.makeText(getContext(), "Error en la respuesta: " + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Book>> call, Throwable t) {
-                Log.e("API Error", t.getMessage());
+                Log.e("API Error", "Error: " + t.getMessage());
                 Toast.makeText(getContext(), "Error al cargar los libros: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 }
+

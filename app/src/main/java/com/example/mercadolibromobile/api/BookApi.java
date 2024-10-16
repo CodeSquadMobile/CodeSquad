@@ -8,3 +8,4 @@ public interface BookApi {
     @GET("libros/")
     Call<List<Book>> getBooks(@Query("titulo") String titulo, @Query("id_categoria__nombre_categoria") String categoria);
 }
+
