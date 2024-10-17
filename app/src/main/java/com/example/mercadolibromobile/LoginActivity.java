@@ -28,8 +28,11 @@ public class LoginActivity extends AppCompatActivity {
     private Button loginButton, toggleModeButton;
     private ProgressBar progressBar;
     private boolean isLoginMode = true;
+
     private final String BASE_URL = "http://192.168.100.26:8000/api/";
     private SharedPreferences sharedPreferences;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
