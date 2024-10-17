@@ -35,7 +35,7 @@ public class ContactFragment extends Fragment {
 
         // Inicializar Retrofit
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.50:8000/api/contacto/") // Coloca aquí la URL base de tu backend
+                .baseUrl("http://10.0.2.2:8000/api/contacto/") // Coloca aquí la URL base de tu backend
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
