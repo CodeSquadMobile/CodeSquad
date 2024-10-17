@@ -124,19 +124,26 @@ public class LoginActivity extends AppCompatActivity {
         String email = usernameEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
         progressBar.setVisibility(View.VISIBLE);
+
         LoginApi api = RetrofitClient.getInstance(BASE_URL).create(LoginApi.class);
         Call<AuthModels.LoginResponse> call = api.login(email, password);
+
         call.enqueue(new Callback<AuthModels.LoginResponse>() {
             @Override
             public void onResponse(Call<AuthModels.LoginResponse> call, Response<AuthModels.LoginResponse> response) {
                 progressBar.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
+                    // Guarda los tokens y el correo electrónico
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("access_token", response.body().getAccess());
                     editor.putString("refresh_token", response.body().getRefresh());
+                    editor.putString("user_email", email); // Guarda el correo electrónico
                     editor.apply();
+
+                    // Log para verificar los tokens
                     Log.d("LoginActivity", "Access Token: " + response.body().getAccess());
                     Log.d("LoginActivity", "Refresh Token: " + response.body().getRefresh());
+                    Log.d("LoginActivity", "User Email: " + email); // Log del email
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
