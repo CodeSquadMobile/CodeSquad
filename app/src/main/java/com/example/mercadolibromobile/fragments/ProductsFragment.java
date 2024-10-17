@@ -62,7 +62,7 @@ public class ProductsFragment extends Fragment {
     private void fetchCategorias() {
         //Ivette URL
         String baseUrl = "http://192.168.0.244:8000/api/";
-        //Marcelo URL
+        //URL
         //String baseUrl = "http://10.0.2.2:8000/api/";
         CategoriaApi categoriaApi = RetrofitClient.getInstance(baseUrl).create(CategoriaApi.class);
 
