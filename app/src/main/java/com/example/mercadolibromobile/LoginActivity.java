@@ -3,18 +3,21 @@ package com.example.mercadolibromobile;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log; // log para testear login
+import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ProgressBar;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import android.view.View;
-
+import android.content.SharedPreferences;
 import com.example.mercadolibromobile.api.LoginApi;
 import com.example.mercadolibromobile.models.AuthModels;
 import com.example.mercadolibromobile.api.RetrofitClient;
@@ -23,9 +26,12 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputLayout usernameLayout, passwordLayout, nameLayout;
     private TextInputEditText usernameEditText, passwordEditText, nameEditText;
     private Button loginButton, toggleModeButton;
+    private ProgressBar progressBar;
     private boolean isLoginMode = true;
 
-    private final String BASE_URL = "http://192.168.0.50:8000/api/"; // Cambia por tu URL del backend
+    private final String BASE_URL = "http://192.168.100.26:8000/api/";
+    private SharedPreferences sharedPreferences;
+
 
 
     @Override
@@ -33,7 +39,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Vinculación de las vistas con el XML
+        sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+
         usernameLayout = findViewById(R.id.textInputLayout2);
         passwordLayout = findViewById(R.id.textInputLayout);
         nameLayout = findViewById(R.id.textInputLayoutName);
@@ -42,11 +49,15 @@ public class LoginActivity extends AppCompatActivity {
         nameEditText = findViewById(R.id.textInputEditTextName);
         loginButton = findViewById(R.id.buttonMainAction);
         toggleModeButton = findViewById(R.id.buttonToggleMode);
+        progressBar = findViewById(R.id.progressBar);
 
-        // cambio entre login y registro
-        toggleModeButton.setOnClickListener(v -> toggleLoginMode());
+        final Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        final Animation fadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
 
-        // Validar los campos de texto
+        toggleModeButton.setOnClickListener(v -> {
+            toggleLoginMode(fadeIn, fadeOut);
+        });
+
         loginButton.setOnClickListener(v -> {
             if (isLoginMode) {
                 loginUser();
@@ -55,36 +66,47 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        // textwacher para habilitar los botones
-        TextWatcher textWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
+        usernameEditText.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 validateButtonState();
             }
+        });
 
+        passwordEditText.addTextChangedListener(new SimpleTextWatcher() {
             @Override
-            public void afterTextChanged(Editable s) {}
-        };
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validateButtonState();
+            }
+        });
 
-        usernameEditText.addTextChangedListener(textWatcher);
-        passwordEditText.addTextChangedListener(textWatcher);
-        nameEditText.addTextChangedListener(textWatcher);
+        nameEditText.addTextChangedListener(new SimpleTextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validateButtonState();
+            }
+        });
     }
 
-    private void toggleLoginMode() {
+    private void toggleLoginMode(Animation fadeIn, Animation fadeOut) {
         isLoginMode = !isLoginMode;
         if (isLoginMode) {
             loginButton.setText(R.string.ingresar);
             toggleModeButton.setText(R.string.registrarse);
             nameLayout.setVisibility(View.GONE);
+            findViewById(R.id.textViewName).setVisibility(View.GONE);
         } else {
-            loginButton.setText(R.string.registrarse);  // se cambia el texto del botón a "registrarse"
-            toggleModeButton.setText(R.string.ingresar);  // Cambia el texto a "Ingresar"
+            loginButton.setText(R.string.registrarse);
+            toggleModeButton.setText(R.string.volver);
             nameLayout.setVisibility(View.VISIBLE);
+            findViewById(R.id.textViewName).setVisibility(View.VISIBLE);
+            findViewById(R.id.textViewName).startAnimation(fadeIn);
         }
+        // Limpia errores previos al cambiar de modo y valida el botón
+        nameLayout.setError(null);
+        usernameLayout.setError(null);
+        passwordLayout.setError(null);
         validateButtonState();
     }
 
@@ -92,39 +114,41 @@ public class LoginActivity extends AppCompatActivity {
         String username = usernameEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
         String name = nameEditText.getText().toString().trim();
-
         boolean isEnabled = isLoginMode ?
                 !TextUtils.isEmpty(username) && !TextUtils.isEmpty(password) :
                 !TextUtils.isEmpty(username) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(name);
-
         loginButton.setEnabled(isEnabled);
     }
 
     private void loginUser() {
-        String email = usernameEditText.getText().toString().trim(); //username para el mail
+        String email = usernameEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
-
-        // Usar RetrofitClient con baseUrl
+        progressBar.setVisibility(View.VISIBLE);
         LoginApi api = RetrofitClient.getInstance(BASE_URL).create(LoginApi.class);
         Call<AuthModels.LoginResponse> call = api.login(email, password);
-
         call.enqueue(new Callback<AuthModels.LoginResponse>() {
             @Override
             public void onResponse(Call<AuthModels.LoginResponse> call, Response<AuthModels.LoginResponse> response) {
+                progressBar.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
-                    // Manejar el inicio de sesión exitoso
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("access_token", response.body().getAccess());
+                    editor.putString("refresh_token", response.body().getRefresh());
+                    editor.apply();
+                    Log.d("LoginActivity", "Access Token: " + response.body().getAccess());
+                    Log.d("LoginActivity", "Refresh Token: " + response.body().getRefresh());
+
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
-                    // Manejar el error de inicio de sesión
                     usernameLayout.setError("Credenciales incorrectas");
                 }
             }
 
             @Override
             public void onFailure(Call<AuthModels.LoginResponse> call, Throwable t) {
-                // Manejar fallo o errores  en la conexión
+                progressBar.setVisibility(View.GONE);
                 usernameLayout.setError("Error de conexión");
             }
         });
@@ -135,30 +159,50 @@ public class LoginActivity extends AppCompatActivity {
         String password = passwordEditText.getText().toString().trim();
         String username = nameEditText.getText().toString().trim();
 
-        // Usar RetrofitClient con baseUrl
+        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || TextUtils.isEmpty(username)) {
+            if (TextUtils.isEmpty(username)) {
+                nameLayout.setError("El nombre es requerido");
+            }
+            return;
+        }
+
         AuthModels.SignupRequest signupRequest = new AuthModels.SignupRequest(email, password, username);
         LoginApi api = RetrofitClient.getInstance(BASE_URL).create(LoginApi.class);
         Call<AuthModels.SignupResponse> call = api.register(signupRequest);
-
         call.enqueue(new Callback<AuthModels.SignupResponse>() {
             @Override
             public void onResponse(Call<AuthModels.SignupResponse> call, Response<AuthModels.SignupResponse> response) {
+                progressBar.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
-                    //  si el registro es 200 (exitoso), redirigir a la pantalla principal
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("access_token", response.body().getAccess());
+                    editor.putString("refresh_token", response.body().getRefresh());
+                    editor.apply();
+                    Log.d("LoginActivity", "Access Token: " + response.body().getAccess());
+                    Log.d("LoginActivity", "Refresh Token: " + response.body().getRefresh());
+
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
-                    // si da  error de registro
                     nameLayout.setError("Error en el registro");
                 }
             }
 
             @Override
             public void onFailure(Call<AuthModels.SignupResponse> call, Throwable t) {
-                // Manejar fallo en la conexión
+                progressBar.setVisibility(View.GONE);
                 nameLayout.setError("Error de conexión");
             }
         });
+    }
+
+    // Clase auxiliar para simplificar el TextWatcher
+    abstract class SimpleTextWatcher implements TextWatcher {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+        @Override
+        public void afterTextChanged(Editable s) {}
     }
 }
