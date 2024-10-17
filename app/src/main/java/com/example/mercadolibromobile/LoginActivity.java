@@ -29,7 +29,10 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private boolean isLoginMode = true;
 
-    private final String BASE_URL = "http://10.0.2.2:8000/api/";
+    //Ivette URL
+    private final String BASE_URL = "http://192.168.0.244:8000/api/";
+    //URL
+    //private final String BASE_URL = "http://10.0.2.2:8000/api/";
     private SharedPreferences sharedPreferences;
 
 
