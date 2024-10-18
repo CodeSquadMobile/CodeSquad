@@ -3,10 +3,14 @@ package com.example.mercadolibromobile.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
+import com.example.mercadolibromobile.BookSynopsisDialogFragment; // Ajusta el paquete según sea necesario
+
 
 import com.example.mercadolibromobile.R;
 import com.example.mercadolibromobile.models.Book;
@@ -36,13 +40,16 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
         holder.tvBookAuthor.setText(book.getAutor());
         holder.tvBookPrice.setText("Precio: $" + book.getPrecio());
         holder.tvBookStock.setText("En stock: " + book.getStock());
-        holder.tvBookCategory.setText("Categoría: " + book.getCategoria()); // Mostrar la categoría
-
-        // Cargar la portada del libro con Glide
+        holder.tvBookCategory.setText("Categoría: " + book.getCategoria());
         Glide.with(holder.itemView.getContext())
                 .load(book.getPortada())
                 .timeout(10000) // 10 segundos
                 .into(holder.ivBookCover);
+
+        holder.btnSinopsis.setOnClickListener(v -> {
+            BookSynopsisDialogFragment dialog = BookSynopsisDialogFragment.newInstance(book.getDescripcion());
+            dialog.show(((FragmentActivity) holder.itemView.getContext()).getSupportFragmentManager(), "BookSynopsisDialogFragment");
+        });
     }
 
     @Override
@@ -52,7 +59,8 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
 
     static class BookViewHolder extends RecyclerView.ViewHolder {
         ImageView ivBookCover;
-        TextView tvBookTitle, tvBookAuthor, tvBookPrice, tvBookStock, tvBookCategory; // Nuevo campo para categoría
+        TextView tvBookTitle, tvBookAuthor, tvBookPrice, tvBookStock, tvBookCategory;
+        Button btnSinopsis;
 
         public BookViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -61,7 +69,8 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
             tvBookAuthor = itemView.findViewById(R.id.tvBookAuthor);
             tvBookPrice = itemView.findViewById(R.id.tvBookPrice);
             tvBookStock = itemView.findViewById(R.id.tvBookStock);
-            tvBookCategory = itemView.findViewById(R.id.tvBookCategory); // Asignar el TextView para la categoría
+            tvBookCategory = itemView.findViewById(R.id.tvBookCategory);
+            btnSinopsis = itemView.findViewById(R.id.btnSinopsis);
         }
     }
 }
