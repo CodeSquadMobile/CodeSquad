@@ -5,20 +5,17 @@ public class Contacto {
     private String nombre;
     private String email;
     private String asunto;
-    private String consulta;
+    private String mensaje;
 
-    // Constructor
-    public Contacto(String nombre,
-                    String email,
-                    String asunto,
-                    String consulta) {
+    public Contacto(String nombre, String email, String asunto, String mensaje) {
         this.nombre = nombre;
         this.email = email;
         this.asunto = asunto;
-        this.consulta = consulta;
+        this.mensaje = mensaje;
     }
 
-    // Getters y Setters
+
+
     public String getNombre() {
         return nombre;
     }
@@ -43,11 +40,11 @@ public class Contacto {
         this.asunto = asunto;
     }
 
-    public String getConsulta() {
-        return consulta;
+    public String getMensaje() {
+        return mensaje;
     }
 
-    public void setConsulta(String consulta) {
-        this.consulta = consulta;
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
     }
 }
