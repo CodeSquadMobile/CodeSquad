@@ -114,7 +114,7 @@ public class ContactFragment extends Fragment {
                     List<Contacto> contactos = response.body();
                     // Manejar la lista de contactos aquí, por ejemplo mostrarla en un RecyclerView
                 } else {
-                    Toast.makeText(getActivity(), "Error al obtener los contactos.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getString(R.string.error_obtener_contactos), Toast.LENGTH_SHORT).show();
                 }
             }
 

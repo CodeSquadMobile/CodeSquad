@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportActionBar().setDisplayUseLogoEnabled(true);
 
             // Título de la app
-            getSupportActionBar().setTitle("Mercado Libro");
+            getSupportActionBar().setTitle(R.string.app_name);
 
         }
 
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .addToBackStack(null)
                     .commit();
         } else if (id == R.id.nav_logout) {
-            Toast.makeText(this, "Cerrando sesión...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.logout_message), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();

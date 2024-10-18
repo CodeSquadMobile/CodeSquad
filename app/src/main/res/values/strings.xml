@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">MercadoLibroMobile</string>
 
+    <string name="logout_message">Cerrando sesión...</string>
     <string name="navigation_drawer_open">Open drawer</string>
     <string name="navigation_drawer_close">Close drawer</string>
 
@@ -71,6 +72,14 @@
     <string name="error_envio_consulta">Error al enviar la consulta.</string>
     <string name="error_obtener_contactos">Error al obtener los contactos.</string>
     <string name="error_general">Error: %1$s</string>
+
+    <!-- ProductsFragment -->
+
+    <string name="error_cargar_categorias">Error al cargar las categorías: %1$s</string>
+    <string name="error_respuesta">Error en la respuesta: %1$s</string>
+    <string name="error_cargar_libros">Error al cargar los libros: %1$s</string>
+    <string name="cargando_libros">Cargando libros...</string> <!-- Mensaje adicional si es necesario -->
+    <string name="seleccion_categoria">Selecciona una categoría</string>
 
 
 </resources>

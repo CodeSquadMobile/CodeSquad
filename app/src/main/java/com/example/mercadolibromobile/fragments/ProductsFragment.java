@@ -85,7 +85,7 @@ public class ProductsFragment extends Fragment {
             @Override
             public void onFailure(Call<List<Categoria>> call, Throwable t) {
                 Log.e("API Error", t.getMessage());
-                Toast.makeText(getContext(), "Error al cargar las categorías: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.error_cargar_categorias, t.getMessage()), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -122,14 +122,14 @@ public class ProductsFragment extends Fragment {
                 } else {
                     // Manejo del error cuando la respuesta no es exitosa
                     Log.e("API Error", "Código de respuesta: " + response.code() + ", Mensaje: " + response.message());
-                    Toast.makeText(getContext(), "Error en la respuesta: " + response.message(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.error_respuesta, response.message()), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Book>> call, Throwable t) {
                 Log.e("API Error", "Error: " + t.getMessage());
-                Toast.makeText(getContext(), "Error al cargar los libros: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.error_cargar_libros, t.getMessage()), Toast.LENGTH_SHORT).show();
             }
         });
     }
