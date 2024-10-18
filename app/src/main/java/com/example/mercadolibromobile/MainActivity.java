@@ -1,6 +1,7 @@
 package com.example.mercadolibromobile;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,6 +35,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Toolbar
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.amarillo)); // Reemplaza "tu_color" con el color deseado
+        }
 
         // Añade logo al Toolbar
         if (getSupportActionBar() != null) {

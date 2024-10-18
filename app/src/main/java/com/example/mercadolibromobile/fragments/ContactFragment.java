@@ -60,19 +60,19 @@ public class ContactFragment extends Fragment {
 
             // Validación
             if (asunto.isEmpty()) {
-                asuntoEditText.setError("Por favor, escribe el asunto.");
+                asuntoEditText.setError(getString(R.string.error_asunto));
                 asuntoEditText.requestFocus();
             } else if (nombre.isEmpty()) {
-                nombreEditText.setError("Por favor, escribe tu nombre.");
+                nombreEditText.setError(getString(R.string.error_nombre));
                 nombreEditText.requestFocus();
             } else if (email.isEmpty() || !email.contains("@")) {
-                emailEditText.setError("Por favor, escribe un email válido.");
+                emailEditText.setError(getString(R.string.error_email));
                 emailEditText.requestFocus();
             } else if (consulta.isEmpty()) {
-                consultaEditText.setError("Por favor, escribe tu consulta.");
+                consultaEditText.setError(getString(R.string.error_consulta));
                 consultaEditText.requestFocus();
             } else if (consulta.length() < 10) {
-                consultaEditText.setError("La consulta debe tener al menos 10 caracteres.");
+                consultaEditText.setError(getString(R.string.error_consulta_longitud));
                 consultaEditText.requestFocus();
             } else {
                 // Crear un nuevo contacto
@@ -90,16 +90,16 @@ public class ContactFragment extends Fragment {
             @Override
             public void onResponse(@NonNull Call<Contacto> call, @NonNull Response<Contacto> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(getActivity(), "Consulta enviada con éxito.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getString(R.string.consulta_enviada_exito), Toast.LENGTH_SHORT).show();
                     limpiarCampos();
                 } else {
-                    Toast.makeText(getActivity(), "Error al enviar la consulta.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getString(R.string.error_envio_consulta), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<Contacto> call, @NonNull Throwable t) {
-                Toast.makeText(getActivity(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getString(R.string.error_general,  t.getMessage()), Toast.LENGTH_SHORT).show();
             }
         });
     }

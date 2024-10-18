@@ -16,9 +16,9 @@ public interface ContactApi {
         return null;
     }
 
-    @GET("contactos/")
+    @GET("contacto/")
     Call<List<Contacto>> obtenerContactos();
 
-    @POST("contactos/")
+    @POST("contacto/")
     Call<Contacto> crearContacto(@Body Contacto contacto);
 }

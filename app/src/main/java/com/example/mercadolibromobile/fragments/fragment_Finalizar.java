@@ -102,7 +102,7 @@ public class fragment_Finalizar extends Fragment {
 
         // Texto con información del libro
         TextView nombreView = new TextView(getContext());
-        nombreView.setText("Libro: " + libro.getNombre());
+        nombreView.setText(String.format("Libro: %s", libro.getNombre()));
         nombreView.setTextSize(16);
         nombreView.setTextColor(getResources().getColor(R.color.black));
 
@@ -224,7 +224,7 @@ public class fragment_Finalizar extends Fragment {
     private void obtenerDirecciones() {
         Retrofit retrofit = new Retrofit.Builder()
                 //Ivette URL
-                .baseUrl("http://192.168.0.50:8000/api/direcciones/")
+                .baseUrl("http://192.168.0.50:8000/api/")
                 //.baseUrl("http://192.168.0.50:8000/api/direcciones/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
