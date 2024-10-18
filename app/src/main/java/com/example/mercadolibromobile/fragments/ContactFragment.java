@@ -30,18 +30,33 @@ public class ContactFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_contact, container, false);
 
 
-        Retrofit retrofit = RetrofitClient.getInstance("http://192.168.100.26/api/");
-        //ivette ip
-        //Retrofit retrofit = RetrofitClient.getInstance("http://192.168.0.244:8000/api/");
-        //marcelo ip
-        //Retrofit retrofit = RetrofitClient.getInstance("http://192.168.100.26")
-        contactoApi = retrofit.create(ContactoApi.class);
+        // Definir las direcciones IP
+        String[] ipAddresses = {
+                "http://192.168.0.50:8000/api/", //Leo
+                "http://10.0.2.2:8000/api/", //Marce
+                "http://192.168.100.26:8000/api/", //Nahir
+                "http://192.168.0.244:8000/api/", //Ivette
+                "http://192.168.0.53:8000/api/" //Invitado
 
-        // Obtener las referencias a los elementos del layout
-        EditText nombreEditText = view.findViewById(R.id.etNombre);
-        EditText asuntoEditText = view.findViewById(R.id.etAsunto);
-        EditText emailEditText = view.findViewById(R.id.etEmail);
-        EditText consultaEditText = view.findViewById(R.id.etConsulta);
+        };
+
+        // Seleccionar la IP que deseas usar
+        String selectedIp = ipAddresses[0]; // Cambia el índice para seleccionar otra IP
+
+        // Inicializar Retrofit con la IP seleccionada
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(selectedIp)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        contactApi = retrofit.create(ContactApi.class);
+
+        // Referencias a los elementos del layout
+        nombreEditText = view.findViewById(R.id.etNombre);
+        asuntoEditText = view.findViewById(R.id.etAsunto);
+        emailEditText = view.findViewById(R.id.etEmail);
+        consultaEditText = view.findViewById(R.id.etConsulta);
+
         Button enviarConsultaButton = view.findViewById(R.id.btnEnviarConsulta);
 
         // Establecer el comportamiento del botón "Enviar consulta"
