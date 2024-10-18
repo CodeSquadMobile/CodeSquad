@@ -33,12 +33,22 @@ public class ContactFragment extends Fragment {
         // Inflar el layout personalizado (activity_contacto.xml)
         View view = inflater.inflate(R.layout.fragment_contact, container, false);
 
-        // Inicializar Retrofit
+        // Definir las direcciones IP
+        String[] ipAddresses = {
+                "http://192.168.0.50:8000/api/", //Leo
+                "http://10.0.2.2:8000/api/", //Marce
+                "http://192.168.100.26:8000/api/", //Nahir
+                "http://192.168.0.244:8000/api/", //Ivette
+                "http://192.168.0.53:8000/api/" //Invitado
+
+        };
+
+        // Seleccionar la IP que deseas usar
+        String selectedIp = ipAddresses[0]; // Cambia el índice para seleccionar otra IP
+
+        // Inicializar Retrofit con la IP seleccionada
         Retrofit retrofit = new Retrofit.Builder()
-                //Ivette URL
-                .baseUrl("http://192.168.0.50:8000/api/")
-                //URL
-                //.baseUrl("http://10.0.2.2:8000/api/contacto/")
+                .baseUrl(selectedIp)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

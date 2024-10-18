@@ -107,7 +107,17 @@ public class ProductsFragment extends Fragment {
         String selectedCategory = categorySelector.getSelectedItem() != null ? categorySelector.getSelectedItem().toString() : "";
 
         // Inicializa Retrofit
-        String baseUrl = "http://192.168.0.50:8000/api/";
+
+
+        String baseUrl = "http://192.168.0.50:8000/api/"; // Leo
+//        String baseUrl ="http://10.0.2.2:8000/api/";    // Marce
+//        String baseUrl ="http://192.168.100.26:8000/api/"; // Nahir
+//        String baseUrl ="http://192.168.0.244:8000/api/"; // Ivette
+//        String baseUrl = "http://192.168.0.53:8000/api/";  // Invitado
+
+
+
+
         BookApi bookApi = RetrofitClient.getInstance(baseUrl).create(BookApi.class);
 
         Call<List<Book>> call = bookApi.getBooks("", selectedCategory);

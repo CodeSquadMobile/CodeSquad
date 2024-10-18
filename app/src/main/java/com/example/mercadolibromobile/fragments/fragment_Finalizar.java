@@ -220,19 +220,32 @@ public class fragment_Finalizar extends Fragment {
         precioTotalTextView.setText("Total: $" + String.format("%.2f", precioTotal));
     }
 
-    // Retrofit para obtener direcciones
     private void obtenerDirecciones() {
+        // Definir las direcciones IP
+        String[] ipAddresses = {
+                "http://192.168.0.50:8000/api/", // Leo
+                "http://10.0.2.2:8000/api/",     // Marce
+                "http://192.168.100.26:8000/api/", // Nahir
+                "http://192.168.0.244:8000/api/", // Ivette
+                "http://192.168.0.53:8000/api/"  // Invitado
+        };
+
+        // Seleccionar la IP que deseas usar
+        String selectedIp = ipAddresses[0]; // Cambia el índice para seleccionar otra IP
+
+        // Inicializar Retrofit con la IP seleccionada
         Retrofit retrofit = new Retrofit.Builder()
-                //Ivette URL
-                .baseUrl("http://192.168.0.50:8000/api/")
-                //.baseUrl("http://192.168.0.50:8000/api/direcciones/")
+                .baseUrl(selectedIp)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
+        // Crear la instancia de la API
         DirApi dirApi = retrofit.create(DirApi.class);
 
+        // Realizar la llamada para obtener las direcciones
         Call<List<Direccion>> call = dirApi.getDirecciones();
 
+        // Manejo de la respuesta de la llamada
         call.enqueue(new Callback<List<Direccion>>() {
             @Override
             public void onResponse(Call<List<Direccion>> call, Response<List<Direccion>> response) {
@@ -254,7 +267,7 @@ public class fragment_Finalizar extends Fragment {
     private void mostrarDirecciones(List<Direccion> direcciones) {
         if (direcciones != null && !direcciones.isEmpty()) {
             for (Direccion direccion : direcciones) {
-                // código para mostrar las direcciones
+                // Código para mostrar las direcciones
                 Toast.makeText(getActivity(), "Dirección: " + direccion.getCalle(), Toast.LENGTH_SHORT).show();
             }
         } else {
@@ -262,7 +275,7 @@ public class fragment_Finalizar extends Fragment {
         }
     }
 
-
+    // Clase Libro
     public class Libro {
         private String nombre;
         private int cantidad;
@@ -297,5 +310,4 @@ public class fragment_Finalizar extends Fragment {
         public void setPrecio(double precio) {
             this.precio = precio;
         }
-    }
-}
+    }}
