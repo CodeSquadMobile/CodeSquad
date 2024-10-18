@@ -36,7 +36,7 @@ public class ContactFragment extends Fragment {
         // Inicializar Retrofit
         Retrofit retrofit = new Retrofit.Builder()
                 //Ivette URL
-                .baseUrl("http://192.168.0.244:8000/api/contacto/")
+                .baseUrl("http://192.168.0.50:8000/api/")
                 //URL
                 //.baseUrl("http://10.0.2.2:8000/api/contacto/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -60,19 +60,19 @@ public class ContactFragment extends Fragment {
 
             // Validación
             if (asunto.isEmpty()) {
-                asuntoEditText.setError("Por favor, escribe el asunto.");
+                asuntoEditText.setError(getString(R.string.error_asunto));
                 asuntoEditText.requestFocus();
             } else if (nombre.isEmpty()) {
-                nombreEditText.setError("Por favor, escribe tu nombre.");
+                nombreEditText.setError(getString(R.string.error_nombre));
                 nombreEditText.requestFocus();
             } else if (email.isEmpty() || !email.contains("@")) {
-                emailEditText.setError("Por favor, escribe un email válido.");
+                emailEditText.setError(getString(R.string.error_email));
                 emailEditText.requestFocus();
             } else if (consulta.isEmpty()) {
-                consultaEditText.setError("Por favor, escribe tu consulta.");
+                consultaEditText.setError(getString(R.string.error_consulta));
                 consultaEditText.requestFocus();
             } else if (consulta.length() < 10) {
-                consultaEditText.setError("La consulta debe tener al menos 10 caracteres.");
+                consultaEditText.setError(getString(R.string.error_consulta_longitud));
                 consultaEditText.requestFocus();
             } else {
                 // Crear un nuevo contacto
@@ -90,16 +90,16 @@ public class ContactFragment extends Fragment {
             @Override
             public void onResponse(@NonNull Call<Contacto> call, @NonNull Response<Contacto> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(getActivity(), "Consulta enviada con éxito.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getString(R.string.consulta_enviada_exito), Toast.LENGTH_SHORT).show();
                     limpiarCampos();
                 } else {
-                    Toast.makeText(getActivity(), "Error al enviar la consulta.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getString(R.string.error_envio_consulta), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<Contacto> call, @NonNull Throwable t) {
-                Toast.makeText(getActivity(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getString(R.string.error_general,  t.getMessage()), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -114,7 +114,7 @@ public class ContactFragment extends Fragment {
                     List<Contacto> contactos = response.body();
                     // Manejar la lista de contactos aquí, por ejemplo mostrarla en un RecyclerView
                 } else {
-                    Toast.makeText(getActivity(), "Error al obtener los contactos.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getString(R.string.error_obtener_contactos), Toast.LENGTH_SHORT).show();
                 }
             }
 

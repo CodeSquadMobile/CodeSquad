@@ -8,7 +8,10 @@ public class Contacto {
     private String consulta;
 
     // Constructor
-    public Contacto(String nombre, String email, String asunto, String consulta) {
+    public Contacto(String nombre,
+                    String email,
+                    String asunto,
+                    String consulta) {
         this.nombre = nombre;
         this.email = email;
         this.asunto = asunto;
