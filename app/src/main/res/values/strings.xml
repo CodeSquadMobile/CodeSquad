@@ -3,7 +3,7 @@
 
     <string name="navigation_drawer_open">Open drawer</string>
     <string name="navigation_drawer_close">Close drawer</string>
-
+    <string name="logout_message">Cerrando sesión...</string>
 
     <!-- Tabla -->
     <string name="titTable">Finalizar Compra</string>

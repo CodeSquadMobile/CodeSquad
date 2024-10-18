@@ -29,8 +29,12 @@ public class ContactFragment extends Fragment {
         // Inflar el layout personalizado (fragment_contact.xml)
         View view = inflater.inflate(R.layout.fragment_contact, container, false);
 
-        // Inicializar Retrofit con la URL base
-        Retrofit retrofit = RetrofitClient.getInstance("http://tu-api-url.com"); // Cambia por tu URL base
+
+        Retrofit retrofit = RetrofitClient.getInstance("http://192.168.100.26/api/");
+        //ivette ip
+        //Retrofit retrofit = RetrofitClient.getInstance("http://192.168.0.244:8000/api/");
+        //marcelo ip
+        //Retrofit retrofit = RetrofitClient.getInstance("http://192.168.100.26")
         contactoApi = retrofit.create(ContactoApi.class);
 
         // Obtener las referencias a los elementos del layout
