@@ -36,7 +36,7 @@ public class ContactFragment extends Fragment {
         // Inicializar Retrofit
         Retrofit retrofit = new Retrofit.Builder()
                 //Ivette URL
-                .baseUrl("http://192.168.0.244:8000/api/contacto/")
+                .baseUrl("http://192.168.0.50:8000/api/")
                 //URL
                 //.baseUrl("http://10.0.2.2:8000/api/contacto/")
                 .addConverterFactory(GsonConverterFactory.create())

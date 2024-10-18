@@ -224,7 +224,7 @@ public class fragment_Finalizar extends Fragment {
     private void obtenerDirecciones() {
         Retrofit retrofit = new Retrofit.Builder()
                 //Ivette URL
-                .baseUrl("http://192.168.0.244:8000/api/direcciones/")
+                .baseUrl("http://192.168.0.50:8000/api/direcciones/")
                 //.baseUrl("http://192.168.0.50:8000/api/direcciones/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();

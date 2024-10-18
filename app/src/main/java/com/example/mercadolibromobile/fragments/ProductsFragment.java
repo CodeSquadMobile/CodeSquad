@@ -61,7 +61,7 @@ public class ProductsFragment extends Fragment {
 
     private void fetchCategorias() {
         //Ivette URL
-        String baseUrl = "http://192.168.0.244:8000/api/";
+        String baseUrl = "http://192.168.0.50:8000/api/";
         //URL
         //String baseUrl = "http://10.0.2.2:8000/api/";
         CategoriaApi categoriaApi = RetrofitClient.getInstance(baseUrl).create(CategoriaApi.class);
@@ -107,7 +107,7 @@ public class ProductsFragment extends Fragment {
         String selectedCategory = categorySelector.getSelectedItem() != null ? categorySelector.getSelectedItem().toString() : "";
 
         // Inicializa Retrofit
-        String baseUrl = "http://192.168.0.244:8000/api/";
+        String baseUrl = "http://192.168.0.50:8000/api/";
         BookApi bookApi = RetrofitClient.getInstance(baseUrl).create(BookApi.class);
 
         Call<List<Book>> call = bookApi.getBooks("", selectedCategory);
