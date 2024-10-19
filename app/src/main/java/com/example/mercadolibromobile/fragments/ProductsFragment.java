@@ -60,8 +60,10 @@ public class ProductsFragment extends Fragment {
     }
 
     private void fetchCategorias() {
-        // Inicializa Retrofit para la API de categorías
-        String baseUrl = "http://10.0.2.2:8000/api/";
+        //Ivette URL
+        String baseUrl = "http://192.168.0.50:8000/api/";
+        //URL
+        //String baseUrl = "http://10.0.2.2:8000/api/";
         CategoriaApi categoriaApi = RetrofitClient.getInstance(baseUrl).create(CategoriaApi.class);
 
         Call<List<Categoria>> call = categoriaApi.getCategorias();
@@ -83,7 +85,7 @@ public class ProductsFragment extends Fragment {
             @Override
             public void onFailure(Call<List<Categoria>> call, Throwable t) {
                 Log.e("API Error", t.getMessage());
-                Toast.makeText(getContext(), "Error al cargar las categorías: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.error_cargar_categorias, t.getMessage()), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -105,7 +107,17 @@ public class ProductsFragment extends Fragment {
         String selectedCategory = categorySelector.getSelectedItem() != null ? categorySelector.getSelectedItem().toString() : "";
 
         // Inicializa Retrofit
-        String baseUrl = "http://192.168.0.244:8000/api/";
+
+
+        String baseUrl = "http://192.168.0.50:8000/api/"; // Leo
+//        String baseUrl ="http://10.0.2.2:8000/api/";    // Marce
+//        String baseUrl ="http://192.168.100.26:8000/api/"; // Nahir
+//        String baseUrl ="http://192.168.0.244:8000/api/"; // Ivette
+//        String baseUrl = "http://192.168.0.53:8000/api/";  // Invitado
+
+
+
+
         BookApi bookApi = RetrofitClient.getInstance(baseUrl).create(BookApi.class);
 
         Call<List<Book>> call = bookApi.getBooks("", selectedCategory);
@@ -120,14 +132,14 @@ public class ProductsFragment extends Fragment {
                 } else {
                     // Manejo del error cuando la respuesta no es exitosa
                     Log.e("API Error", "Código de respuesta: " + response.code() + ", Mensaje: " + response.message());
-                    Toast.makeText(getContext(), "Error en la respuesta: " + response.message(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.error_respuesta, response.message()), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Book>> call, Throwable t) {
                 Log.e("API Error", "Error: " + t.getMessage());
-                Toast.makeText(getContext(), "Error al cargar los libros: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.error_cargar_libros, t.getMessage()), Toast.LENGTH_SHORT).show();
             }
         });
     }

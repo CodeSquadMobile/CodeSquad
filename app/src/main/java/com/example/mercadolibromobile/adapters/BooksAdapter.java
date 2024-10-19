@@ -41,16 +41,12 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
         holder.tvBookPrice.setText("Precio: $" + book.getPrecio());
         holder.tvBookStock.setText("En stock: " + book.getStock());
         holder.tvBookCategory.setText("Categoría: " + book.getCategoria());
-
-        // Cargar la portada del libro con Glide
         Glide.with(holder.itemView.getContext())
                 .load(book.getPortada())
                 .timeout(10000) // 10 segundos
                 .into(holder.ivBookCover);
 
-        // Manejar el clic en el botón de sinopsis
         holder.btnSinopsis.setOnClickListener(v -> {
-            // Crear una instancia del diálogo y pasar la descripción del libro
             BookSynopsisDialogFragment dialog = BookSynopsisDialogFragment.newInstance(book.getDescripcion());
             dialog.show(((FragmentActivity) holder.itemView.getContext()).getSupportFragmentManager(), "BookSynopsisDialogFragment");
         });
@@ -63,8 +59,8 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
 
     static class BookViewHolder extends RecyclerView.ViewHolder {
         ImageView ivBookCover;
-        TextView tvBookTitle, tvBookAuthor, tvBookPrice, tvBookStock, tvBookCategory; // Campos de texto para los detalles del libro
-        Button btnSinopsis; // Botón para mostrar la sinopsis
+        TextView tvBookTitle, tvBookAuthor, tvBookPrice, tvBookStock, tvBookCategory;
+        Button btnSinopsis;
 
         public BookViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -74,7 +70,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
             tvBookPrice = itemView.findViewById(R.id.tvBookPrice);
             tvBookStock = itemView.findViewById(R.id.tvBookStock);
             tvBookCategory = itemView.findViewById(R.id.tvBookCategory);
-            btnSinopsis = itemView.findViewById(R.id.btnSinopsis); // Asignar el botón para la sinopsis
+            btnSinopsis = itemView.findViewById(R.id.btnSinopsis);
         }
     }
 }

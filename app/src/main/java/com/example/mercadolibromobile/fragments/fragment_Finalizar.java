@@ -35,13 +35,12 @@ public class fragment_Finalizar extends Fragment {
     private TextView precioTotalTextView;
 
     public fragment_Finalizar() {
-        // Constructor público vacío requerido
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        listaLibros = obtenerLibrosDelCarrito(); // Llamamos la función aquí
+        listaLibros = obtenerLibrosDelCarrito();
     }
 
     @Override
@@ -52,10 +51,8 @@ public class fragment_Finalizar extends Fragment {
         finalizarButton = view.findViewById(R.id.button4);
         precioTotalTextView = view.findViewById(R.id.precioTotal);
 
-        // Inicializar precio total
         actualizarVistaLibros();
 
-        // Acción del botón finalizar
         finalizarButton.setOnClickListener(v -> {
             obtenerDirecciones();  // Llamada a la API de direcciones
         });
@@ -63,20 +60,17 @@ public class fragment_Finalizar extends Fragment {
         return view;
     }
 
-    // Método para actualizar la vista de los libros y el precio total
     private void actualizarVistaLibros() {
-        contenedorLibros.removeAllViews(); // Limpiar el contenedor antes de actualizarlo
+        contenedorLibros.removeAllViews();
         double precioTotal = 0.0;
 
         for (Libro libro : listaLibros) {
             precioTotal += agregarProducto(libro);
         }
 
-        // Mostrar precio total
         precioTotalTextView.setText("Total: $" + String.format("%.2f", precioTotal));
     }
 
-    // Función para agregar productos a la vista
     private double agregarProducto(Libro libro) {
         CardView cardView = new CardView(getContext());
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
@@ -89,7 +83,6 @@ public class fragment_Finalizar extends Fragment {
         cardView.setCardElevation(4);
         cardView.setCardBackgroundColor(getResources().getColor(R.color.beige_transparente));
 
-        // Crear layout horizontal para los datos
         LinearLayout layoutHorizontal = new LinearLayout(getContext());
         layoutHorizontal.setOrientation(LinearLayout.HORIZONTAL);
         layoutHorizontal.setLayoutParams(new LinearLayout.LayoutParams(
@@ -98,7 +91,7 @@ public class fragment_Finalizar extends Fragment {
         ));
         layoutHorizontal.setPadding(16, 16, 16, 16);
 
-        // Crear un layout para los detalles del libro (nombre, cantidad y precio)
+        // Detalles del libro (nombre, cantidad y precio)
         LinearLayout layoutDetalles = new LinearLayout(getContext());
         layoutDetalles.setOrientation(LinearLayout.VERTICAL);
         layoutDetalles.setLayoutParams(new LinearLayout.LayoutParams(
@@ -109,7 +102,7 @@ public class fragment_Finalizar extends Fragment {
 
         // Texto con información del libro
         TextView nombreView = new TextView(getContext());
-        nombreView.setText("Libro: " + libro.getNombre());
+        nombreView.setText(String.format("Libro: %s", libro.getNombre()));
         nombreView.setTextSize(16);
         nombreView.setTextColor(getResources().getColor(R.color.black));
 
@@ -118,7 +111,7 @@ public class fragment_Finalizar extends Fragment {
         cantidadView.setTextSize(16);
         cantidadView.setTextColor(getResources().getColor(R.color.black));
 
-        // Crear un layout horizontal para el precio y los iconos
+        // precio, iconos
         LinearLayout layoutPrecioIconos = new LinearLayout(getContext());
         layoutPrecioIconos.setOrientation(LinearLayout.HORIZONTAL);
         layoutPrecioIconos.setLayoutParams(new LinearLayout.LayoutParams(
@@ -135,7 +128,6 @@ public class fragment_Finalizar extends Fragment {
         // Añadir precio al layoutPrecioIconos
         layoutPrecioIconos.addView(precioView, new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 0.6f)); // Peso 0.6
 
-        // Crear un layout para los iconos y alinearlo a la derecha
         LinearLayout layoutIconos = new LinearLayout(getContext());
         layoutIconos.setOrientation(LinearLayout.HORIZONTAL);
         layoutIconos.setLayoutParams(new LinearLayout.LayoutParams(
@@ -145,7 +137,6 @@ public class fragment_Finalizar extends Fragment {
         ));
         layoutIconos.setGravity(Gravity.END); // Alinear los iconos al final
 
-        // Icono de sumar
         ImageView sumarIcon = new ImageView(getContext());
         sumarIcon.setImageResource(R.drawable.ic_sumar); // icono vector
         sumarIcon.setLayoutParams(new LinearLayout.LayoutParams(
@@ -159,7 +150,6 @@ public class fragment_Finalizar extends Fragment {
             actualizarPrecioTotal();
         });
 
-        // Icono de restar
         ImageView restarIcon = new ImageView(getContext());
         restarIcon.setImageResource(R.drawable.ic_restar); // icono de resta
         restarIcon.setLayoutParams(new LinearLayout.LayoutParams(
@@ -177,7 +167,6 @@ public class fragment_Finalizar extends Fragment {
             }
         });
 
-        // Icono de eliminar
         ImageView eliminarIcon = new ImageView(getContext());
         eliminarIcon.setImageResource(R.drawable.ic_borrar); // icono de borrar
         eliminarIcon.setLayoutParams(new LinearLayout.LayoutParams(
@@ -231,17 +220,32 @@ public class fragment_Finalizar extends Fragment {
         precioTotalTextView.setText("Total: $" + String.format("%.2f", precioTotal));
     }
 
-    // Retrofit para obtener direcciones
     private void obtenerDirecciones() {
+        // Definir las direcciones IP
+        String[] ipAddresses = {
+                "http://192.168.0.50:8000/api/", // Leo
+                "http://10.0.2.2:8000/api/",     // Marce
+                "http://192.168.100.26:8000/api/", // Nahir
+                "http://192.168.0.244:8000/api/", // Ivette
+                "http://192.168.0.53:8000/api/"  // Invitado
+        };
+
+        // Seleccionar la IP que deseas usar
+        String selectedIp = ipAddresses[0]; // Cambia el índice para seleccionar otra IP
+
+        // Inicializar Retrofit con la IP seleccionada
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.50:8000/api/direcciones/") // URL del backend
+                .baseUrl(selectedIp)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
+        // Crear la instancia de la API
         DirApi dirApi = retrofit.create(DirApi.class);
 
+        // Realizar la llamada para obtener las direcciones
         Call<List<Direccion>> call = dirApi.getDirecciones();
 
+        // Manejo de la respuesta de la llamada
         call.enqueue(new Callback<List<Direccion>>() {
             @Override
             public void onResponse(Call<List<Direccion>> call, Response<List<Direccion>> response) {
@@ -263,7 +267,7 @@ public class fragment_Finalizar extends Fragment {
     private void mostrarDirecciones(List<Direccion> direcciones) {
         if (direcciones != null && !direcciones.isEmpty()) {
             for (Direccion direccion : direcciones) {
-                // código para mostrar las direcciones
+                // Código para mostrar las direcciones
                 Toast.makeText(getActivity(), "Dirección: " + direccion.getCalle(), Toast.LENGTH_SHORT).show();
             }
         } else {
@@ -271,7 +275,7 @@ public class fragment_Finalizar extends Fragment {
         }
     }
 
-
+    // Clase Libro
     public class Libro {
         private String nombre;
         private int cantidad;
@@ -306,5 +310,4 @@ public class fragment_Finalizar extends Fragment {
         public void setPrecio(double precio) {
             this.precio = precio;
         }
-    }
-}
+    }}

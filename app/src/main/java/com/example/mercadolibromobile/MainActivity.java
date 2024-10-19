@@ -1,6 +1,7 @@
 package com.example.mercadolibromobile;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,6 +36,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.amarillo)); // Reemplaza "tu_color" con el color deseado
+        }
+
         // Añade logo al Toolbar
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -42,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportActionBar().setDisplayUseLogoEnabled(true);
 
             // Título de la app
-            getSupportActionBar().setTitle("Mercado Libro");
+            getSupportActionBar().setTitle(R.string.app_name);
 
         }
 
@@ -93,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .addToBackStack(null)
                     .commit();
         } else if (id == R.id.nav_logout) {
-            Toast.makeText(this, "Cerrando sesión...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.logout_message), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
