@@ -60,10 +60,7 @@ public class ProductsFragment extends Fragment {
     }
 
     private void fetchCategorias() {
-        //Ivette URL
         String baseUrl = "http://192.168.0.50:8000/api/";
-        //URL
-        //String baseUrl = "http://10.0.2.2:8000/api/";
         CategoriaApi categoriaApi = RetrofitClient.getInstance(baseUrl).create(CategoriaApi.class);
 
         Call<List<Categoria>> call = categoriaApi.getCategorias();
@@ -117,10 +114,9 @@ public class ProductsFragment extends Fragment {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Book> books = response.body();
                     // Configurar el adaptador con los libros
-                    booksAdapter = new BooksAdapter(books);
+                    booksAdapter = new BooksAdapter(books, getActivity());
                     recyclerViewBooks.setAdapter(booksAdapter);
                 } else {
-                    // Manejo del error cuando la respuesta no es exitosa
                     Log.e("API Error", "Código de respuesta: " + response.code() + ", Mensaje: " + response.message());
                     Toast.makeText(getContext(), getString(R.string.error_respuesta, response.message()), Toast.LENGTH_SHORT).show();
                 }
@@ -134,4 +130,3 @@ public class ProductsFragment extends Fragment {
         });
     }
 }
-

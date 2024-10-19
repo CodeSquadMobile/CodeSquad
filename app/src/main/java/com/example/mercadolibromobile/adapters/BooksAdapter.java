@@ -9,21 +9,22 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.mercadolibromobile.BookSynopsisDialogFragment; // Ajusta el paquete según sea necesario
 
-
-import com.example.mercadolibromobile.R;
-import com.example.mercadolibromobile.models.Book;
 import com.bumptech.glide.Glide;
+import com.example.mercadolibromobile.R;
+import com.example.mercadolibromobile.fragments.SinopsisFragment;
+import com.example.mercadolibromobile.models.Book;
 
 import java.util.List;
 
 public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHolder> {
 
     private final List<Book> books;
+    private final FragmentActivity activity;
 
-    public BooksAdapter(List<Book> books) {
+    public BooksAdapter(List<Book> books, FragmentActivity activity) {
         this.books = books;
+        this.activity = activity; // Inicializar el activity
     }
 
     @NonNull
@@ -41,14 +42,25 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
         holder.tvBookPrice.setText("Precio: $" + book.getPrecio());
         holder.tvBookStock.setText("En stock: " + book.getStock());
         holder.tvBookCategory.setText("Categoría: " + book.getCategoria());
+
         Glide.with(holder.itemView.getContext())
                 .load(book.getPortada())
                 .timeout(10000) // 10 segundos
                 .into(holder.ivBookCover);
 
         holder.btnSinopsis.setOnClickListener(v -> {
-            BookSynopsisDialogFragment dialog = BookSynopsisDialogFragment.newInstance(book.getDescripcion());
-            dialog.show(((FragmentActivity) holder.itemView.getContext()).getSupportFragmentManager(), "BookSynopsisDialogFragment");
+            //  SinopsisFragment
+            SinopsisFragment fragment = SinopsisFragment.newInstance(
+                    book.getTitulo(),
+                    book.getDescripcion(),
+                    book.getPortada()
+            );
+
+            activity.getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, fragment) // Cambia 'fragment_container' por el ID de tu contenedor de fragmentos
+                    .addToBackStack(null) //
+                    .commit();
         });
     }
 
