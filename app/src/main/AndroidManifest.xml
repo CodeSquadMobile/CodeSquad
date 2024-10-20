@@ -35,7 +35,9 @@ xmlns:tools="http://schemas.android.com/tools">
         android:theme="@style/Base.Theme.MercadoLibroMobile">
     </activity>
 
-    <activity android:name=".Politicas" />
+    <activity
+        android:name=".Politicas"
+        android:theme="@style/Base.Theme.MercadoLibroMobile"/>
 
     <meta-data
         android:name="preloaded_fonts"
