@@ -19,6 +19,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ContactFragment extends Fragment {
 
@@ -29,33 +30,19 @@ public class ContactFragment extends Fragment {
         // Inflar el layout personalizado (fragment_contact.xml)
         View view = inflater.inflate(R.layout.fragment_contact, container, false);
 
-
-        // Definir las direcciones IP
-        String[] ipAddresses = {
-                "http://192.168.0.50:8000/api/", //Leo
-                "http://10.0.2.2:8000/api/", //Marce
-                "http://192.168.100.26:8000/api/", //Nahir
-                "http://192.168.0.244:8000/api/", //Ivette
-                "http://192.168.0.53:8000/api/" //Invitado
-
-        };
-
-        // Seleccionar la IP que deseas usar
-        String selectedIp = ipAddresses[0]; // Cambia el índice para seleccionar otra IP
-
-        // Inicializar Retrofit con la IP seleccionada
+        // Inicializar Retrofit con la URL base fija
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(selectedIp)
+                .baseUrl("https://backend-mercado-libro-mobile.onrender.com/api/contacto/") // Coloca aquí la URL base de tu backend
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        contactApi = retrofit.create(ContactApi.class);
+        contactoApi = retrofit.create(ContactoApi.class);
 
         // Referencias a los elementos del layout
-        nombreEditText = view.findViewById(R.id.etNombre);
-        asuntoEditText = view.findViewById(R.id.etAsunto);
-        emailEditText = view.findViewById(R.id.etEmail);
-        consultaEditText = view.findViewById(R.id.etConsulta);
+        EditText nombreEditText = view.findViewById(R.id.etNombre);
+        EditText asuntoEditText = view.findViewById(R.id.etAsunto);
+        EditText emailEditText = view.findViewById(R.id.etEmail);
+        EditText consultaEditText = view.findViewById(R.id.etConsulta);
 
         Button enviarConsultaButton = view.findViewById(R.id.btnEnviarConsulta);
 
