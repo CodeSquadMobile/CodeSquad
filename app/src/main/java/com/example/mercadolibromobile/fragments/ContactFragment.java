@@ -32,7 +32,7 @@ public class ContactFragment extends Fragment {
 
         // Inicializar Retrofit con la URL base fija
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://backend-mercado-libro-mobile.onrender.com/api/contacto/") // Coloca aquí la URL base de tu backend
+                .baseUrl("https://backend-mercado-libro-mobile.onrender.com/api/") // Coloca aquí la URL base de tu backend
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
