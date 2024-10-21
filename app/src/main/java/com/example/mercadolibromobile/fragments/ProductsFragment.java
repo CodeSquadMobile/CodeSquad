@@ -5,7 +5,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
+import android.text.TextWatcher;
+import android.text.Editable;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,8 +48,26 @@ public class ProductsFragment extends Fragment {
         recyclerViewBooks = view.findViewById(R.id.recyclerViewBooks);
         recyclerViewBooks.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        // Inicializar el EditText de búsqueda
+        EditText searchBar = view.findViewById(R.id.search_bar);
+
         // Llamar a la API y obtener los libros
         fetchBooks();
+
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (booksAdapter != null) {
+                    booksAdapter.filter(s.toString());
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+            }});
 
         return view;
     }
