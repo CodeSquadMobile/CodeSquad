@@ -237,12 +237,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private abstract class SimpleTextWatcher implements TextWatcher {
-      @Override
-public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-}
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
 
-@Override
-public void afterTextChanged(Editable s) {
-}
+        @Override
+        public void afterTextChanged(Editable s) {
+        }
     }
-            }
+}
