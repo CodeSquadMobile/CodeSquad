@@ -1,5 +1,8 @@
 package com.example.mercadolibromobile.fragments;
 
+
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -11,11 +14,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.example.mercadolibromobile.R;
-import com.example.mercadolibromobile.api.DirApi;
+import com.example.mercadolibromobile.api.DireccionApi;
 import com.example.mercadolibromobile.models.Direccion;
 
 import java.util.ArrayList;
@@ -221,34 +225,33 @@ public class fragment_Finalizar extends Fragment {
     }
 
     private void obtenerDirecciones() {
-        // Definir las direcciones IP
-        String[] ipAddresses = {
-                "http://192.168.0.50:8000/api/", // Leo
-                "http://10.0.2.2:8000/api/",     // Marce
-                "http://192.168.100.26:8000/api/", // Nahir
-                "http://192.168.0.244:8000/api/", // Ivette
-                "http://192.168.0.53:8000/api/"  // Invitado
-        };
+        String apiUrl = "https://backend-mercado-libro-mobile.onrender.com/api/";
 
-        // Seleccionar la IP que deseas usar
-        String selectedIp = ipAddresses[0]; // Cambia el índice para seleccionar otra IP
+        // Recuperar el token de SharedPreferences
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("auth", getContext().MODE_PRIVATE);
+        String accessToken = sharedPreferences.getString("access_token", null);
 
-        // Inicializar Retrofit con la IP seleccionada
+        if (accessToken == null) {
+            Toast.makeText(getActivity(), "No se encontró un token de autenticación", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Inicializar Retrofit con la URL fija
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(selectedIp)
+                .baseUrl(apiUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         // Crear la instancia de la API
-        DirApi dirApi = retrofit.create(DirApi.class);
+        DireccionApi direccionApi = retrofit.create(DireccionApi.class);
 
-        // Realizar la llamada para obtener las direcciones
-        Call<List<Direccion>> call = dirApi.getDirecciones();
+        // Realizar la llamada para obtener las direcciones con el token en el encabezado
+        Call<List<Direccion>> call = direccionApi.getDirecciones("Bearer " + accessToken);
 
         // Manejo de la respuesta de la llamada
         call.enqueue(new Callback<List<Direccion>>() {
             @Override
-            public void onResponse(Call<List<Direccion>> call, Response<List<Direccion>> response) {
+            public void onResponse(@NonNull Call<List<Direccion>> call, @NonNull Response<List<Direccion>> response) {
                 if (response.isSuccessful()) {
                     List<Direccion> direcciones = response.body();
                     mostrarDirecciones(direcciones);
@@ -258,11 +261,13 @@ public class fragment_Finalizar extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<Direccion>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Direccion>> call, @NonNull Throwable t) {
                 Toast.makeText(getActivity(), "Fallo en la conexión", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
+
 
     private void mostrarDirecciones(List<Direccion> direcciones) {
         if (direcciones != null && !direcciones.isEmpty()) {

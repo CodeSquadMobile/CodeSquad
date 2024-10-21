@@ -2,20 +2,29 @@ package com.example.mercadolibromobile.models;
 
 public class Direccion {
     private int id;
-    private int usuario; // Dependiendo de cómo se maneje en el backend, puede que quieras cambiarlo a otro tipo
     private String calle;
-    private String numero;
+    private int numero;
     private String ciudad;
     private String provincia;
 
-    public Direccion(int id, int usuario, String calle, String numero, String ciudad, String provincia) {
-        this.id = id;
-        this.usuario = usuario;
+    // Constructor para crear una dirección sin ID (para agregar una nueva)
+    public Direccion(String calle, int numero, String ciudad, String provincia) {
         this.calle = calle;
         this.numero = numero;
         this.ciudad = ciudad;
         this.provincia = provincia;
     }
+
+    // Constructor para obtener una dirección existente (con ID)
+    public Direccion(int id, String calle, int numero, String ciudad, String provincia) {
+        this.id = id;
+        this.calle = calle;
+        this.numero = numero;
+        this.ciudad = ciudad;
+        this.provincia = provincia;
+    }
+
+    // Getters y Setters para cada campo
 
     public int getId() {
         return id;
@@ -23,14 +32,6 @@ public class Direccion {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(int usuario) {
-        this.usuario = usuario;
     }
 
     public String getCalle() {
@@ -41,11 +42,11 @@ public class Direccion {
         this.calle = calle;
     }
 
-    public String getNumero() {
+    public int getNumero() {
         return numero;
     }
 
-    public void setNumero(String numero) {
+    public void setNumero(int numero) {
         this.numero = numero;
     }
 
@@ -63,5 +64,11 @@ public class Direccion {
 
     public void setProvincia(String provincia) {
         this.provincia = provincia;
+    }
+
+    // Método toString para mostrar la dirección en la lista de manera legible
+    @Override
+    public String toString() {
+        return calle + " " + numero + ", " + ciudad + ", " + provincia;
     }
 }
