@@ -1,125 +1,68 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/manos"
-    android:padding="50dp">
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/fondo2"
+    tools:context=".fragments.fragment_Finalizar">
 
-
-    <!-- Título -->
-
-    <!-- Tabla de resumen de compra -->
-
-    <TextView
-        android:id="@+id/tvFinalizarCompra"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/crim"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="70dp"
-
-        android:layout_marginEnd="70dp"
-        android:text="@string/titTable"
-        android:textAlignment="center"
-        android:textSize="22sp"
-        android:textStyle="bold"/>
-
-    <TableLayout
-        android:id="@+id/tableOverview"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/crim"
-        android:layout_above="@+id/button4"
-        android:layout_below="@id/tvFinalizarCompra"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="303dp"
+        android:layout_marginBottom="16dp"
+        android:elevation="4dp"
+        app:cardCornerRadius="8dp"
+        app:cardUseCompatPadding="true">
 
-        android:stretchColumns="1">
-
-
-        <!-- Cabecera de la tabla -->
-        <TableRow>
-
-            <TextView
-                android:layout_width="60dp"
-                android:text="@string/FirCol"
-                android:textAlignment="center"
-                android:textColor="@color/crim"
-                android:textStyle="bold"
-                />
-
-            <TextView
-                android:layout_width="82dp"
-                android:text="@string/SecCol"
-                android:textAlignment="center"
-                android:textColor="@color/crim"
-                android:textStyle="bold" />
-
-            <TextView
-                android:text="@string/ThiCol"
-                android:textColor="@color/crim"
-                android:textAlignment="center"
-                android:textStyle="bold" />
-        </TableRow>
-
-        <!-- Aquí irían las filas de los libros (dinámicas en Java) -->
-        <!-- Ejemplos de filas -->
-        <TableRow
+        <LinearLayout
             android:layout_width="match_parent"
-            android:textColor="@color/crim"
-            android:layout_height="match_parent" />
-
-        <TableRow>
-
-            <TextView
-                android:layout_width="80dp"
-                android:textColor="@color/crim"
-                android:text="@string/Lib1"
-                android:textAlignment="center" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@drawable/borde_card">
 
             <TextView
-                android:layout_width="88dp"
-                android:text="@string/c1"
-                android:textColor="@color/crim"
-                android:textAlignment="center" />
+                android:id="@+id/tituloFinalizarCompra"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Finalizar compra"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginBottom="16dp" />
+
+            <LinearLayout
+                android:id="@+id/contenedorLibros"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="16dp" />
 
             <TextView
-                android:text="@string/Pre1"
-                android:textColor="@color/crim"
-                android:textAlignment="center" />
-        </TableRow>
+                android:id="@+id/precioTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total: $0.00"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="24dp" />
 
-        <TableRow>
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Finalizar compra"
+                android:textSize="18sp"
+                android:backgroundTint="@color/azul_electrico"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="8dp" />
 
-            <TextView
-                android:layout_width="80dp"
-                android:text="@string/Lib2"
-                android:textColor="@color/crim"
-                android:textAlignment="center" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:layout_width="82dp"
-                android:text="@string/c2"
-                android:textColor="@color/crim"
-                android:textAlignment="center" />
-
-            <TextView
-                android:text="@string/Pre2"
-                android:textColor="@color/crim"
-                android:textAlignment="center" />
-        </TableRow>
-
-    </TableLayout>
-
-    <Button
-        android:id="@+id/button4"
-        android:textColor="@color/crim"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/titTable"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp" />
-
-</RelativeLayout>
+</LinearLayout>

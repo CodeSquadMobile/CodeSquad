@@ -1,9 +1,9 @@
 package com.example.mercadolibromobile;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -14,6 +14,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.mercadolibromobile.fragments.ContactFragment;
+import com.example.mercadolibromobile.fragments.ProductsFragment;
+import com.example.mercadolibromobile.fragments.ProfileFragment;
+import com.example.mercadolibromobile.fragments.fragment_Finalizar;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -32,14 +36,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.amarillo)); // Reemplaza "tu_color" con el color deseado
+        }
+
         // Añade logo al Toolbar
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setLogo(R.drawable.logo);
+            getSupportActionBar().setLogo(R.drawable.logoremake);
             getSupportActionBar().setDisplayUseLogoEnabled(true);
 
             // Título de la app
-            getSupportActionBar().setTitle("Mercado Libro");
+            getSupportActionBar().setTitle(R.string.app_name);
 
         }
 
@@ -90,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .addToBackStack(null)
                     .commit();
         } else if (id == R.id.nav_logout) {
-            Toast.makeText(this, "Cerrando sesión...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.logout_message), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
@@ -110,7 +118,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_cart) {
-            // Aquí manejas lo que ocurre cuando el usuario hace clic en el carrito.
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, new fragment_Finalizar())
                     .addToBackStack(null)
