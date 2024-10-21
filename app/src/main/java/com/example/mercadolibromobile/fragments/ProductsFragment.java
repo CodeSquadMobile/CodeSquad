@@ -60,7 +60,7 @@ public class ProductsFragment extends Fragment {
     }
 
     private void fetchCategorias() {
-        String baseUrl = "http://192.168.0.50:8000/api/";
+        String baseUrl = "https://backend-mercado-libro-mobile.onrender.com/api/";
         CategoriaApi categoriaApi = RetrofitClient.getInstance(baseUrl).create(CategoriaApi.class);
 
         Call<List<Categoria>> call = categoriaApi.getCategorias();
@@ -104,7 +104,7 @@ public class ProductsFragment extends Fragment {
         String selectedCategory = categorySelector.getSelectedItem() != null ? categorySelector.getSelectedItem().toString() : "";
 
         // Inicializa Retrofit
-        String baseUrl = "http://192.168.0.50:8000/api/";
+        String baseUrl = "https://backend-mercado-libro-mobile.onrender.com/api/";
         BookApi bookApi = RetrofitClient.getInstance(baseUrl).create(BookApi.class);
 
         Call<List<Book>> call = bookApi.getBooks("", selectedCategory);
@@ -113,6 +113,15 @@ public class ProductsFragment extends Fragment {
             public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Book> books = response.body();
+
+                    // Asegúrate de que cada libro tiene un ID válido
+                    for (Book book : books) {
+                        Log.d("ProductsFragment", "ID del libro: " + book.getId()); // Log para verificar los IDs
+                    }
+
+                    // Log para ver el cuerpo completo de la respuesta
+                    Log.d("API Response", "Cuerpo de la respuesta: " + books.toString());
+
                     // Configurar el adaptador con los libros
                     booksAdapter = new BooksAdapter(books, getActivity());
                     recyclerViewBooks.setAdapter(booksAdapter);

@@ -28,15 +28,8 @@ public class LoginActivity extends AppCompatActivity {
     private Button loginButton, toggleModeButton;
     private ProgressBar progressBar;
     private boolean isLoginMode = true;
-    //  NAHIR IP
-    private final String BASE_URL = "http://192.168.100.26:8000/api/";
-    //Ivette URL
-    //private final String BASE_URL = "http://192.168.0.244:8000/api/";
-    //URL MARCELO EMULADOR
-    //private final String BASE_URL = "http://10.0.2.2:8000/api/";
+    private final String BASE_URL = "https://backend-mercado-libro-mobile.onrender.com/api/";
     private SharedPreferences sharedPreferences;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +62,6 @@ public class LoginActivity extends AppCompatActivity {
                 registerUser();
             }
         });
-
 
         usernameEditText.addTextChangedListener(new SimpleTextWatcher() {
             @Override
@@ -206,6 +198,11 @@ public class LoginActivity extends AppCompatActivity {
                 nameLayout.setError("Error de conexión");
             }
         });
+    }
+
+    // Método para obtener el token de acceso
+    public String getAccessToken() {
+        return sharedPreferences.getString("access_token", null);
     }
 
     // Clase auxiliar para simplificar el TextWatcher
