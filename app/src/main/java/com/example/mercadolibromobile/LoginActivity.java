@@ -2,6 +2,8 @@ package com.example.mercadolibromobile;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -63,9 +65,19 @@ public class LoginActivity extends AppCompatActivity {
         final Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         final Animation fadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
 
+        Button buttonPoliticas = findViewById(R.id.buttonpoli); // Asegúrate de que este ID coincida con el del layout
+
+        buttonPoliticas.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, Politicas.class);
+            startActivity(intent);
+        });
+
         toggleModeButton.setOnClickListener(v -> {
             toggleLoginMode(fadeIn, fadeOut);
+
+
         });
+
 
         loginButton.setOnClickListener(v -> {
             if (isLoginMode) {
@@ -163,7 +175,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<AuthModels.LoginResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<AuthModels.LoginResponse> call, @NonNull Throwable t) {
                 progressBar.setVisibility(View.GONE);
                 usernameLayout.setError("Error de conexión");
             }
@@ -206,7 +218,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<AuthModels.SignupResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<AuthModels.SignupResponse> call, @NonNull Throwable t) {
                 progressBar.setVisibility(View.GONE);
                 nameLayout.setError("Error de conexión");
             }
@@ -221,4 +233,6 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void afterTextChanged(Editable s) {}
     }
+
+
 }
