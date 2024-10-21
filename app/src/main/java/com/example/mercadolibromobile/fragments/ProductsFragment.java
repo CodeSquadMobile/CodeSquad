@@ -5,10 +5,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
-import android.text.TextWatcher;
-import android.text.Editable;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,23 +21,22 @@ import com.example.mercadolibromobile.adapters.BooksAdapter;
 import com.example.mercadolibromobile.api.BookApi;
 import com.example.mercadolibromobile.api.RetrofitClient;
 import com.example.mercadolibromobile.models.Book;
+import com.example.mercadolibromobile.models.Categoria;
+import com.example.mercadolibromobile.api.CategoriaApi;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-//       String baseUrl = "http://192.168.0.50:8000/api/"; // Leo
-//        String baseUrl ="http://10.0.2.2:8000/api/";    // Marce
-//        String baseUrl ="http://192.168.100.26:8000/api/"; // Nahir
-//        String baseUrl ="http://192.168.0.244:8000/api/"; // Ivette
-//        String baseUrl = "http://192.168.0.53:8000/api/";  // Invitado
-
 public class ProductsFragment extends Fragment {
 
     private RecyclerView recyclerViewBooks;
     private BooksAdapter booksAdapter;
+    private Spinner categorySelector;
+    private List<String> categoriasList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -48,54 +47,83 @@ public class ProductsFragment extends Fragment {
         recyclerViewBooks = view.findViewById(R.id.recyclerViewBooks);
         recyclerViewBooks.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Inicializar el EditText de búsqueda
-        EditText searchBar = view.findViewById(R.id.search_bar);
+        // Inicializar el Spinner de categorías
+        categorySelector = view.findViewById(R.id.category_selector);
+
+        // Llamar a la API y obtener las categorías
+        fetchCategorias();
 
         // Llamar a la API y obtener los libros
         fetchBooks();
 
-        searchBar.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (booksAdapter != null) {
-                    booksAdapter.filter(s.toString());
-                }
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-            }});
-
         return view;
     }
 
+    private void fetchCategorias() {
+        String baseUrl = "http://192.168.100.26:8000/api/";
+        CategoriaApi categoriaApi = RetrofitClient.getInstance(baseUrl).create(CategoriaApi.class);
+
+        Call<List<Categoria>> call = categoriaApi.getCategorias();
+        call.enqueue(new Callback<List<Categoria>>() {
+            @Override
+            public void onResponse(Call<List<Categoria>> call, Response<List<Categoria>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Categoria> categorias = response.body();
+                    for (Categoria categoria : categorias) {
+                        categoriasList.add(categoria.getNombreCategoria());
+                    }
+                    // Configurar el adaptador del Spinner
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, categoriasList);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    categorySelector.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Categoria>> call, Throwable t) {
+                Log.e("API Error", t.getMessage());
+                Toast.makeText(getContext(), getString(R.string.error_cargar_categorias, t.getMessage()), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Escuchar cambios en la selección de categoría
+        categorySelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                fetchBooks();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // No hacer nada
+            }
+        });
+    }
+
     private void fetchBooks() {
+        String selectedCategory = categorySelector.getSelectedItem() != null ? categorySelector.getSelectedItem().toString() : "";
+
         // Inicializa Retrofit
-        String baseUrl = "https://backend-mercado-libro-mobile.onrender.com/api/";
+        String baseUrl = "http://192.168.100.26:8000/api/";
         BookApi bookApi = RetrofitClient.getInstance(baseUrl).create(BookApi.class);
 
-        Call<List<Book>> call = bookApi.getBooks();
+        Call<List<Book>> call = bookApi.getBooks("", selectedCategory);
         call.enqueue(new Callback<List<Book>>() {
             @Override
             public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Book> books = response.body();
-                    // Configurar el adaptador con los libros
-                    booksAdapter = new BooksAdapter(books);
+                    // Inicializar el adaptador con los libros obtenidos
+                    booksAdapter = new BooksAdapter(response.body(), getActivity());
                     recyclerViewBooks.setAdapter(booksAdapter);
                 } else {
-                    // Manejo del error cuando la respuesta no es exitosa
-                    Log.e("API Error", "Código de respuesta: " + response.code() + ", Mensaje: " + response.message());
-                    Toast.makeText(getContext(), getString(R.string.error_respuesta, response.message()), Toast.LENGTH_SHORT).show();
+                    Log.e("API Error", "Error en la respuesta: " + response.code());
+                    Toast.makeText(getContext(), "Error al cargar libros. Código: " + response.code(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Book>> call, Throwable t) {
-                Log.e("API Error", "Error: " + t.getMessage());
+                Log.e("API Error", t.getMessage());
                 Toast.makeText(getContext(), getString(R.string.error_cargar_libros, t.getMessage()), Toast.LENGTH_SHORT).show();
             }
         });

@@ -2,13 +2,11 @@ package com.example.mercadolibromobile;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log; // log para testear login
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -23,6 +21,8 @@ import android.content.SharedPreferences;
 import com.example.mercadolibromobile.api.LoginApi;
 import com.example.mercadolibromobile.models.AuthModels;
 import com.example.mercadolibromobile.api.RetrofitClient;
+import com.auth0.android.jwt.JWT;  // la clase JWT para verificar expiracion
+import java.util.Date;
 
 public class LoginActivity extends AppCompatActivity {
     private TextInputLayout usernameLayout, passwordLayout, nameLayout;
@@ -30,20 +30,8 @@ public class LoginActivity extends AppCompatActivity {
     private Button loginButton, toggleModeButton;
     private ProgressBar progressBar;
     private boolean isLoginMode = true;
-//<<<<<<< marcelolunadallalasta
-
-    private final String BASE_URL = "https://backend-mercado-libro-mobile.onrender.com/api/";
-//=======
-    //  NAHIR IP
-//    private final String BASE_URL = "http://192.168.100.26:8000/api/";
-    //Ivette URL
-    //private final String BASE_URL = "http://192.168.0.244:8000/api/";
-    //URL MARCELO EMULADOR
-    //private final String BASE_URL = "http://10.0.2.2:8000/api/";
-//>>>>>>> develop
+    private final String BASE_URL = "http://192.168.100.26:8000/api/";
     private SharedPreferences sharedPreferences;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,19 +53,9 @@ public class LoginActivity extends AppCompatActivity {
         final Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         final Animation fadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
 
-        Button buttonPoliticas = findViewById(R.id.buttonpoli); // Asegúrate de que este ID coincida con el del layout
-
-        buttonPoliticas.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, Politicas.class);
-            startActivity(intent);
-        });
-
         toggleModeButton.setOnClickListener(v -> {
             toggleLoginMode(fadeIn, fadeOut);
-
-
         });
-
 
         loginButton.setOnClickListener(v -> {
             if (isLoginMode) {
@@ -86,7 +64,6 @@ public class LoginActivity extends AppCompatActivity {
                 registerUser();
             }
         });
-
 
         usernameEditText.addTextChangedListener(new SimpleTextWatcher() {
             @Override
@@ -124,7 +101,6 @@ public class LoginActivity extends AppCompatActivity {
             findViewById(R.id.textViewName).setVisibility(View.VISIBLE);
             findViewById(R.id.textViewName).startAnimation(fadeIn);
         }
-        // Limpia errores previos al cambiar de modo y valida el botón
         nameLayout.setError(null);
         usernameLayout.setError(null);
         passwordLayout.setError(null);
@@ -139,6 +115,8 @@ public class LoginActivity extends AppCompatActivity {
                 !TextUtils.isEmpty(username) && !TextUtils.isEmpty(password) :
                 !TextUtils.isEmpty(username) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(name);
         loginButton.setEnabled(isEnabled);
+
+        Log.d("LoginActivity", "Botón de login habilitado: " + isEnabled);
     }
 
     private void loginUser() {
@@ -154,17 +132,24 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<AuthModels.LoginResponse> call, Response<AuthModels.LoginResponse> response) {
                 progressBar.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
-                    // Guarda los tokens y el correo electrónico
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("access_token", response.body().getAccess());
                     editor.putString("refresh_token", response.body().getRefresh());
-                    editor.putString("user_email", email); // Guarda el correo electrónico
+                    editor.putString("user_email", email);
                     editor.apply();
 
-                    // Log para verificar los tokens
                     Log.d("LoginActivity", "Access Token: " + response.body().getAccess());
                     Log.d("LoginActivity", "Refresh Token: " + response.body().getRefresh());
-                    Log.d("LoginActivity", "User Email: " + email); // Log del email
+                    Log.d("LoginActivity", "User Email: " + email);
+
+                    Log.d("LoginActivity", "Tokens guardados: Access Token = " + sharedPreferences.getString("access_token", null) +
+                            ", Refresh Token = " + sharedPreferences.getString("refresh_token", null));
+
+                    if (isTokenExpired(response.body().getAccess())) {
+                        Log.d("LoginActivity", "El token ha expirado.");
+                    } else {
+                        Log.d("LoginActivity", "El token es válido.");
+                    }
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
@@ -175,11 +160,30 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(@NonNull Call<AuthModels.LoginResponse> call, @NonNull Throwable t) {
+            public void onFailure(Call<AuthModels.LoginResponse> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
                 usernameLayout.setError("Error de conexión");
+                Log.e("LoginActivity", "Error en la conexión: " + t.getMessage());
             }
         });
+    }
+
+    private boolean isTokenExpired(String token) {
+        try {
+            JWT jwt = new JWT(token);
+            Date expirationDate = jwt.getExpiresAt();
+            if (expirationDate != null) {
+                boolean isExpired = expirationDate.before(new Date());
+                Log.d("LoginActivity", "Fecha de expiración del token: " + expirationDate);
+                return isExpired;
+            } else {
+                Log.e("LoginActivity", "El token no contiene una fecha de expiración.");
+                return true;
+            }
+        } catch (Exception e) {
+            Log.e("LoginActivity", "Error al decodificar el token: " + e.getMessage());
+            return true;
+        }
     }
 
     private void registerUser() {
@@ -206,33 +210,39 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("access_token", response.body().getAccess());
                     editor.putString("refresh_token", response.body().getRefresh());
                     editor.apply();
+
                     Log.d("LoginActivity", "Access Token: " + response.body().getAccess());
                     Log.d("LoginActivity", "Refresh Token: " + response.body().getRefresh());
+
+                    if (isTokenExpired(response.body().getAccess())) {
+                        Log.d("LoginActivity", "El token ha expirado.");
+                    } else {
+                        Log.d("LoginActivity", "El token es válido.");
+                    }
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
-                    nameLayout.setError("Error en el registro");
+                    usernameLayout.setError("Error en el registro");
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<AuthModels.SignupResponse> call, @NonNull Throwable t) {
+            public void onFailure(Call<AuthModels.SignupResponse> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
-                nameLayout.setError("Error de conexión");
+                Log.e("LoginActivity", "Error en la conexión: " + t.getMessage());
             }
         });
     }
 
-    // Clase auxiliar para simplificar el TextWatcher
-    abstract class SimpleTextWatcher implements TextWatcher {
+    private abstract class SimpleTextWatcher implements TextWatcher {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
 
         @Override
-        public void afterTextChanged(Editable s) {}
+        public void afterTextChanged(Editable s) {
+        }
     }
-
-
 }
