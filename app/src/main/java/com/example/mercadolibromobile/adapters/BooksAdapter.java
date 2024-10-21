@@ -37,10 +37,8 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
     public void onBindViewHolder(@NonNull BookViewHolder holder, int position) {
         Book book = books.get(position);
         holder.tvBookTitle.setText(book.getTitulo());
-        holder.tvBookAuthor.setText(book.getAutor());
         holder.tvBookPrice.setText("Precio: $" + book.getPrecio());
         holder.tvBookStock.setText("En stock: " + book.getStock());
-        holder.tvBookCategory.setText("Categoría: " + book.getCategoria());
         Glide.with(holder.itemView.getContext())
                 .load(book.getPortada())
                 .timeout(10000) // 10 segundos
@@ -59,17 +57,15 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
 
     static class BookViewHolder extends RecyclerView.ViewHolder {
         ImageView ivBookCover;
-        TextView tvBookTitle, tvBookAuthor, tvBookPrice, tvBookStock, tvBookCategory;
+        TextView tvBookTitle, tvBookPrice, tvBookStock;
         Button btnSinopsis;
 
         public BookViewHolder(@NonNull View itemView) {
             super(itemView);
             ivBookCover = itemView.findViewById(R.id.ivBookCover);
             tvBookTitle = itemView.findViewById(R.id.tvBookTitle);
-            tvBookAuthor = itemView.findViewById(R.id.tvBookAuthor);
             tvBookPrice = itemView.findViewById(R.id.tvBookPrice);
             tvBookStock = itemView.findViewById(R.id.tvBookStock);
-            tvBookCategory = itemView.findViewById(R.id.tvBookCategory);
             btnSinopsis = itemView.findViewById(R.id.btnSinopsis);
         }
     }

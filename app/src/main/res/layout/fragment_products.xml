@@ -17,19 +17,10 @@
         android:drawableStart="@android:drawable/ic_menu_search"
         android:textColorHint="#72696A" />
 
-    <!-- Selector de categorías -->
-    <Spinner
-        android:id="@+id/category_selector"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@android:drawable/editbox_background"
-        android:padding="8dp"
-        android:layout_margin="8dp"
-        android:entries="@array/categorias_random" />
-
+    <!-- RecyclerView para mostrar la lista de libros -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewBooks"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
