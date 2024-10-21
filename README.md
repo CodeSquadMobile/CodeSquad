@@ -76,7 +76,5 @@ Este proyecto está desarrollado bajo la organización en GitHub siguiendo el fl
 **Equipo de Desarrollo:**  👥  
 🧑 Ñañez Nahir Nicolás  
 🧑 Luna Dalla Lasta Marcelo Javier  
-👩 Victoria Ayala  
 🧑 Plaza Leonardo  
 👩 Nobiltá Ivette Jael  
-🧑 De La Fuente Luciano  
