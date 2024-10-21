@@ -46,7 +46,8 @@ dependencies {
 
     // RecyclerView
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
-
+    // Auth0 JWT Decode
+    implementation 'com.auth0.android:jwtdecode:2.0.0'
     // Testing
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit

@@ -3,26 +3,33 @@ package com.example.mercadolibromobile.models;
 import com.google.gson.annotations.SerializedName;
 
 public class Book {
-    @SerializedName("id")  // Mapeo del campo 'id'
-    private int id;
+    @SerializedName("id_libro")  // Mapeo del campo 'id_libro'
+    private int idLibro;  // Campo renombrado a idLibro
+
     @SerializedName("titulo")  // Mapeo del campo 'titulo'
     private String titulo;
+
     @SerializedName("autor")  // Mapeo del campo 'autor'
     private String autor;
+
     @SerializedName("categoria")  // Mapeo del campo 'categoria'
     private String categoria;
+
     @SerializedName("precio")  // Mapeo del campo 'precio'
     private double precio;
+
     @SerializedName("stock")  // Mapeo del campo 'stock'
     private int stock;
+
     @SerializedName("portada")  // Mapeo del campo 'portada'
     private String portada;
+
     @SerializedName("descripcion")  // Mapeo del campo 'descripcion'
     private String descripcion;
 
     // Constructor
-    public Book(int id, String titulo, String autor, String categoria, double precio, int stock, String portada, String descripcion) {
-        this.id = id;
+    public Book(int idLibro, String titulo, String autor, String categoria, double precio, int stock, String portada, String descripcion) {
+        this.idLibro = idLibro;  // Inicializar el nuevo campo
         this.titulo = titulo;
         this.autor = autor;
         this.categoria = categoria;
@@ -33,12 +40,12 @@ public class Book {
     }
 
     // Getters y Setters
-    public int getId() {
-        return id;
+    public int getIdLibro() {  // Nuevo getter para idLibro
+        return idLibro;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdLibro(int idLibro) {  // Nuevo setter para idLibro
+        this.idLibro = idLibro;
     }
 
     public String getTitulo() {
@@ -100,7 +107,7 @@ public class Book {
     @Override
     public String toString() {
         return "Book{" +
-                "id=" + id +
+                "idLibro=" + idLibro +
                 ", titulo='" + titulo + '\'' +
                 ", autor='" + autor + '\'' +
                 ", categoria='" + categoria + '\'' +

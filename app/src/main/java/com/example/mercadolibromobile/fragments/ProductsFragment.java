@@ -60,7 +60,7 @@ public class ProductsFragment extends Fragment {
     }
 
     private void fetchCategorias() {
-        String baseUrl = "https://backend-mercado-libro-mobile.onrender.com/api/";
+        String baseUrl = "http://192.168.100.26:8000/api/";
         CategoriaApi categoriaApi = RetrofitClient.getInstance(baseUrl).create(CategoriaApi.class);
 
         Call<List<Categoria>> call = categoriaApi.getCategorias();
@@ -104,7 +104,7 @@ public class ProductsFragment extends Fragment {
         String selectedCategory = categorySelector.getSelectedItem() != null ? categorySelector.getSelectedItem().toString() : "";
 
         // Inicializa Retrofit
-        String baseUrl = "https://backend-mercado-libro-mobile.onrender.com/api/";
+        String baseUrl = "http://192.168.100.26:8000/api/";
         BookApi bookApi = RetrofitClient.getInstance(baseUrl).create(BookApi.class);
 
         Call<List<Book>> call = bookApi.getBooks("", selectedCategory);
@@ -112,28 +112,18 @@ public class ProductsFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Book> books = response.body();
-
-                    // Asegúrate de que cada libro tiene un ID válido
-                    for (Book book : books) {
-                        Log.d("ProductsFragment", "ID del libro: " + book.getId()); // Log para verificar los IDs
-                    }
-
-                    // Log para ver el cuerpo completo de la respuesta
-                    Log.d("API Response", "Cuerpo de la respuesta: " + books.toString());
-
-                    // Configurar el adaptador con los libros
-                    booksAdapter = new BooksAdapter(books, getActivity());
+                    // Inicializar el adaptador con los libros obtenidos
+                    booksAdapter = new BooksAdapter(response.body(), getActivity());
                     recyclerViewBooks.setAdapter(booksAdapter);
                 } else {
-                    Log.e("API Error", "Código de respuesta: " + response.code() + ", Mensaje: " + response.message());
-                    Toast.makeText(getContext(), getString(R.string.error_respuesta, response.message()), Toast.LENGTH_SHORT).show();
+                    Log.e("API Error", "Error en la respuesta: " + response.code());
+                    Toast.makeText(getContext(), "Error al cargar libros. Código: " + response.code(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Book>> call, Throwable t) {
-                Log.e("API Error", "Error: " + t.getMessage());
+                Log.e("API Error", t.getMessage());
                 Toast.makeText(getContext(), getString(R.string.error_cargar_libros, t.getMessage()), Toast.LENGTH_SHORT).show();
             }
         });

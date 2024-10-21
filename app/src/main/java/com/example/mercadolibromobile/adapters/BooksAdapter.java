@@ -33,7 +33,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
 
     private final List<Book> books;
     private final FragmentActivity activity;
-    private static final String BASE_URL = "https://backend-mercado-libro-mobile.onrender.com/api/";
+    private static final String BASE_URL = "http://192.168.100.26:8000/api/";
 
     public BooksAdapter(List<Book> books, FragmentActivity activity) {
         this.books = books;
@@ -50,6 +50,13 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
     @Override
     public void onBindViewHolder(@NonNull BookViewHolder holder, int position) {
         Book book = books.get(position);
+        // Logs para verificar los datos del libro
+        Log.d("BooksAdapter", "ID del libro: " + book.getIdLibro());
+        Log.d("BooksAdapter", "Título del libro: " + book.getTitulo());
+        Log.d("BooksAdapter", "Autor del libro: " + book.getAutor());
+        Log.d("BooksAdapter", "Precio del libro: " + book.getPrecio());
+        Log.d("BooksAdapter", "Stock del libro: " + book.getStock());
+        Log.d("BooksAdapter", "Categoría del libro: " + book.getCategoria());
 
         holder.tvBookTitle.setText(book.getTitulo());
         holder.tvBookAuthor.setText(book.getAutor());
@@ -78,8 +85,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
 
         // Botón para comprar (Agregar al carrito)
         holder.btnComprar.setOnClickListener(v -> {
-            // Ahora pasamos el id del libro, la cantidad (1) y el precio del libro
-            ItemCarrito itemCarrito = new ItemCarrito(book.getId(), 1, book.getPrecio()); // Cantidad predeterminada 1
+            ItemCarrito itemCarrito = new ItemCarrito(book.getIdLibro(), 1, book.getPrecio());
             agregarAlCarrito(itemCarrito);
         });
     }
@@ -108,15 +114,14 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
     }
 
     private void agregarAlCarrito(ItemCarrito itemCarrito) {
-        // Obtener el token de acceso desde las preferencias compartidas
-        SharedPreferences prefs = activity.getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
-        String token = prefs.getString("access_token", null);
+        // Obtener el token de acceso
+        String token = getAccessToken();
 
-        // Agregar log para ver el token
-        Log.d("BooksAdapter", "Token de acceso obtenido: " + token);
+        // Agregar log para verificar el token
+        Log.d("BooksAdapter", "Token de acceso obtenido adaptador book: " + token);
 
         if (token == null) {
-            Toast.makeText(activity, "Token no encontrado", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, "Token no encontrado. Por favor, inicia sesión nuevamente.", Toast.LENGTH_SHORT).show();
             return; // Salir si no hay token
         }
 
@@ -135,17 +140,23 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
                 if (response.isSuccessful()) {
                     Toast.makeText(activity, "Libro agregado al carrito", Toast.LENGTH_SHORT).show();
                 } else {
-                    // Agregar log para ver el código de respuesta y el cuerpo de error
                     Log.e("BooksAdapter", "Error al agregar al carrito. Código de respuesta: " + response.code() +
                             ", Cuerpo de error: " + response.errorBody());
-                    Toast.makeText(activity, "Error al agregar al carrito", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, "Error al agregar al carrito. Código: " + response.code(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ItemCarrito> call, Throwable t) {
+                Log.e("BooksAdapter", "Fallo la conexión: " + t.getMessage());
                 Toast.makeText(activity, "Fallo la conexión", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    // Método para obtener el token de acceso
+    private String getAccessToken() {
+        SharedPreferences prefs = activity.getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+        return prefs.getString("access_token", null);
     }
 }
