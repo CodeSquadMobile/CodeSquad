@@ -21,7 +21,7 @@ import com.example.mercadolibromobile.api.CarritoApi;
 import com.example.mercadolibromobile.api.RetrofitClient;
 import com.example.mercadolibromobile.fragments.SinopsisFragment;
 import com.example.mercadolibromobile.models.Book;
-import com.example.mercadolibromobile.models.ItemCarrito;
+import com.example.mercadolibromobile.models.ItemCarrito; // Asegúrate de que esta clase siga existiendo.
 
 import java.util.List;
 
@@ -33,7 +33,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
 
     private final List<Book> books;
     private final FragmentActivity activity;
-    private static final String BASE_URL = "http://192.168.100.26:8000/api/";
+    private static final String BASE_URL = "https://backend-mercado-libro-mobile.onrender.com/api/";
 
     public BooksAdapter(List<Book> books, FragmentActivity activity) {
         this.books = books;
@@ -53,16 +53,12 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
         // Logs para verificar los datos del libro
         Log.d("BooksAdapter", "ID del libro: " + book.getIdLibro());
         Log.d("BooksAdapter", "Título del libro: " + book.getTitulo());
-        Log.d("BooksAdapter", "Autor del libro: " + book.getAutor());
         Log.d("BooksAdapter", "Precio del libro: " + book.getPrecio());
         Log.d("BooksAdapter", "Stock del libro: " + book.getStock());
-        Log.d("BooksAdapter", "Categoría del libro: " + book.getCategoria());
 
         holder.tvBookTitle.setText(book.getTitulo());
-        holder.tvBookAuthor.setText(book.getAutor());
         holder.tvBookPrice.setText("Precio: $" + book.getPrecio());
         holder.tvBookStock.setText("En stock: " + book.getStock());
-        holder.tvBookCategory.setText("Categoría: " + book.getCategoria());
 
         Glide.with(holder.itemView.getContext())
                 .load(book.getPortada())
@@ -85,8 +81,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
 
         // Botón para comprar (Agregar al carrito)
         holder.btnComprar.setOnClickListener(v -> {
-            ItemCarrito itemCarrito = new ItemCarrito(book.getIdLibro(), 1, book.getPrecio());
-            agregarAlCarrito(itemCarrito);
+            agregarAlCarrito(book); // Pasar el libro directamente
         });
     }
 
@@ -97,23 +92,21 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
 
     static class BookViewHolder extends RecyclerView.ViewHolder {
         ImageView ivBookCover;
-        TextView tvBookTitle, tvBookAuthor, tvBookPrice, tvBookStock, tvBookCategory;
+        TextView tvBookTitle, tvBookPrice, tvBookStock;
         Button btnSinopsis, btnComprar;
 
         public BookViewHolder(@NonNull View itemView) {
             super(itemView);
             ivBookCover = itemView.findViewById(R.id.ivBookCover);
             tvBookTitle = itemView.findViewById(R.id.tvBookTitle);
-            tvBookAuthor = itemView.findViewById(R.id.tvBookAuthor);
             tvBookPrice = itemView.findViewById(R.id.tvBookPrice);
             tvBookStock = itemView.findViewById(R.id.tvBookStock);
-            tvBookCategory = itemView.findViewById(R.id.tvBookCategory);
             btnSinopsis = itemView.findViewById(R.id.btnSinopsis);
             btnComprar = itemView.findViewById(R.id.btnComprar);
         }
     }
 
-    private void agregarAlCarrito(ItemCarrito itemCarrito) {
+    private void agregarAlCarrito(Book book) {
         // Obtener el token de acceso
         String token = getAccessToken();
 
@@ -124,6 +117,9 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
             Toast.makeText(activity, "Token no encontrado. Por favor, inicia sesión nuevamente.", Toast.LENGTH_SHORT).show();
             return; // Salir si no hay token
         }
+
+        // Crear un objeto ItemCarrito solo con los datos necesarios (ID, cantidad y precio)
+        ItemCarrito itemCarrito = new ItemCarrito(book.getIdLibro(), 1, book.getPrecio());
 
         // Log para verificar el contenido del itemCarrito
         Log.d("BooksAdapter", "Agregando al carrito: ID libro: " + itemCarrito.getId_libro() +
