@@ -33,7 +33,7 @@ import retrofit2.Response;
 public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHolder> {
 
     private final List<Book> books;
-    private final List<Book> booksListFull; // Copia completa para filtrado
+    private final List<Book> booksListFull;
     private final FragmentActivity activity;
     private static final String BASE_URL = "https://backend-mercado-libro-mobile.onrender.com/api/";
     private static final String TAG = "BooksAdapter";
@@ -41,7 +41,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
     public BooksAdapter(List<Book> books, FragmentActivity activity) {
         this.books = books;
         this.activity = activity;
-        this.booksListFull = new ArrayList<>(books); // Hacemos una copia de la lista original
+        this.booksListFull = new ArrayList<>(books); // copia de la lista original
     }
 
     @NonNull
@@ -108,7 +108,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
                 }
             }
         }
-        notifyDataSetChanged();  // Notificamos al adaptador que los datos han cambiado
+        notifyDataSetChanged();  // actualizar al adaptador que los datos han cambiado
     }
 
     static class BookViewHolder extends RecyclerView.ViewHolder {
