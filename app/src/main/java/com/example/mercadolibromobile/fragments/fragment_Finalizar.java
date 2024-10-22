@@ -3,7 +3,7 @@ package com.example.mercadolibromobile.fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log; // Importa Log
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +17,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mercadolibromobile.R;
 import com.example.mercadolibromobile.adapters.CarritoAdapter;
+import com.example.mercadolibromobile.api.BookApi;
 import com.example.mercadolibromobile.api.CarritoApi;
 import com.example.mercadolibromobile.api.RetrofitClient;
 import com.example.mercadolibromobile.models.ItemCarrito;
+import com.example.mercadolibromobile.models.Book;
 
 import java.util.List;
 
@@ -31,8 +33,8 @@ public class fragment_Finalizar extends Fragment {
 
     private RecyclerView recyclerViewCarrito;
     private CarritoAdapter carritoAdapter;
-    private static final String BASE_URL = "https://192.168.100.26:8000/api/";
-    private static final String TAG = "Fragment_Finalizar"; // Etiqueta para los logs
+    private static final String BASE_URL = "https://backend-mercado-libro-mobile.onrender.com/api/";
+    private static final String TAG = "Fragment_Finalizar";
 
     @Nullable
     @Override
@@ -52,7 +54,6 @@ public class fragment_Finalizar extends Fragment {
         SharedPreferences prefs = getActivity().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
         String token = prefs.getString("access_token", null);
 
-        // Log para verificar el token
         Log.d(TAG, "Token recibido: " + token);
 
         if (token == null) {
@@ -71,17 +72,20 @@ public class fragment_Finalizar extends Fragment {
             public void onResponse(Call<List<ItemCarrito>> call, Response<List<ItemCarrito>> response) {
                 if (response.isSuccessful()) {
                     List<ItemCarrito> items = response.body();
-                    carritoAdapter = new CarritoAdapter(items);
-                    recyclerViewCarrito.setAdapter(carritoAdapter);
-                    Log.d(TAG, "Carrito cargado exitosamente con " + items.size() + " items.");
+                    if (items != null) {
+                        // Aquí obtenemos los libros del carrito
+                        obtenerListaLibros(items);
+                    } else {
+                        Log.e(TAG, "Respuesta del carrito es null.");
+                        Toast.makeText(getContext(), "Error al cargar el carrito: respuesta vacía.", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
+                    Log.e(TAG, "Error en la respuesta: " + response.code() + " - " + response.message());
                     if (response.code() == 403 || response.code() == 401) {
-                        clearSharedPreferences();
                         Toast.makeText(getContext(), "Acceso denegado. Inicia sesión nuevamente.", Toast.LENGTH_SHORT).show();
                         Log.e(TAG, "Error " + response.code() + ": Acceso denegado.");
                     } else {
                         Toast.makeText(getContext(), "Error al cargar el carrito", Toast.LENGTH_SHORT).show();
-                        Log.e(TAG, "Error en la respuesta: " + response.code() + " - " + response.message());
                     }
                 }
             }
@@ -94,11 +98,36 @@ public class fragment_Finalizar extends Fragment {
         });
     }
 
-    private void clearSharedPreferences() {
-        SharedPreferences prefs = getActivity().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.clear();
-        editor.apply();
-        Log.d(TAG, "SharedPreferences limpiados.");
+    // Método para obtener la lista de libros
+    private void obtenerListaLibros(List<ItemCarrito> itemsCarrito) {
+        BookApi bookApi = RetrofitClient.getInstance(BASE_URL).create(BookApi.class);
+        Call<List<Book>> callLibros = bookApi.getBooks(); // Obtener todos los libros
+
+        callLibros.enqueue(new Callback<List<Book>>() {
+            @Override
+            public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {
+                if (response.isSuccessful()) {
+                    List<Book> libros = response.body();
+                    if (libros != null) {
+                        // Iniciar el adaptador con los datos del carrito y libros
+                        carritoAdapter = new CarritoAdapter(itemsCarrito, libros);
+                        recyclerViewCarrito.setAdapter(carritoAdapter);
+                        Log.d(TAG, "Carrito cargado exitosamente con " + itemsCarrito.size() + " items.");
+                    } else {
+                        Log.e(TAG, "Respuesta de libros es null.");
+                        Toast.makeText(getContext(), "Error al cargar los libros: respuesta vacía.", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Log.e(TAG, "Error en la respuesta de libros: " + response.code() + " - " + response.message());
+                    Toast.makeText(getContext(), "Error al cargar los libros", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Book>> call, Throwable t) {
+                Toast.makeText(getContext(), "Error de conexión al cargar libros", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "Error de conexión: " + t.getMessage());
+            }
+        });
     }
 }

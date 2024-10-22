@@ -1,19 +1,15 @@
 package com.example.mercadolibromobile.models;
 
-import com.google.gson.annotations.SerializedName;
-
 public class ItemCarrito {
-    @SerializedName("id_libro")  // Mapeo del campo 'id_libro'
     private int id_libro;  // ID del libro
-    @SerializedName("cantidad")  // Mapeo del campo 'cantidad'
     private int cantidad;
-    @SerializedName("precio")  // Mapeo del campo 'precio'
-    private double precio; // Nuevo campo para almacenar el precio del libro
+    private double precio;  // Agregar precio
 
-    public ItemCarrito(int id_libro, int cantidad, double precio) {  // Modificamos el constructor
+    // Constructor
+    public ItemCarrito(int id_libro, int cantidad, double precio) {
         this.id_libro = id_libro;
         this.cantidad = cantidad;
-        this.precio = precio;
+        this.precio = precio;  // Asignar el precio al constructor
     }
 
     // Getters y setters

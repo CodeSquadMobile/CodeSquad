@@ -29,7 +29,7 @@ public class Book {
 
     // Constructor
     public Book(int idLibro, String titulo, String autor, String categoria, double precio, int stock, String portada, String descripcion) {
-        this.idLibro = idLibro;  // Inicializar el nuevo campo
+        this.idLibro = idLibro;
         this.titulo = titulo;
         this.autor = autor;
         this.categoria = categoria;
@@ -40,11 +40,11 @@ public class Book {
     }
 
     // Getters y Setters
-    public int getIdLibro() {  // Nuevo getter para idLibro
+    public int getIdLibro() {
         return idLibro;
     }
 
-    public void setIdLibro(int idLibro) {  // Nuevo setter para idLibro
+    public void setIdLibro(int idLibro) {
         this.idLibro = idLibro;
     }
 

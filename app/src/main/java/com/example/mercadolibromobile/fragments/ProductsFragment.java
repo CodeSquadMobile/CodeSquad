@@ -13,6 +13,7 @@ import android.text.Editable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,21 +29,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-//       String baseUrl = "http://192.168.0.50:8000/api/"; // Leo
-//        String baseUrl ="http://10.0.2.2:8000/api/";    // Marce
-//        String baseUrl ="http://192.168.100.26:8000/api/"; // Nahir
-//        String baseUrl ="http://192.168.0.244:8000/api/"; // Ivette
-//        String baseUrl = "http://192.168.0.53:8000/api/";  // Invitado
-
 public class ProductsFragment extends Fragment {
 
     private RecyclerView recyclerViewBooks;
     private BooksAdapter booksAdapter;
+    private FragmentActivity activity;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_products, container, false);
+        activity = getActivity(); // Obtener la actividad actual
 
         // Inicializar el RecyclerView
         recyclerViewBooks = view.findViewById(R.id.recyclerViewBooks);
@@ -65,9 +62,11 @@ public class ProductsFragment extends Fragment {
                     booksAdapter.filter(s.toString());
                 }
             }
+
             @Override
             public void afterTextChanged(Editable s) {
-            }});
+            }
+        });
 
         return view;
     }
@@ -84,7 +83,7 @@ public class ProductsFragment extends Fragment {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Book> books = response.body();
                     // Configurar el adaptador con los libros
-                    booksAdapter = new BooksAdapter(books);
+                    booksAdapter = new BooksAdapter(books, activity); // Pasar la actividad al adaptador
                     recyclerViewBooks.setAdapter(booksAdapter);
                 } else {
                     // Manejo del error cuando la respuesta no es exitosa
