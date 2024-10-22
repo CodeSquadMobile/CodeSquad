@@ -8,14 +8,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.mercadolibromobile.R;
-import com.example.mercadolibromobile.api.ContactApi;
+import com.example.mercadolibromobile.api.ContactoApi;
+import com.example.mercadolibromobile.api.RetrofitClient;
 import com.example.mercadolibromobile.models.Contacto;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,40 +23,37 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ContactFragment extends Fragment {
 
-    private ContactApi contactApi;
-    private EditText nombreEditText, asuntoEditText, emailEditText, consultaEditText;
+    private ContactoApi contactoApi;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflar el layout personalizado (activity_contacto.xml)
+        // Inflar el layout personalizado (fragment_contact.xml)
         View view = inflater.inflate(R.layout.fragment_contact, container, false);
 
-        // Inicializar Retrofit
+        // Inicializar Retrofit con la URL base fija
         Retrofit retrofit = new Retrofit.Builder()
-                //Ivette URL
-                .baseUrl("http://192.168.0.244:8000/api/contacto/")
-                //URL
-                //.baseUrl("http://10.0.2.2:8000/api/contacto/")
+                .baseUrl("https://backend-mercado-libro-mobile.onrender.com/api/") // Coloca aquí la URL base de tu backend
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        contactApi = retrofit.create(ContactApi.class);
+        contactoApi = retrofit.create(ContactoApi.class);
 
         // Referencias a los elementos del layout
-        nombreEditText = view.findViewById(R.id.etNombre);
-        asuntoEditText = view.findViewById(R.id.etAsunto);
-        emailEditText = view.findViewById(R.id.etEmail);
-        consultaEditText = view.findViewById(R.id.etConsulta);
+        EditText nombreEditText = view.findViewById(R.id.etNombre);
+        EditText asuntoEditText = view.findViewById(R.id.etAsunto);
+        EditText emailEditText = view.findViewById(R.id.etEmail);
+        EditText consultaEditText = view.findViewById(R.id.etConsulta);
+
         Button enviarConsultaButton = view.findViewById(R.id.btnEnviarConsulta);
 
-        // Establecer comportamiento del botón "Enviar consulta"
+        // Establecer el comportamiento del botón "Enviar consulta"
         enviarConsultaButton.setOnClickListener(v -> {
             String nombre = nombreEditText.getText().toString().trim();
             String asunto = asuntoEditText.getText().toString().trim();
             String email = emailEditText.getText().toString().trim();
             String consulta = consultaEditText.getText().toString().trim();
 
-            // Validación
+            // Validación: los campos no deben estar vacíos
             if (asunto.isEmpty()) {
                 asuntoEditText.setError("Por favor, escribe el asunto.");
                 asuntoEditText.requestFocus();
@@ -75,9 +70,11 @@ public class ContactFragment extends Fragment {
                 consultaEditText.setError("La consulta debe tener al menos 10 caracteres.");
                 consultaEditText.requestFocus();
             } else {
-                // Crear un nuevo contacto
-                Contacto nuevoContacto = new Contacto(nombre, email, asunto, consulta);
-                enviarConsulta(nuevoContacto);
+                // Crear el objeto Contacto con los datos ingresados
+                Contacto contacto = new Contacto(nombre, email, asunto, consulta);
+
+                // Enviar la consulta al servidor utilizando contactoApi
+                enviarConsulta(contacto);
             }
         });
 
@@ -85,51 +82,22 @@ public class ContactFragment extends Fragment {
     }
 
     private void enviarConsulta(Contacto contacto) {
-        Call<Contacto> call = contactApi.crearContacto(contacto);
-        call.enqueue(new Callback<Contacto>() {
+        Call<Void> call = contactoApi.enviarConsulta(contacto);
+
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(@NonNull Call<Contacto> call, @NonNull Response<Contacto> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(getActivity(), "Consulta enviada con éxito.", Toast.LENGTH_SHORT).show();
-                    limpiarCampos();
+                    Toast.makeText(getActivity(), "Consulta enviada con éxito", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getActivity(), "Error al enviar la consulta.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Error al enviar la consulta", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<Contacto> call, @NonNull Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
                 Toast.makeText(getActivity(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    // Método para obtener contactos, si fuera necesario
-    private void obtenerContactos() {
-        Call<List<Contacto>> call = contactApi.obtenerContactos();
-        call.enqueue(new Callback<List<Contacto>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<Contacto>> call, @NonNull Response<List<Contacto>> response) {
-                if (response.isSuccessful()) {
-                    List<Contacto> contactos = response.body();
-                    // Manejar la lista de contactos aquí, por ejemplo mostrarla en un RecyclerView
-                } else {
-                    Toast.makeText(getActivity(), "Error al obtener los contactos.", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Contacto>> call, Throwable t) {
-                Toast.makeText(getActivity(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void limpiarCampos() {
-        // Limpiar los campos de entrada
-        nombreEditText.setText("");
-        asuntoEditText.setText("");
-        emailEditText.setText("");
-        consultaEditText.setText("");
     }
 }

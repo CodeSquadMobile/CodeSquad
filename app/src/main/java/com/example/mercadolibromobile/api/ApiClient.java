@@ -5,20 +5,21 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 
-    //Ivette URL
-    private static final String BASE_URL = "http://192.168.0.244:8000/api/";
-    //Marcelo URL
-    //private static final String BASE_URL = "http://10.0.2.2:8000/api/";
+    // Definir una sola URL base
+    private static final String BASE_URL = "https://backend-mercado-libro-mobile.onrender.com/api/";
 
     private static Retrofit retrofit = null;
 
+    // Método para obtener el cliente Retrofit
     public static Retrofit getClient() {
+        // Configurar Retrofit con la URL base
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
+
         return retrofit;
     }
 }
