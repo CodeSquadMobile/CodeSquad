@@ -1,25 +1,18 @@
 package com.example.mercadolibromobile.models;
 
-import com.google.gson.annotations.SerializedName;
-
 public class ItemCarrito {
-    @SerializedName("id_libro")
-    private int id_libro;
-
-    @SerializedName("cantidad")
+    private int id_libro;  // ID del libro
     private int cantidad;
-
-    @SerializedName("precio")
-    private double precio;
+    private double precio;  // Agregar precio
 
     // Constructor
     public ItemCarrito(int id_libro, int cantidad, double precio) {
         this.id_libro = id_libro;
         this.cantidad = cantidad;
-        this.precio = precio;
+        this.precio = precio;  // Asignar el precio al constructor
     }
 
-    // Getters y Setters
+    // Getters y setters
     public int getId_libro() {
         return id_libro;
     }

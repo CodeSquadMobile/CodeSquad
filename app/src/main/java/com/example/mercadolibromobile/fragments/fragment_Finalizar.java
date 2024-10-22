@@ -73,7 +73,7 @@ public class fragment_Finalizar extends Fragment {
                 if (response.isSuccessful()) {
                     List<ItemCarrito> items = response.body();
                     if (items != null) {
-                        // Aquí deberías obtener la lista de libros
+                        // Aquí obtenemos los libros del carrito
                         obtenerListaLibros(items);
                     } else {
                         Log.e(TAG, "Respuesta del carrito es null.");
@@ -101,7 +101,7 @@ public class fragment_Finalizar extends Fragment {
     // Método para obtener la lista de libros
     private void obtenerListaLibros(List<ItemCarrito> itemsCarrito) {
         BookApi bookApi = RetrofitClient.getInstance(BASE_URL).create(BookApi.class);
-        Call<List<Book>> callLibros = bookApi.getBooks(null, null); // Obtener todos los libros
+        Call<List<Book>> callLibros = bookApi.getBooks(); // Obtener todos los libros
 
         callLibros.enqueue(new Callback<List<Book>>() {
             @Override
@@ -109,7 +109,8 @@ public class fragment_Finalizar extends Fragment {
                 if (response.isSuccessful()) {
                     List<Book> libros = response.body();
                     if (libros != null) {
-                        carritoAdapter = new CarritoAdapter(itemsCarrito, libros); // Pasar los items del carrito y la lista de libros al adaptador
+                        // Iniciar el adaptador con los datos del carrito y libros
+                        carritoAdapter = new CarritoAdapter(itemsCarrito, libros);
                         recyclerViewCarrito.setAdapter(carritoAdapter);
                         Log.d(TAG, "Carrito cargado exitosamente con " + itemsCarrito.size() + " items.");
                     } else {
