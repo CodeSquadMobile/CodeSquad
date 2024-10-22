@@ -1,6 +1,7 @@
 package com.example.mercadolibromobile;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import retrofit2.Call;
@@ -21,13 +23,11 @@ import android.content.SharedPreferences;
 import com.example.mercadolibromobile.api.LoginApi;
 import com.example.mercadolibromobile.models.AuthModels;
 import com.example.mercadolibromobile.api.RetrofitClient;
-import com.auth0.android.jwt.JWT;  // la clase JWT para verificar expiracion
-import java.util.Date;
 
 public class LoginActivity extends AppCompatActivity {
     private TextInputLayout usernameLayout, passwordLayout, nameLayout;
     private TextInputEditText usernameEditText, passwordEditText, nameEditText;
-    private Button loginButton, toggleModeButton;
+    private Button loginButton, toggleModeButton, poliButton; // Botón de políticas
     private ProgressBar progressBar;
     private boolean isLoginMode = true;
     private final String BASE_URL = "https://backend-mercado-libro-mobile.onrender.com/api/";
@@ -48,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
         nameEditText = findViewById(R.id.textInputEditTextName);
         loginButton = findViewById(R.id.buttonMainAction);
         toggleModeButton = findViewById(R.id.buttonToggleMode);
+        poliButton = findViewById(R.id.buttonpoli); // Botón de políticas
         progressBar = findViewById(R.id.progressBar);
 
         final Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
@@ -63,6 +64,12 @@ public class LoginActivity extends AppCompatActivity {
             } else {
                 registerUser();
             }
+        });
+
+        // Listener para el botón de políticas
+        poliButton.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, Politicas.class);
+            startActivity(intent);
         });
 
         usernameEditText.addTextChangedListener(new SimpleTextWatcher() {
@@ -124,6 +131,20 @@ public class LoginActivity extends AppCompatActivity {
         String password = passwordEditText.getText().toString().trim();
         progressBar.setVisibility(View.VISIBLE);
 
+        // Validar correo
+        if (!isEmailValid(email)) {
+            usernameLayout.setError("Correo electrónico inválido");
+            progressBar.setVisibility(View.GONE);
+            return;
+        }
+
+        // Validar contraseña
+        if (!isPasswordValid(password)) {
+            passwordLayout.setError("La contraseña debe tener al menos 6 caracteres y no incluir caracteres especiales");
+            progressBar.setVisibility(View.GONE);
+            return;
+        }
+
         LoginApi api = RetrofitClient.getInstance(BASE_URL).create(LoginApi.class);
         Call<AuthModels.LoginResponse> call = api.login(email, password);
 
@@ -138,19 +159,6 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("user_email", email);
                     editor.apply();
 
-                    Log.d("LoginActivity", "Access Token: " + response.body().getAccess());
-                    Log.d("LoginActivity", "Refresh Token: " + response.body().getRefresh());
-                    Log.d("LoginActivity", "User Email: " + email);
-
-                    Log.d("LoginActivity", "Tokens guardados: Access Token = " + sharedPreferences.getString("access_token", null) +
-                            ", Refresh Token = " + sharedPreferences.getString("refresh_token", null));
-
-                    if (isTokenExpired(response.body().getAccess())) {
-                        Log.d("LoginActivity", "El token ha expirado.");
-                    } else {
-                        Log.d("LoginActivity", "El token es válido.");
-                    }
-
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
@@ -162,28 +170,17 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<AuthModels.LoginResponse> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
-                usernameLayout.setError("Error de conexión");
-                Log.e("LoginActivity", "Error en la conexión: " + t.getMessage());
+                Toast.makeText(LoginActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private boolean isTokenExpired(String token) {
-        try {
-            JWT jwt = new JWT(token);
-            Date expirationDate = jwt.getExpiresAt();
-            if (expirationDate != null) {
-                boolean isExpired = expirationDate.before(new Date());
-                Log.d("LoginActivity", "Fecha de expiración del token: " + expirationDate);
-                return isExpired;
-            } else {
-                Log.e("LoginActivity", "El token no contiene una fecha de expiración.");
-                return true;
-            }
-        } catch (Exception e) {
-            Log.e("LoginActivity", "Error al decodificar el token: " + e.getMessage());
-            return true;
-        }
+    private boolean isEmailValid(String email) {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    private boolean isPasswordValid(String password) {
+        return password.length() >= 6 && !password.matches(".*[^a-zA-Z0-9].*");
     }
 
     private void registerUser() {
@@ -191,10 +188,18 @@ public class LoginActivity extends AppCompatActivity {
         String password = passwordEditText.getText().toString().trim();
         String username = nameEditText.getText().toString().trim();
 
-        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || TextUtils.isEmpty(username)) {
-            if (TextUtils.isEmpty(username)) {
-                nameLayout.setError("El nombre es requerido");
-            }
+        if (!isEmailValid(email)) {
+            usernameLayout.setError("Correo electrónico inválido");
+            return;
+        }
+
+        if (!isPasswordValid(password)) {
+            passwordLayout.setError("La contraseña debe tener al menos 6 caracteres y no incluir caracteres especiales");
+            return;
+        }
+
+        if (TextUtils.isEmpty(username)) {
+            nameLayout.setError("El nombre es requerido");
             return;
         }
 
@@ -211,38 +216,30 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("refresh_token", response.body().getRefresh());
                     editor.apply();
 
-                    Log.d("LoginActivity", "Access Token: " + response.body().getAccess());
-                    Log.d("LoginActivity", "Refresh Token: " + response.body().getRefresh());
-
-                    if (isTokenExpired(response.body().getAccess())) {
-                        Log.d("LoginActivity", "El token ha expirado.");
-                    } else {
-                        Log.d("LoginActivity", "El token es válido.");
-                    }
-
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
-                    usernameLayout.setError("Error en el registro");
+                    usernameLayout.setError("Error al registrarse. Intenta nuevamente.");
                 }
             }
 
             @Override
             public void onFailure(Call<AuthModels.SignupResponse> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
-                Log.e("LoginActivity", "Error en la conexión: " + t.getMessage());
+                Toast.makeText(LoginActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private abstract class SimpleTextWatcher implements TextWatcher {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
         @Override
-        public void afterTextChanged(Editable s) {
-        }
+        public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+        @Override
+        public void afterTextChanged(Editable s) {}
     }
 }
