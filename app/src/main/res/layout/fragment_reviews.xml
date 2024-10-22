@@ -41,7 +41,6 @@
             android:hint="Reseña del libro seleccionado"
             android:inputType="textMultiLine"
             android:minLines="3"
-            android:backgroundTint="@"
             android:gravity="top|start"
             android:background="@android:drawable/edit_text" />
 
