@@ -1,43 +1,29 @@
 package com.example.mercadolibromobile.adapters;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.util.Log; // log para testear login
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
 import com.example.mercadolibromobile.R;
-import com.example.mercadolibromobile.api.CarritoApi;
-import com.example.mercadolibromobile.api.RetrofitClient;
-import com.example.mercadolibromobile.fragments.SinopsisFragment;
 import com.example.mercadolibromobile.models.Book;
-import com.example.mercadolibromobile.models.ItemCarrito;
+import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHolder> {
 
-    private final List<Book> books;
-    private final FragmentActivity activity;
-    private static final String BASE_URL = "http://192.168.100.26:8000/api/";
+    private List<Book> booksList;
+    private List<Book> booksListFull;
 
-    public BooksAdapter(List<Book> books, FragmentActivity activity) {
-        this.books = books;
-        this.activity = activity;
+    public BooksAdapter(List<Book> books) {
+        this.booksList = books;
+        this.booksListFull = new ArrayList<>(books); // Hacemos una copia completa de la lista original
     }
 
     @NonNull
@@ -49,114 +35,52 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
 
     @Override
     public void onBindViewHolder(@NonNull BookViewHolder holder, int position) {
-        Book book = books.get(position);
-        // Logs para verificar los datos del libro
-        Log.d("BooksAdapter", "ID del libro: " + book.getIdLibro());
-        Log.d("BooksAdapter", "Título del libro: " + book.getTitulo());
-        Log.d("BooksAdapter", "Autor del libro: " + book.getAutor());
-        Log.d("BooksAdapter", "Precio del libro: " + book.getPrecio());
-        Log.d("BooksAdapter", "Stock del libro: " + book.getStock());
-        Log.d("BooksAdapter", "Categoría del libro: " + book.getCategoria());
-
+        Book book = booksList.get(position); // Aquí usamos booksList, que puede estar filtrada
         holder.tvBookTitle.setText(book.getTitulo());
-        holder.tvBookAuthor.setText(book.getAutor());
         holder.tvBookPrice.setText("Precio: $" + book.getPrecio());
         holder.tvBookStock.setText("En stock: " + book.getStock());
-        holder.tvBookCategory.setText("Categoría: " + book.getCategoria());
-
         Glide.with(holder.itemView.getContext())
                 .load(book.getPortada())
-                .timeout(10000)
+                .timeout(10000) // 10 segundos
                 .into(holder.ivBookCover);
 
-        // Botón para ver la sinopsis
-        holder.btnSinopsis.setOnClickListener(v -> {
-            SinopsisFragment fragment = SinopsisFragment.newInstance(
-                    book.getTitulo(),
-                    book.getDescripcion(),
-                    book.getPortada()
-            );
-            activity.getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
-                    .addToBackStack(null)
-                    .commit();
-        });
 
-        // Botón para comprar (Agregar al carrito)
-        holder.btnComprar.setOnClickListener(v -> {
-            ItemCarrito itemCarrito = new ItemCarrito(book.getIdLibro(), 1, book.getPrecio());
-            agregarAlCarrito(itemCarrito);
-        });
     }
 
     @Override
     public int getItemCount() {
-        return books.size();
+        return booksList.size();
+    }
+
+    // Método para filtrar los libros según el texto ingresado en el buscador
+    public void filter(String text) {
+        booksList.clear();  // Limpiamos la lista actual
+
+        if (text.isEmpty()) {
+            booksList.addAll(booksListFull);  // Si el texto está vacío, restauramos la lista completa
+        } else {
+            text = text.toLowerCase();
+            for (Book book : booksListFull) {
+                if (book.getTitulo().toLowerCase().contains(text)) {
+                    booksList.add(book);  // Agregamos el libro si el título coincide con el texto de búsqueda
+                }
+            }
+        }
+        notifyDataSetChanged();  // Notificamos al adaptador que los datos han cambiado
     }
 
     static class BookViewHolder extends RecyclerView.ViewHolder {
         ImageView ivBookCover;
-        TextView tvBookTitle, tvBookAuthor, tvBookPrice, tvBookStock, tvBookCategory;
-        Button btnSinopsis, btnComprar;
+        TextView tvBookTitle, tvBookPrice, tvBookStock;
+        Button btnSinopsis;
 
         public BookViewHolder(@NonNull View itemView) {
             super(itemView);
             ivBookCover = itemView.findViewById(R.id.ivBookCover);
             tvBookTitle = itemView.findViewById(R.id.tvBookTitle);
-            tvBookAuthor = itemView.findViewById(R.id.tvBookAuthor);
             tvBookPrice = itemView.findViewById(R.id.tvBookPrice);
             tvBookStock = itemView.findViewById(R.id.tvBookStock);
-            tvBookCategory = itemView.findViewById(R.id.tvBookCategory);
             btnSinopsis = itemView.findViewById(R.id.btnSinopsis);
-            btnComprar = itemView.findViewById(R.id.btnComprar);
         }
-    }
-
-    private void agregarAlCarrito(ItemCarrito itemCarrito) {
-        // Obtener el token de acceso
-        String token = getAccessToken();
-
-        // Agregar log para verificar el token
-        Log.d("BooksAdapter", "Token de acceso obtenido adaptador book: " + token);
-
-        if (token == null) {
-            Toast.makeText(activity, "Token no encontrado. Por favor, inicia sesión nuevamente.", Toast.LENGTH_SHORT).show();
-            return; // Salir si no hay token
-        }
-
-        // Log para verificar el contenido del itemCarrito
-        Log.d("BooksAdapter", "Agregando al carrito: ID libro: " + itemCarrito.getId_libro() +
-                ", Cantidad: " + itemCarrito.getCantidad() +
-                ", Precio: " + itemCarrito.getPrecio());
-
-        // Llamar a la API del carrito
-        CarritoApi carritoApi = RetrofitClient.getInstance(BASE_URL).create(CarritoApi.class);
-        Call<ItemCarrito> call = carritoApi.agregarAlCarrito("Bearer " + token, itemCarrito);
-
-        call.enqueue(new Callback<ItemCarrito>() {
-            @Override
-            public void onResponse(Call<ItemCarrito> call, Response<ItemCarrito> response) {
-                if (response.isSuccessful()) {
-                    Toast.makeText(activity, "Libro agregado al carrito", Toast.LENGTH_SHORT).show();
-                } else {
-                    Log.e("BooksAdapter", "Error al agregar al carrito. Código de respuesta: " + response.code() +
-                            ", Cuerpo de error: " + response.errorBody());
-                    Toast.makeText(activity, "Error al agregar al carrito. Código: " + response.code(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ItemCarrito> call, Throwable t) {
-                Log.e("BooksAdapter", "Fallo la conexión: " + t.getMessage());
-                Toast.makeText(activity, "Fallo la conexión", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    // Método para obtener el token de acceso
-    private String getAccessToken() {
-        SharedPreferences prefs = activity.getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
-        return prefs.getString("access_token", null);
     }
 }
