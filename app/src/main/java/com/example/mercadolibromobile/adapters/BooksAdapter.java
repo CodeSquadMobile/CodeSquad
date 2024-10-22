@@ -9,21 +9,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.mercadolibromobile.BookSynopsisDialogFragment; // Ajusta el paquete según sea necesario
-
-
 import com.example.mercadolibromobile.R;
 import com.example.mercadolibromobile.models.Book;
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHolder> {
 
-    private final List<Book> books;
+    private List<Book> booksList;
+    private List<Book> booksListFull;
 
     public BooksAdapter(List<Book> books) {
-        this.books = books;
+        this.booksList = books;
+        this.booksListFull = new ArrayList<>(books); // Hacemos una copia completa de la lista original
     }
 
     @NonNull
@@ -35,41 +35,51 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
 
     @Override
     public void onBindViewHolder(@NonNull BookViewHolder holder, int position) {
-        Book book = books.get(position);
+        Book book = booksList.get(position); // Aquí usamos booksList, que puede estar filtrada
         holder.tvBookTitle.setText(book.getTitulo());
-        holder.tvBookAuthor.setText(book.getAutor());
         holder.tvBookPrice.setText("Precio: $" + book.getPrecio());
         holder.tvBookStock.setText("En stock: " + book.getStock());
-        holder.tvBookCategory.setText("Categoría: " + book.getCategoria());
         Glide.with(holder.itemView.getContext())
                 .load(book.getPortada())
                 .timeout(10000) // 10 segundos
                 .into(holder.ivBookCover);
 
-        holder.btnSinopsis.setOnClickListener(v -> {
-            BookSynopsisDialogFragment dialog = BookSynopsisDialogFragment.newInstance(book.getDescripcion());
-            dialog.show(((FragmentActivity) holder.itemView.getContext()).getSupportFragmentManager(), "BookSynopsisDialogFragment");
-        });
+
     }
 
     @Override
     public int getItemCount() {
-        return books.size();
+        return booksList.size();
+    }
+
+    // Método para filtrar los libros según el texto ingresado en el buscador
+    public void filter(String text) {
+        booksList.clear();  // Limpiamos la lista actual
+
+        if (text.isEmpty()) {
+            booksList.addAll(booksListFull);  // Si el texto está vacío, restauramos la lista completa
+        } else {
+            text = text.toLowerCase();
+            for (Book book : booksListFull) {
+                if (book.getTitulo().toLowerCase().contains(text)) {
+                    booksList.add(book);  // Agregamos el libro si el título coincide con el texto de búsqueda
+                }
+            }
+        }
+        notifyDataSetChanged();  // Notificamos al adaptador que los datos han cambiado
     }
 
     static class BookViewHolder extends RecyclerView.ViewHolder {
         ImageView ivBookCover;
-        TextView tvBookTitle, tvBookAuthor, tvBookPrice, tvBookStock, tvBookCategory;
+        TextView tvBookTitle, tvBookPrice, tvBookStock;
         Button btnSinopsis;
 
         public BookViewHolder(@NonNull View itemView) {
             super(itemView);
             ivBookCover = itemView.findViewById(R.id.ivBookCover);
             tvBookTitle = itemView.findViewById(R.id.tvBookTitle);
-            tvBookAuthor = itemView.findViewById(R.id.tvBookAuthor);
             tvBookPrice = itemView.findViewById(R.id.tvBookPrice);
             tvBookStock = itemView.findViewById(R.id.tvBookStock);
-            tvBookCategory = itemView.findViewById(R.id.tvBookCategory);
             btnSinopsis = itemView.findViewById(R.id.btnSinopsis);
         }
     }
