@@ -1,19 +1,19 @@
 package com.example.mercadolibromobile;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log; // log para testear login
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import retrofit2.Call;
@@ -27,23 +27,11 @@ import com.example.mercadolibromobile.api.RetrofitClient;
 public class LoginActivity extends AppCompatActivity {
     private TextInputLayout usernameLayout, passwordLayout, nameLayout;
     private TextInputEditText usernameEditText, passwordEditText, nameEditText;
-    private Button loginButton, toggleModeButton;
+    private Button loginButton, toggleModeButton, poliButton; // Botón de políticas
     private ProgressBar progressBar;
     private boolean isLoginMode = true;
-//<<<<<<< marcelolunadallalasta
-
     private final String BASE_URL = "https://backend-mercado-libro-mobile.onrender.com/api/";
-//=======
-    //  NAHIR IP
-//    private final String BASE_URL = "http://192.168.100.26:8000/api/";
-    //Ivette URL
-    //private final String BASE_URL = "http://192.168.0.244:8000/api/";
-    //URL MARCELO EMULADOR
-    //private final String BASE_URL = "http://10.0.2.2:8000/api/";
-//>>>>>>> develop
     private SharedPreferences sharedPreferences;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,24 +48,15 @@ public class LoginActivity extends AppCompatActivity {
         nameEditText = findViewById(R.id.textInputEditTextName);
         loginButton = findViewById(R.id.buttonMainAction);
         toggleModeButton = findViewById(R.id.buttonToggleMode);
+        poliButton = findViewById(R.id.buttonpoli); // Botón de políticas
         progressBar = findViewById(R.id.progressBar);
 
         final Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         final Animation fadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
 
-        Button buttonPoliticas = findViewById(R.id.buttonpoli); // Asegúrate de que este ID coincida con el del layout
-
-        buttonPoliticas.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, Politicas.class);
-            startActivity(intent);
-        });
-
         toggleModeButton.setOnClickListener(v -> {
             toggleLoginMode(fadeIn, fadeOut);
-
-
         });
-
 
         loginButton.setOnClickListener(v -> {
             if (isLoginMode) {
@@ -87,6 +66,11 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // Listener para el botón de políticas
+        poliButton.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, Politicas.class);
+            startActivity(intent);
+        });
 
         usernameEditText.addTextChangedListener(new SimpleTextWatcher() {
             @Override
@@ -124,7 +108,6 @@ public class LoginActivity extends AppCompatActivity {
             findViewById(R.id.textViewName).setVisibility(View.VISIBLE);
             findViewById(R.id.textViewName).startAnimation(fadeIn);
         }
-        // Limpia errores previos al cambiar de modo y valida el botón
         nameLayout.setError(null);
         usernameLayout.setError(null);
         passwordLayout.setError(null);
@@ -139,12 +122,28 @@ public class LoginActivity extends AppCompatActivity {
                 !TextUtils.isEmpty(username) && !TextUtils.isEmpty(password) :
                 !TextUtils.isEmpty(username) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(name);
         loginButton.setEnabled(isEnabled);
+
+        Log.d("LoginActivity", "Botón de login habilitado: " + isEnabled);
     }
 
     private void loginUser() {
         String email = usernameEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
         progressBar.setVisibility(View.VISIBLE);
+
+        // Validar correo
+        if (!isEmailValid(email)) {
+            usernameLayout.setError("Correo electrónico inválido");
+            progressBar.setVisibility(View.GONE);
+            return;
+        }
+
+        // Validar contraseña
+        if (!isPasswordValid(password)) {
+            passwordLayout.setError("La contraseña debe tener al menos 6 caracteres y no incluir caracteres especiales");
+            progressBar.setVisibility(View.GONE);
+            return;
+        }
 
         LoginApi api = RetrofitClient.getInstance(BASE_URL).create(LoginApi.class);
         Call<AuthModels.LoginResponse> call = api.login(email, password);
@@ -154,17 +153,11 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<AuthModels.LoginResponse> call, Response<AuthModels.LoginResponse> response) {
                 progressBar.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
-                    // Guarda los tokens y el correo electrónico
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("access_token", response.body().getAccess());
                     editor.putString("refresh_token", response.body().getRefresh());
-                    editor.putString("user_email", email); // Guarda el correo electrónico
+                    editor.putString("user_email", email);
                     editor.apply();
-
-                    // Log para verificar los tokens
-                    Log.d("LoginActivity", "Access Token: " + response.body().getAccess());
-                    Log.d("LoginActivity", "Refresh Token: " + response.body().getRefresh());
-                    Log.d("LoginActivity", "User Email: " + email); // Log del email
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
@@ -175,11 +168,19 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(@NonNull Call<AuthModels.LoginResponse> call, @NonNull Throwable t) {
+            public void onFailure(Call<AuthModels.LoginResponse> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
-                usernameLayout.setError("Error de conexión");
+                Toast.makeText(LoginActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private boolean isEmailValid(String email) {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    private boolean isPasswordValid(String password) {
+        return password.length() >= 6 && !password.matches(".*[^a-zA-Z0-9].*");
     }
 
     private void registerUser() {
@@ -187,10 +188,18 @@ public class LoginActivity extends AppCompatActivity {
         String password = passwordEditText.getText().toString().trim();
         String username = nameEditText.getText().toString().trim();
 
-        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || TextUtils.isEmpty(username)) {
-            if (TextUtils.isEmpty(username)) {
-                nameLayout.setError("El nombre es requerido");
-            }
+        if (!isEmailValid(email)) {
+            usernameLayout.setError("Correo electrónico inválido");
+            return;
+        }
+
+        if (!isPasswordValid(password)) {
+            passwordLayout.setError("La contraseña debe tener al menos 6 caracteres y no incluir caracteres especiales");
+            return;
+        }
+
+        if (TextUtils.isEmpty(username)) {
+            nameLayout.setError("El nombre es requerido");
             return;
         }
 
@@ -206,33 +215,31 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("access_token", response.body().getAccess());
                     editor.putString("refresh_token", response.body().getRefresh());
                     editor.apply();
-                    Log.d("LoginActivity", "Access Token: " + response.body().getAccess());
-                    Log.d("LoginActivity", "Refresh Token: " + response.body().getRefresh());
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
-                    nameLayout.setError("Error en el registro");
+                    usernameLayout.setError("Error al registrarse. Intenta nuevamente.");
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<AuthModels.SignupResponse> call, @NonNull Throwable t) {
+            public void onFailure(Call<AuthModels.SignupResponse> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
-                nameLayout.setError("Error de conexión");
+                Toast.makeText(LoginActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    // Clase auxiliar para simplificar el TextWatcher
-    abstract class SimpleTextWatcher implements TextWatcher {
+    private abstract class SimpleTextWatcher implements TextWatcher {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
         @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+        @Override
         public void afterTextChanged(Editable s) {}
     }
-
-
 }

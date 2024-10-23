@@ -34,12 +34,11 @@
                 android:textColor="@color/black"
                 android:layout_marginBottom="16dp" />
 
-            <LinearLayout
-                android:id="@+id/contenedorLibros"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewCarrito"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="16dp" />
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/precioTotal"
@@ -53,7 +52,7 @@
                 android:layout_marginBottom="24dp" />
 
             <Button
-                android:id="@+id/button4"
+                android:id="@+id/btnFinalizarCompra"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Finalizar compra"
