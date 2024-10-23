@@ -34,5 +34,22 @@
             android:layout_height="wrap_content"
             android:text="Precio"
             android:textColor="@color/black" />
+        <Button
+            android:id="@+id/btnEliminar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Eliminar" />
+
+        <Button
+            android:id="@+id/btnAumentarCantidad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Aumentar" />
+
+        <Button
+            android:id="@+id/btnDisminuirCantidad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Disminuir" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
