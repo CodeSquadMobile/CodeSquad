@@ -51,14 +51,14 @@ public class fragment_Finalizar extends Fragment {
         recyclerViewCarrito.setLayoutManager(new LinearLayoutManager(getContext()));
         btnFinalizarCompra = view.findViewById(R.id.btnFinalizarCompra);
 
-        // Obtener el carrito
+       
         obtenerCarrito();
 
 
         btnFinalizarCompra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finalizarCompra(); 
+                finalizarCompra();
             }
         });
 
