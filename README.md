@@ -63,8 +63,8 @@ La autenticación se realiza mediante JWT, lo que garantiza que las credenciales
 La aplicación cuenta con una Activity multimedia que incluye recursos como videos o imágenes, mejorando la interacción y experiencia del usuario.
 
 ## Descarga de la Aplicación ⤵
-Todavía no está disponible para descargas (próximamente)
-Mientras tanto, te ofrecemos ver un demo en video aquí: [próximamente].
+
+Mientras tanto, te ofrecemos ver un demo en video aquí: https://drive.google.com/file/d/1lFl3A5HsGwVYQQ5GT4aZKUP-lF9OQLAZ/view?usp=sharing.
 
 ## Documentación
 Toda la documentación del proyecto está disponible en la Wiki del repositorio en GitHub, incluyendo el plan de seguridad, los casos de testing y las especificaciones técnicas. Además, se han adjuntado gráficos y diseños en el formato IEEE830.
