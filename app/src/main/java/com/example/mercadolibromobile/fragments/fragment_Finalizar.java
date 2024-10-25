@@ -51,8 +51,8 @@ public class fragment_Finalizar extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment__finalizar, container, false);
 
-        contenedorLibros = view.findViewById(R.id.contenedorLibros);
-        finalizarButton = view.findViewById(R.id.button4);
+//        contenedorLibros = view.findViewById(R.id.contenedorLibros);
+//        finalizarButton = view.findViewById(R.id.button4);
         precioTotalTextView = view.findViewById(R.id.precioTotal);
 
         actualizarVistaLibros();
