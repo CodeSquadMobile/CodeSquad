@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Button;
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,6 +35,22 @@ public class ProfileFragment extends Fragment {
         // Mostrar el correo electrónico en el TextView
         emailTextView.setText(userEmail);
 
+        // Configurar el botón "Mis Reseñas"
+        Button reviewsButton = rootView.findViewById(R.id.button2);
+        reviewsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Abrir ReviewsFragment
+                Fragment reviewsFragment = new ReviewsFragment();
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, reviewsFragment) // Cambia 'fragment_container' al ID del contenedor de fragmentos en tu layout
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
         return rootView;
     }
+
 }
