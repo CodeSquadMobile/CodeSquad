@@ -36,20 +36,25 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.CarritoV
     @Override
     public void onBindViewHolder(@NonNull CarritoViewHolder holder, int position) {
         ItemCarrito item = itemsCarrito.get(position);
-
-        // Obtener el libro correspondiente usando el ID
         Book libro = findBookById(item.getId_libro());
 
-        if (libro != null) {
-            holder.tvTituloLibro.setText(libro.getTitulo()); // Mostrar el título del libro
-            holder.tvCantidad.setText("Cantidad: " + item.getCantidad());
-            holder.tvPrecio.setText("Precio: $" + (item.getCantidad() * libro.getPrecio())); // Calcular precio total
-            Log.d(TAG, "Libro encontrado: " + libro.getTitulo());
+        if (libros != null && !libros.isEmpty()) {
+            if (libro != null) {
+                holder.tvTituloLibro.setText(libro.getTitulo());
+                holder.tvCantidad.setText("Cantidad: " + item.getCantidad());
+                holder.tvPrecio.setText("Precio: $" + (item.getCantidad() * libro.getPrecio()));
+                Log.d(TAG, "Libro encontrado: " + libro.getTitulo());
+            } else {
+                holder.tvTituloLibro.setText("Libro no encontrado");
+                holder.tvCantidad.setText("Cantidad: " + item.getCantidad());
+                holder.tvPrecio.setText("Precio: $0");
+                Log.e(TAG, "Libro no encontrado para el ID: " + item.getId_libro());
+            }
         } else {
-            holder.tvTituloLibro.setText("Libro no encontrado");
+            Log.e(TAG, "La lista de libros está vacía o es nula");
+            holder.tvTituloLibro.setText("Libro no disponible");
             holder.tvCantidad.setText("Cantidad: " + item.getCantidad());
-            holder.tvPrecio.setText("Precio: $0"); // Mostrar precio 0 si no se encuentra el libro
-            Log.e(TAG, "Libro no encontrado para el ID: " + item.getId_libro());
+            holder.tvPrecio.setText("Precio: $0");
         }
     }
 
@@ -59,7 +64,7 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.CarritoV
                 return libro;
             }
         }
-        return null; // Si no se encuentra el libro
+        return null;
     }
 
     @Override

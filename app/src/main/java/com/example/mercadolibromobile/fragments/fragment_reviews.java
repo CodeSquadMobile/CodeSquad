@@ -9,16 +9,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.mercadolibromobile.R;
+import com.example.mercadolibromobile.api.ApiClient;
+import com.example.mercadolibromobile.api.ReviewApi;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link fragment_reviews#newInstance} factory method to
- * create an instance of this fragment.
- */
+import retrofit2.Retrofit;
+
+
 public class fragment_reviews extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private ApiClient RetrofitClient;
+    Retrofit retrofit = RetrofitClient.getClient("https://backend-mercado-libro-mobile.onrender.com/api/");
+    ReviewApi reviewApi = retrofit.create(ReviewApi.class);
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
