@@ -32,7 +32,7 @@
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewCarrito"
@@ -49,7 +49,7 @@
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="24dp" />
+                android:layout_marginBottom="24dp"/>
 
             <Button
                 android:id="@+id/btnFinalizarCompra"
@@ -59,9 +59,8 @@
                 android:textSize="18sp"
                 android:backgroundTint="@color/azul_electrico"
                 android:textColor="@android:color/white"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"/>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-
 </LinearLayout>

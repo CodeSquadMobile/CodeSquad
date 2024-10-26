@@ -14,10 +14,9 @@ import com.example.mercadolibromobile.api.BookApi;
 import com.example.mercadolibromobile.api.CarritoApi;
 import com.example.mercadolibromobile.api.RetrofitClient;
 import com.example.mercadolibromobile.adapters.CarritoAdapter;
-import com.example.mercadolibromobile.models.ItemCarrito;
 import com.example.mercadolibromobile.models.Book;
+import com.example.mercadolibromobile.models.ItemCarrito;
 import com.example.mercadolibromobile.R;
-import com.example.mercadolibromobile.fragments.fragment_direccion; // Import añadido
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,29 +37,21 @@ public class fragment_Finalizar extends Fragment {
     private CarritoAdapter carritoAdapter;
     private Button btnFinalizarCompra;
     private List<ItemCarrito> itemsCarrito = new ArrayList<>();
-    private List<Book> libros = new ArrayList<>();
     private static final String BASE_URL = "https://backend-mercado-libro-mobile.onrender.com/api/";
     private static final String TAG = "Fragment_Finalizar";
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment__finalizar, container, false);
+        View view = inflater.inflate(R.layout.fragment_finalizar, container, false);
 
         recyclerViewCarrito = view.findViewById(R.id.recyclerViewCarrito);
         recyclerViewCarrito.setLayoutManager(new LinearLayoutManager(getContext()));
         btnFinalizarCompra = view.findViewById(R.id.btnFinalizarCompra);
 
-       
         obtenerCarrito();
 
-
-        btnFinalizarCompra.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finalizarCompra();
-            }
-        });
+        btnFinalizarCompra.setOnClickListener(v -> finalizarCompra());
 
         return view;
     }
@@ -82,7 +73,7 @@ public class fragment_Finalizar extends Fragment {
             public void onResponse(Call<List<ItemCarrito>> call, Response<List<ItemCarrito>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     itemsCarrito = response.body();
-                    obtenerListaLibros(itemsCarrito);
+                    getBooks(); // Llamar a getBooks después de obtener itemsCarrito
                 } else {
                     Log.e(TAG, "Error al obtener el carrito. Código de respuesta: " + response.code());
                     Toast.makeText(getContext(), "Error al obtener el carrito.", Toast.LENGTH_SHORT).show();
@@ -97,14 +88,16 @@ public class fragment_Finalizar extends Fragment {
         });
     }
 
-    private void obtenerListaLibros(List<ItemCarrito> itemsCarrito) {
-        Call<List<Book>> call = RetrofitClient.getInstance(BASE_URL).create(BookApi.class).getBooks();
+
+    private void getBooks() {
+        BookApi bookApi = RetrofitClient.getInstance(BASE_URL).create(BookApi.class);
+        Call<List<Book>> call = bookApi.getBooks();
 
         call.enqueue(new Callback<List<Book>>() {
             @Override
             public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    libros = response.body();
+                    List<Book> libros = response.body();
                     configurarAdapter(itemsCarrito, libros);
                 } else {
                     Log.e(TAG, "Error al obtener los libros. Código de respuesta: " + response.code());
@@ -114,7 +107,7 @@ public class fragment_Finalizar extends Fragment {
 
             @Override
             public void onFailure(Call<List<Book>> call, Throwable t) {
-                Log.e(TAG, "Fallo la conexión: " + t.getMessage());
+                Log.e(TAG, "Fallo la conexión al obtener los libros: " + t.getMessage());
                 Toast.makeText(getContext(), "Fallo la conexión", Toast.LENGTH_SHORT).show();
             }
         });
@@ -126,17 +119,16 @@ public class fragment_Finalizar extends Fragment {
     }
 
     private void finalizarCompra() {
-
-        fragment_direccion direccionFragment = new fragment_direccion();
-        getActivity().getSupportFragmentManager()
+        Fragment direccionFragment = new fragment_direccion();
+        requireActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, direccionFragment) // Asegúrate de que el fragmento se pase aquí
+                .replace(R.id.fragment_container, direccionFragment)
                 .addToBackStack(null)
                 .commit();
     }
 
     private String getAccessToken() {
-        SharedPreferences prefs = getActivity().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+        SharedPreferences prefs = requireActivity().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
         return prefs.getString("access_token", null);
     }
 }
