@@ -21,6 +21,7 @@ import com.example.mercadolibromobile.adapters.CarritoAdapter;
 import com.example.mercadolibromobile.api.BookApi;
 import com.example.mercadolibromobile.api.CarritoApi;
 import com.example.mercadolibromobile.api.RetrofitClient;
+import com.example.mercadolibromobile.fragment_direccion;
 import com.example.mercadolibromobile.models.ItemCarrito;
 import com.example.mercadolibromobile.models.Book;
 
@@ -74,7 +75,7 @@ public class fragment_Finalizar extends Fragment {
         fragment_direccion direccionFragment = new fragment_direccion();
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, direccionFragment) // Asegúrate de que el fragmento se pase aquí
+                .replace(R.id.fragment_container, fragment_direccion) // Asegúrate de que el fragmento se pase aquí
                 .addToBackStack(null)
                 .commit();
     }

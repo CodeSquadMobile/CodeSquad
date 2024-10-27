@@ -2,12 +2,13 @@ package com.example.mercadolibromobile.models;
 
 public class Direccion {
     private int id;
-    private int usuario; // Dependiendo de cómo se maneje en el backend, puede que quieras cambiarlo a otro tipo
+    private int usuario;
     private String calle;
     private String numero;
     private String ciudad;
     private String provincia;
 
+    // Constructor
     public Direccion(int id, int usuario, String calle, String numero, String ciudad, String provincia) {
         this.id = id;
         this.usuario = usuario;
@@ -17,6 +18,7 @@ public class Direccion {
         this.provincia = provincia;
     }
 
+    // Getters y Setters
     public int getId() {
         return id;
     }
