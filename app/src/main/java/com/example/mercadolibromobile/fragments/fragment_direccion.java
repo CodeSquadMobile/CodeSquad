@@ -1,4 +1,4 @@
-package com.example.mercadolibromobile;
+package com.example.mercadolibromobile.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import androidx.fragment.app.Fragment;
+
+import com.example.mercadolibromobile.R; // Asegúrate de tener la referencia correcta a tu archivo R
 
 public class fragment_direccion extends Fragment {
 
@@ -26,6 +28,7 @@ public class fragment_direccion extends Fragment {
         TextView tvCalleIngresada = view.findViewById(R.id.tvCalleIngresada);
         TextView tvNumeroIngresado = view.findViewById(R.id.tvNumeroIngresado);
         TextView tvProvinciaIngresada = view.findViewById(R.id.tvProvinciaIngresada);
+        TextView tvCiudadIngresada = view.findViewById(R.id.tvCiudadIngresada); // Agregado para mostrar ciudad ingresada
 
         EditText etCalle = view.findViewById(R.id.etCalle);
         EditText etNumero = view.findViewById(R.id.etNumero);
@@ -46,6 +49,7 @@ public class fragment_direccion extends Fragment {
                 // Mostrar los datos ingresados en TextViews
                 tvCalleIngresada.setText("Calle ingresada: " + calle);
                 tvNumeroIngresado.setText("Número ingresado: " + numero);
+                tvCiudadIngresada.setText("Ciudad ingresada: " + ciudad); // Mostrar ciudad ingresada
                 tvProvinciaIngresada.setText("Provincia ingresada: " + provincia);
 
                 // Llamar a la función para ir al fragmento de pago
@@ -58,10 +62,10 @@ public class fragment_direccion extends Fragment {
 
     private void irAlPago() {
         // Navegar al fragmento de pago
-        FragmentPago pagoFragment = new FragmentPago(); // Asegúrate de que este fragmento esté creado
+        fragment_pago fragment_pago= new fragment_pago(); // Asegúrate de que este fragmento esté creado
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, Fragment_pago)
+                .replace(R.id.fragment_container, fragment_pago)
                 .addToBackStack(null)
                 .commit();
     }
