@@ -211,14 +211,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<AuthModels.SignupResponse> call, Response<AuthModels.SignupResponse> response) {
                 progressBar.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("access_token", response.body().getAccess());
-                    editor.putString("refresh_token", response.body().getRefresh());
-                    editor.apply();
-
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                    // Muestra el dialogo de registro exitoso
+                    showSuccessDialog();
                 } else {
                     usernameLayout.setError("Error al registrarse. Intenta nuevamente.");
                 }
@@ -232,14 +226,36 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void showSuccessDialog() {
+        // Inflar el layout personalizado
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_alert, null);
+
+
+        androidx.appcompat.app.AlertDialog dialog = new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setView(dialogView)
+                .create();
+
+
+        dialog.setOnShowListener(dialogInterface -> {
+            Button positiveButton = dialogView.findViewById(R.id.positive_button);
+            positiveButton.setOnClickListener(v -> dialog.dismiss());
+        });
+
+        dialog.show();
+    }
+
+
     private abstract class SimpleTextWatcher implements TextWatcher {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
 
         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
 
         @Override
-        public void afterTextChanged(Editable s) {}
+        public void afterTextChanged(Editable s) {
+        }
     }
 }
