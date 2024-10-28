@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:background="@drawable/fondo2"
-    tools:context=".fragments.fragment_Finalizar">
+    tools:context=".fragments.CarritoFragment">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -55,11 +55,11 @@
                 android:id="@+id/btnFinalizarCompra"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Finalizar compra"
-                android:textSize="18sp"
+                android:layout_marginTop="8dp"
                 android:backgroundTint="@color/azul_electrico"
+                android:text="Continuar"
                 android:textColor="@android:color/white"
-                android:layout_marginTop="8dp"/>
+                android:textSize="18sp" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

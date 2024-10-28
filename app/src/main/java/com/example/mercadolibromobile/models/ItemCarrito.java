@@ -1,15 +1,15 @@
 package com.example.mercadolibromobile.models;
 
 public class ItemCarrito {
-    private int id_libro;  // ID del libro
+    private int id_libro;
     private int cantidad;
-    private double precio;  // Agregar precio
+    private double precio;
 
     // Constructor
     public ItemCarrito(int id_libro, int cantidad, double precio) {
         this.id_libro = id_libro;
         this.cantidad = cantidad;
-        this.precio = precio;  // Asignar el precio al constructor
+        this.precio = precio;
     }
 
     // Getters y setters

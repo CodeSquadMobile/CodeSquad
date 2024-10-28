@@ -11,7 +11,7 @@ import android.widget.Button;
 
 import com.example.mercadolibromobile.R;
 
-public class fragment_direccion extends Fragment {
+public class DireccionFragment extends Fragment {
 
     @Nullable
     @Override
@@ -32,7 +32,7 @@ public class fragment_direccion extends Fragment {
 
     private void irAPagar() {
         // Navegar al fragmento de pago
-        fragment_pago pagoFragment = new fragment_pago();
+        PagoFragment pagoFragment = new PagoFragment();
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, pagoFragment) // Asegúrate de que el fragmento se pase aquí
