@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.example.mercadolibromobile.R;
 
-public class fragment_pago extends Fragment { // Asegúrate de que el nombre de la clase sea fragment_pago
+public class PagoFragment extends Fragment { // Asegúrate de que el nombre de la clase sea fragment_pago
 
     @Nullable
     @Override
