@@ -2,29 +2,20 @@ package com.example.mercadolibromobile.models;
 
 public class Direccion {
     private int id;
+    private int usuario; // Dependiendo de cómo se maneje en el backend, puede que quieras cambiarlo a otro tipo
     private String calle;
-    private int numero;
+    private String numero;
     private String ciudad;
     private String provincia;
 
-    // Constructor para crear una dirección sin ID (para agregar una nueva)
-    public Direccion(String calle, int numero, String ciudad, String provincia) {
-        this.calle = calle;
-        this.numero = numero;
-        this.ciudad = ciudad;
-        this.provincia = provincia;
-    }
-
-    // Constructor para obtener una dirección existente (con ID)
-    public Direccion(int id, String calle, int numero, String ciudad, String provincia) {
+    public Direccion(int id, int usuario, String calle, String numero, String ciudad, String provincia) {
         this.id = id;
+        this.usuario = usuario;
         this.calle = calle;
         this.numero = numero;
         this.ciudad = ciudad;
         this.provincia = provincia;
     }
-
-    // Getters y Setters para cada campo
 
     public int getId() {
         return id;
@@ -32,6 +23,14 @@ public class Direccion {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(int usuario) {
+        this.usuario = usuario;
     }
 
     public String getCalle() {
@@ -42,11 +41,11 @@ public class Direccion {
         this.calle = calle;
     }
 
-    public int getNumero() {
+    public String getNumero() {
         return numero;
     }
 
-    public void setNumero(int numero) {
+    public void setNumero(String numero) {
         this.numero = numero;
     }
 
@@ -64,11 +63,5 @@ public class Direccion {
 
     public void setProvincia(String provincia) {
         this.provincia = provincia;
-    }
-
-    // Método toString para mostrar la dirección en la lista de manera legible
-    @Override
-    public String toString() {
-        return calle + " " + numero + ", " + ciudad + ", " + provincia;
     }
 }
