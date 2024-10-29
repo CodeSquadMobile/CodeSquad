@@ -8,7 +8,6 @@ public class Direccion {
     private String ciudad;
     private String provincia;
 
-    // Constructor
     public Direccion(int id, int usuario, String calle, String numero, String ciudad, String provincia) {
         this.id = id;
         this.usuario = usuario;

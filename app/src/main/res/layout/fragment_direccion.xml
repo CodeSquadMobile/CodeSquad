@@ -142,7 +142,7 @@
                 android:id="@+id/btnIrAlPago"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Ir al Pago"
+                android:text="Guardar Datos"
                 android:textColor="@color/white"
                 android:backgroundTint="@color/azul_electrico"
                 android:layout_marginTop="24dp"
