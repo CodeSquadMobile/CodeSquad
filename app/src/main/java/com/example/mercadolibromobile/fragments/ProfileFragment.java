@@ -77,7 +77,7 @@ public class ProfileFragment extends Fragment {
             Toast.makeText(requireContext(), "ID de usuario no encontrado", Toast.LENGTH_SHORT).show();
             return;
         }
-        userService.deleteUser("Bearer " + accessToken, userId)
+        userService.deleteUser("Bearer " + accessToken, Integer.parseInt(userId))
                 .enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {

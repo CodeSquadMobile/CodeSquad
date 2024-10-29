@@ -15,5 +15,5 @@ public interface ApiService {
     Call<List<User>> getUsers();
 
     @DELETE("usuarios/{id}/")
-    Call<Void> deleteUser(@Header("Authorization") String token, @Path("id") String userId);
+    Call<Void> deleteUser(@Header("Authorization") String token, @Path("id") int userId);
 }

@@ -14,4 +14,5 @@ public interface LoginApi {
 
     @POST("auth/signup/")
     Call<AuthModels.SignupResponse> register(@Body AuthModels.SignupRequest signupRequest);
+
 }
