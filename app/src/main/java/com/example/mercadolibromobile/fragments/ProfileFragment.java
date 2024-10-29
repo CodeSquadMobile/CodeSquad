@@ -16,12 +16,11 @@ import androidx.fragment.app.Fragment;
 
 import com.example.mercadolibromobile.R;
 import com.example.mercadolibromobile.api.ApiService;
+import com.example.mercadolibromobile.api.RetrofitClient;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ProfileFragment extends Fragment {
     private TextView emailTextView;
@@ -39,8 +38,6 @@ public class ProfileFragment extends Fragment {
         // Obtener el correo electrónico desde SharedPreferences
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
         String userEmail = sharedPreferences.getString("user_email", "No email found");
-
-        // Mostrar el correo electrónico en el TextView
         emailTextView.setText(userEmail);
 
         // Configurar el botón "Dar de Baja Usuario"
@@ -48,10 +45,7 @@ public class ProfileFragment extends Fragment {
         deleteAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Obtener el token de acceso
                 String accessToken = getAccessToken();
-
-                // Enviar solicitud al servidor para dar de baja al usuario
                 deleteUser(accessToken);
             }
         });
@@ -69,16 +63,12 @@ public class ProfileFragment extends Fragment {
 
     private String getUserId() {
         SharedPreferences prefs = requireActivity().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
-        return prefs.getString("user_id", null); // Almacena el ID del usuario en SharedPreferences
+        return prefs.getString("user_id", null); // Recupera el ID del usuario
     }
 
     private void initUserService() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://backend-mercado-libro-mobile.onrender.com/api/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        userService = retrofit.create(ApiService.class);
+        userService = RetrofitClient.getInstance("https://backend-mercado-libro-mobile.onrender.com/api/")
+                .create(ApiService.class);
     }
 
     private void deleteUser(String accessToken) {

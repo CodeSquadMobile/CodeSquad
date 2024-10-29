@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -29,7 +28,7 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
     private TextInputLayout usernameLayout, passwordLayout, nameLayout;
     private TextInputEditText usernameEditText, passwordEditText, nameEditText;
-    private Button loginButton, toggleModeButton, poliButton; // Botón de políticas
+    private Button loginButton, toggleModeButton, poliButton;
     private ProgressBar progressBar;
     private boolean isLoginMode = true;
     private final String BASE_URL = "https://backend-mercado-libro-mobile.onrender.com/api/";
@@ -50,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         nameEditText = findViewById(R.id.textInputEditTextName);
         loginButton = findViewById(R.id.buttonMainAction);
         toggleModeButton = findViewById(R.id.buttonToggleMode);
-        poliButton = findViewById(R.id.buttonpoli); // Botón de políticas
+        poliButton = findViewById(R.id.buttonpoli);
         progressBar = findViewById(R.id.progressBar);
 
         final Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
@@ -68,7 +67,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        // Listener para el botón de políticas
         poliButton.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, Politicas.class);
             startActivity(intent);
@@ -124,28 +122,12 @@ public class LoginActivity extends AppCompatActivity {
                 !TextUtils.isEmpty(username) && !TextUtils.isEmpty(password) :
                 !TextUtils.isEmpty(username) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(name);
         loginButton.setEnabled(isEnabled);
-
-        Log.d("LoginActivity", "Botón de login habilitado: " + isEnabled);
     }
 
     private void loginUser() {
         String email = usernameEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
         progressBar.setVisibility(View.VISIBLE);
-
-        // Validar correo
-        if (!isEmailValid(email)) {
-            usernameLayout.setError("Correo electrónico inválido");
-            progressBar.setVisibility(View.GONE);
-            return;
-        }
-
-        // Validar contraseña
-        if (!isPasswordValid(password)) {
-            passwordLayout.setError("La contraseña debe tener al menos 6 caracteres y no incluir caracteres especiales");
-            progressBar.setVisibility(View.GONE);
-            return;
-        }
 
         LoginApi api = RetrofitClient.getInstance(BASE_URL).create(LoginApi.class);
         Call<AuthModels.LoginResponse> call = api.login(email, password);
@@ -155,10 +137,10 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<AuthModels.LoginResponse> call, Response<AuthModels.LoginResponse> response) {
                 progressBar.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
+                    AuthModels.LoginResponse loginResponse = response.body();
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("access_token", response.body().getAccess());
-                    editor.putString("refresh_token", response.body().getRefresh());
-                    editor.putString("user_email", email);
+                    editor.putString("access_token", loginResponse.getToken());
+                    editor.putString("user_id", String.valueOf(loginResponse.getUserId()));
                     editor.apply();
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -177,33 +159,10 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private boolean isEmailValid(String email) {
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
-
-    private boolean isPasswordValid(String password) {
-        return password.length() >= 6 && !password.matches(".*[^a-zA-Z0-9].*");
-    }
-
     private void registerUser() {
         String email = usernameEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
         String username = nameEditText.getText().toString().trim();
-
-        if (!isEmailValid(email)) {
-            usernameLayout.setError("Correo electrónico inválido");
-            return;
-        }
-
-        if (!isPasswordValid(password)) {
-            passwordLayout.setError("La contraseña debe tener al menos 6 caracteres y no incluir caracteres especiales");
-            return;
-        }
-
-        if (TextUtils.isEmpty(username)) {
-            nameLayout.setError("El nombre es requerido");
-            return;
-        }
 
         AuthModels.SignupRequest signupRequest = new AuthModels.SignupRequest(email, password, username);
         LoginApi api = RetrofitClient.getInstance(BASE_URL).create(LoginApi.class);
@@ -213,14 +172,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<AuthModels.SignupResponse> call, Response<AuthModels.SignupResponse> response) {
                 progressBar.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("access_token", response.body().getAccess());
-                    editor.putString("refresh_token", response.body().getRefresh());
-                    editor.apply();
-
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                    Toast.makeText(LoginActivity.this, "Registro exitoso. Por favor, inicie sesión.", Toast.LENGTH_SHORT).show();
+                    toggleLoginMode(null, null); // Cambiar a modo de inicio de sesión
                 } else {
                     usernameLayout.setError("Error al registrarse. Intenta nuevamente.");
                 }
