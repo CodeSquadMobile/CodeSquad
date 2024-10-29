@@ -17,7 +17,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.example.mercadolibromobile.fragments.ContactFragment;
 import com.example.mercadolibromobile.fragments.ProductsFragment;
 import com.example.mercadolibromobile.fragments.ProfileFragment;
-import com.example.mercadolibromobile.fragments.fragment_Finalizar;
+import com.example.mercadolibromobile.fragments.CarritoFragment;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         if (id == R.id.action_cart) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new fragment_Finalizar())
+                    .replace(R.id.fragment_container, new CarritoFragment())
                     .addToBackStack(null)
                     .commit();
             return true;

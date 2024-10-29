@@ -14,6 +14,7 @@ import com.example.mercadolibromobile.api.BookApi;
 import com.example.mercadolibromobile.api.CarritoApi;
 import com.example.mercadolibromobile.api.RetrofitClient;
 import com.example.mercadolibromobile.adapters.CarritoAdapter;
+
 import com.example.mercadolibromobile.models.Book;
 import com.example.mercadolibromobile.models.ItemCarrito;
 import com.example.mercadolibromobile.R;
@@ -31,7 +32,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class fragment_Finalizar extends Fragment {
+public class CarritoFragment extends Fragment {
 
     private RecyclerView recyclerViewCarrito;
     private CarritoAdapter carritoAdapter;
@@ -43,7 +44,7 @@ public class fragment_Finalizar extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_finalizar, container, false);
+        View view = inflater.inflate(R.layout.fragment_carrito, container, false);
 
         recyclerViewCarrito = view.findViewById(R.id.recyclerViewCarrito);
         recyclerViewCarrito.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -120,7 +121,7 @@ public class fragment_Finalizar extends Fragment {
     }
 
     private void finalizarCompra() {
-        Fragment direccionFragment = new fragment_direccion();
+        Fragment direccionFragment = new DireccionFragment();
         requireActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, direccionFragment)

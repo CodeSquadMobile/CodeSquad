@@ -2,7 +2,7 @@ package com.example.mercadolibromobile.models;
 
 public class Direccion {
     private int id;
-    private int usuario; // Dependiendo de cómo se maneje en el backend, puede que quieras cambiarlo a otro tipo
+    private int usuario;
     private String calle;
     private String numero;
     private String ciudad;
@@ -17,6 +17,7 @@ public class Direccion {
         this.provincia = provincia;
     }
 
+    // Getters y Setters
     public int getId() {
         return id;
     }

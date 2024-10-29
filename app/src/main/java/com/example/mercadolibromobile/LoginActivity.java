@@ -1,34 +1,33 @@
 package com.example.mercadolibromobile;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.mercadolibromobile.api.LoginApi;
-import com.example.mercadolibromobile.api.RetrofitClient;
-import com.example.mercadolibromobile.models.AuthModels;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import android.content.SharedPreferences;
+import com.example.mercadolibromobile.api.LoginApi;
+import com.example.mercadolibromobile.models.AuthModels;
+import com.example.mercadolibromobile.api.RetrofitClient;
 
 public class LoginActivity extends AppCompatActivity {
     private TextInputLayout usernameLayout, passwordLayout, nameLayout;
     private TextInputEditText usernameEditText, passwordEditText, nameEditText;
-    private Button loginButton, toggleModeButton, poliButton;
+    private Button loginButton, toggleModeButton, poliButton; // Botón de políticas
     private ProgressBar progressBar;
     private boolean isLoginMode = true;
     private final String BASE_URL = "https://backend-mercado-libro-mobile.onrender.com/api/";
@@ -49,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
         nameEditText = findViewById(R.id.textInputEditTextName);
         loginButton = findViewById(R.id.buttonMainAction);
         toggleModeButton = findViewById(R.id.buttonToggleMode);
-        poliButton = findViewById(R.id.buttonpoli);
+        poliButton = findViewById(R.id.buttonpoli); // Botón de políticas
         progressBar = findViewById(R.id.progressBar);
 
         final Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
@@ -67,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // Listener para el botón de políticas
         poliButton.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, Politicas.class);
             startActivity(intent);
@@ -122,12 +122,28 @@ public class LoginActivity extends AppCompatActivity {
                 !TextUtils.isEmpty(username) && !TextUtils.isEmpty(password) :
                 !TextUtils.isEmpty(username) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(name);
         loginButton.setEnabled(isEnabled);
+
+        Log.d("LoginActivity", "Botón de login habilitado: " + isEnabled);
     }
 
     private void loginUser() {
         String email = usernameEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
         progressBar.setVisibility(View.VISIBLE);
+
+        // Validar correo
+        if (!isEmailValid(email)) {
+            usernameLayout.setError("Correo electrónico inválido");
+            progressBar.setVisibility(View.GONE);
+            return;
+        }
+
+        // Validar contraseña
+        if (!isPasswordValid(password)) {
+            passwordLayout.setError("La contraseña debe tener al menos 6 caracteres y no incluir caracteres especiales");
+            progressBar.setVisibility(View.GONE);
+            return;
+        }
 
         LoginApi api = RetrofitClient.getInstance(BASE_URL).create(LoginApi.class);
         Call<AuthModels.LoginResponse> call = api.login(email, password);
@@ -137,10 +153,10 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<AuthModels.LoginResponse> call, Response<AuthModels.LoginResponse> response) {
                 progressBar.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
-                    AuthModels.LoginResponse loginResponse = response.body();
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("access_token", loginResponse.getToken());
-                    editor.putString("user_id", String.valueOf(loginResponse.getUserId()));
+                    editor.putString("access_token", response.body().getAccess());
+                    editor.putString("refresh_token", response.body().getRefresh());
+                    editor.putString("user_email", email);
                     editor.apply();
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -159,10 +175,33 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private boolean isEmailValid(String email) {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    private boolean isPasswordValid(String password) {
+        return password.length() >= 6 && !password.matches(".*[^a-zA-Z0-9].*");
+    }
+
     private void registerUser() {
         String email = usernameEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
         String username = nameEditText.getText().toString().trim();
+
+        if (!isEmailValid(email)) {
+            usernameLayout.setError("Correo electrónico inválido");
+            return;
+        }
+
+        if (!isPasswordValid(password)) {
+            passwordLayout.setError("La contraseña debe tener al menos 6 caracteres y no incluir caracteres especiales");
+            return;
+        }
+
+        if (TextUtils.isEmpty(username)) {
+            nameLayout.setError("El nombre es requerido");
+            return;
+        }
 
         AuthModels.SignupRequest signupRequest = new AuthModels.SignupRequest(email, password, username);
         LoginApi api = RetrofitClient.getInstance(BASE_URL).create(LoginApi.class);
@@ -172,8 +211,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<AuthModels.SignupResponse> call, Response<AuthModels.SignupResponse> response) {
                 progressBar.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
-                    Toast.makeText(LoginActivity.this, "Registro exitoso. Por favor, inicie sesión.", Toast.LENGTH_SHORT).show();
-                    toggleLoginMode(null, null); // Cambiar a modo de inicio de sesión
+                    // Muestra el dialogo de registro exitoso
+                    showSuccessDialog();
                 } else {
                     usernameLayout.setError("Error al registrarse. Intenta nuevamente.");
                 }
@@ -187,14 +226,36 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void showSuccessDialog() {
+        // Inflar el layout personalizado
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_alert, null);
+
+
+        androidx.appcompat.app.AlertDialog dialog = new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setView(dialogView)
+                .create();
+
+
+        dialog.setOnShowListener(dialogInterface -> {
+            Button positiveButton = dialogView.findViewById(R.id.positive_button);
+            positiveButton.setOnClickListener(v -> dialog.dismiss());
+        });
+
+        dialog.show();
+    }
+
+
     private abstract class SimpleTextWatcher implements TextWatcher {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
 
         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
 
         @Override
-        public void afterTextChanged(Editable s) {}
+        public void afterTextChanged(Editable s) {
+        }
     }
 }

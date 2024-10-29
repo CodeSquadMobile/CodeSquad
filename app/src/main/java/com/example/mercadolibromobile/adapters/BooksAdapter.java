@@ -83,7 +83,6 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
 
         // Botón para comprar (Agregar al carrito)
         holder.btnComprar.setOnClickListener(v -> {
-            Log.d(TAG, "Agregando al carrito el libro: " + book.getTitulo());
             ItemCarrito itemCarrito = new ItemCarrito(book.getIdLibro(), 1, book.getPrecio());
             agregarAlCarrito(itemCarrito);
         });
@@ -93,22 +92,20 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
     public int getItemCount() {
         return books.size();
     }
-
-    // Método para filtrar los libros según el texto ingresado en el buscador
     public void filter(String text) {
-        books.clear();  // Limpiamos la lista actual
+        books.clear();
 
         if (text.isEmpty()) {
-            books.addAll(booksListFull);  // Si el texto está vacío, restauramos la lista completa
+            books.addAll(booksListFull);
         } else {
             text = text.toLowerCase();
             for (Book book : booksListFull) {
                 if (book.getTitulo().toLowerCase().contains(text)) {
-                    books.add(book);  // Agregamos el libro si el título coincide con el texto de búsqueda
+                    books.add(book);
                 }
             }
         }
-        notifyDataSetChanged();  // actualizar al adaptador que los datos han cambiado
+        notifyDataSetChanged();
     }
 
     static class BookViewHolder extends RecyclerView.ViewHolder {
