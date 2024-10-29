@@ -4,6 +4,7 @@ public class AuthModels {
     public static class LoginResponse {
         private String access;
         private String refresh;
+        private User user; // Agregamos el objeto User aquí
 
         public String getAccess() {
             return access;
@@ -11,6 +12,10 @@ public class AuthModels {
 
         public String getRefresh() {
             return refresh;
+        }
+
+        public User getUser() {
+            return user; // Retornamos el objeto User
         }
     }
 
@@ -48,6 +53,15 @@ public class AuthModels {
 
         public String getRefresh() {
             return refresh;
+        }
+    }
+
+    // Clase User para almacenar los datos del usuario, como su ID
+    public static class User {
+        private String id;
+
+        public String getId() {
+            return id;
         }
     }
 }

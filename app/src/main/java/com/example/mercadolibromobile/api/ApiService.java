@@ -1,12 +1,19 @@
 package com.example.mercadolibromobile.api;
 
+import com.example.mercadolibromobile.models.User;
+
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
-import com.example.mercadolibromobile.models.User;
+import retrofit2.http.Header;
+import retrofit2.http.Path;
 
 public interface ApiService {
     @GET("usuarios/")
     Call<List<User>> getUsers();
+
+    @DELETE("usuarios/")
+    Call<Void> deleteUser(@Header("Authorization") String accessToken, @Path("id") String userId);
 }

@@ -1,28 +1,30 @@
 package com.example.mercadolibromobile;
 
 import android.content.Intent;
-import android.net.Uri;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ProgressBar;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.mercadolibromobile.api.LoginApi;
+import com.example.mercadolibromobile.api.RetrofitClient;
+import com.example.mercadolibromobile.models.AuthModels;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import android.content.SharedPreferences;
-import com.example.mercadolibromobile.api.LoginApi;
-import com.example.mercadolibromobile.models.AuthModels;
-import com.example.mercadolibromobile.api.RetrofitClient;
 
 public class LoginActivity extends AppCompatActivity {
     private TextInputLayout usernameLayout, passwordLayout, nameLayout;
