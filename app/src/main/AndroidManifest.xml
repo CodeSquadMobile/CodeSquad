@@ -15,6 +15,7 @@ xmlns:tools="http://schemas.android.com/tools">
     android:supportsRtl="false"
     android:theme="@style/Base.Theme.MercadoLibroMobile"
     tools:targetApi="31">
+    <activity android:name=".MisResenasActivity" />
     <activity
         android:name=".SplashActivity"
         android:exported="true"

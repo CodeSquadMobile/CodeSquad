@@ -1,6 +1,7 @@
 package com.example.mercadolibromobile.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,12 +10,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Button;
 
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.mercadolibromobile.R;
+import com.example.mercadolibromobile.MisResenasActivity; // Asegúrate de importar la actividad
 
 public class ProfileFragment extends Fragment {
 
@@ -40,17 +41,12 @@ public class ProfileFragment extends Fragment {
         reviewsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Abrir ReviewsFragment
-                Fragment reviewsFragment = new ReviewsFragment();
-                getActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, reviewsFragment) // Cambia 'fragment_container' al ID del contenedor de fragmentos en tu layout
-                        .addToBackStack(null)
-                        .commit();
+                // Abrir MisResenasActivity
+                Intent intent = new Intent(getActivity(), MisResenasActivity.class);
+                startActivity(intent); // Iniciar la actividad
             }
         });
 
         return rootView;
     }
-
 }
