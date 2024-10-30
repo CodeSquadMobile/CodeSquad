@@ -96,6 +96,7 @@ public class CarritoFragment extends Fragment {
 
         call.enqueue(new Callback<List<Book>>() {
             @Override
+
             public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Book> libros = response.body();
@@ -133,3 +134,4 @@ public class CarritoFragment extends Fragment {
         return prefs.getString("access_token", null);
     }
 }
+
