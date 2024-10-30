@@ -3,6 +3,7 @@ package com.example.mercadolibromobile;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,6 +20,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.Callback;
 import retrofit2.Response;
+import android.content.Intent;
 
 public class MisResenasActivity extends AppCompatActivity {
 
@@ -49,7 +51,18 @@ public class MisResenasActivity extends AppCompatActivity {
 
         // Realizar la llamada a la API
         getResenas();
+
+        // Configurar el botón para abrir la actividad de agregar reseñas
+        Button button = findViewById(R.id.button);
+        button.setOnClickListener(v -> {
+            Intent intent = new Intent(MisResenasActivity.this, AddResenasActivity.class);
+            startActivity(intent);
+        });
+
+
     }
+
+
 
     private void getResenas() {
         SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
