@@ -1,4 +1,4 @@
-package com.example.mercadolibromobile;
+package com.example.mercadolibromobile.activities;
 
 import android.content.Intent;
 import android.os.Build;
@@ -14,6 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.mercadolibromobile.R;
 import com.example.mercadolibromobile.fragments.ContactFragment;
 import com.example.mercadolibromobile.fragments.ProductsFragment;
 import com.example.mercadolibromobile.fragments.ProfileFragment;

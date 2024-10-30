@@ -15,7 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.mercadolibromobile.R;
-import com.example.mercadolibromobile.MisResenasActivity; // Asegúrate de importar la actividad
+import com.example.mercadolibromobile.activities.MisResenasActivity; // Asegúrate de importar la actividad
 
 public class ProfileFragment extends Fragment {
 

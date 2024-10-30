@@ -1,7 +1,6 @@
-package com.example.mercadolibromobile;
+package com.example.mercadolibromobile.activities;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
@@ -14,6 +13,8 @@ import android.widget.ProgressBar;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
+
+import com.example.mercadolibromobile.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import retrofit2.Call;
