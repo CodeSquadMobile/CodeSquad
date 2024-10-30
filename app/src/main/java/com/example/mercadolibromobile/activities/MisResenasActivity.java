@@ -1,4 +1,4 @@
-package com.example.mercadolibromobile;
+package com.example.mercadolibromobile.activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
