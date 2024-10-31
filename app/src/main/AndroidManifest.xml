@@ -17,9 +17,9 @@ xmlns:tools="http://schemas.android.com/tools">
     android:supportsRtl="false"
     android:theme="@style/Base.Theme.MercadoLibroMobile"
     tools:targetApi="31">
-    <activity android:name=".MisResenasActivity" />
+    <activity android:name=".activities.MisResenasActivity" />
     <activity
-        android:name=".SplashActivity"
+        android:name=".activities.SplashActivity"
         android:exported="true"
         android:theme="@style/SplashTheme">
         <intent-filter>
@@ -29,17 +29,17 @@ xmlns:tools="http://schemas.android.com/tools">
     </activity>
 
     <activity
-        android:name=".LoginActivity"
+        android:name=".activities.LoginActivity"
         android:theme="@style/Base.Theme.MercadoLibroMobile">
     </activity>
 
     <activity
-        android:name=".MainActivity"
+        android:name=".activities.MainActivity"
         android:theme="@style/Base.Theme.MercadoLibroMobile">
     </activity>
 
     <activity
-        android:name=".Politicas"
+        android:name=".activities.Politicas"
         android:theme="@style/Base.Theme.MercadoLibroMobile"/>
 
     <meta-data
