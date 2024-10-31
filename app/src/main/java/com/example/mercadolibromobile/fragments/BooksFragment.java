@@ -29,7 +29,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProductsFragment extends Fragment {
+public class BooksFragment extends Fragment {
 
     private RecyclerView recyclerViewBooks;
     private BooksAdapter booksAdapter;
@@ -38,7 +38,7 @@ public class ProductsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_products, container, false);
+        View view = inflater.inflate(R.layout.fragment_books, container, false);
         activity = getActivity(); // Obtener la actividad actual
 
         // Inicializar el RecyclerView
