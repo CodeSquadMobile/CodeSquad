@@ -73,6 +73,7 @@ public class CarritoFragment extends Fragment {
             }
 
             @Override
+
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String responseData = response.body().string();
@@ -85,6 +86,7 @@ public class CarritoFragment extends Fragment {
                         adapter.notifyDataSetChanged();
                         actualizarPrecioTotal();
                     });
+
                 } else {
                     requireActivity().runOnUiThread(() -> {
                     });
@@ -106,3 +108,4 @@ public class CarritoFragment extends Fragment {
         precioTotal.setText("Total: $" + total);
     }
 }
+
