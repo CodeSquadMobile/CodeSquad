@@ -10,7 +10,7 @@ public class Resena {
 
     @SerializedName("email_usuario") // Asocia el campo JSON "email_usuario" con este atributo
     private String emailUsuario; // Correo del usuario
-
+    private String titulo_libro;
     private String comentario; // Comentario de la reseña
     private String fechaCreacion; // Fecha de creación de la reseña
 
@@ -20,11 +20,16 @@ public class Resena {
         this.emailUsuario = emailUsuario;
         this.comentario = comentario;
         this.fechaCreacion = fechaCreacion;
+        this.titulo_libro = titulo_libro;
     }
 
     // Getters
     public int getId() {
         return id; // Devuelve el ID de la reseña
+    }
+
+    public String getTituloLibro() {
+        return titulo_libro;
     }
 
     public void setId(int id) {
