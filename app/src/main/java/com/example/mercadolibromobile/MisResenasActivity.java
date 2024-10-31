@@ -1,5 +1,6 @@
 package com.example.mercadolibromobile;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,7 +9,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.mercadolibromobile.R;
 import com.example.mercadolibromobile.adapters.ResenaAdapter;
 import com.example.mercadolibromobile.api.ApiService;
 import com.example.mercadolibromobile.models.Resena;
@@ -20,7 +20,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.Callback;
 import retrofit2.Response;
-import android.content.Intent;
 
 public class MisResenasActivity extends AppCompatActivity {
 
@@ -36,7 +35,7 @@ public class MisResenasActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Asignar un adaptador vacío al inicio
+        // Inicializar el adaptador con una lista vacía
         adapter = new ResenaAdapter(new ArrayList<>());
         recyclerView.setAdapter(adapter);
 
@@ -58,11 +57,7 @@ public class MisResenasActivity extends AppCompatActivity {
             Intent intent = new Intent(MisResenasActivity.this, AddResenasActivity.class);
             startActivity(intent);
         });
-
-
     }
-
-
 
     private void getResenas() {
         SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
@@ -78,16 +73,21 @@ public class MisResenasActivity extends AppCompatActivity {
                         List<Resena> allResenas = response.body();
                         List<Resena> userResenas = new ArrayList<>();
 
-                        // Filtrar las reseñas del usuario logueado
+                        Log.d("MisResenasActivity", "Total reseñas recuperadas: " + allResenas.size());
+                        Log.d("MisResenasActivity", "Email del usuario: " + emailUsuario);
+
                         for (Resena resena : allResenas) {
-                            if (resena.getEmailUsuario().equals(emailUsuario)) {
+                            Log.d("MisResenasActivity", "Reseña: " + resena.getComentario() + ", Usuario: " + resena.getEmailUsuario());
+                            if (resena.getEmailUsuario() != null && resena.getEmailUsuario().equals(emailUsuario)) {
                                 userResenas.add(resena);
                             }
                         }
 
                         // Actualizar el adaptador con las reseñas del usuario
-                        adapter = new ResenaAdapter(userResenas);
-                        recyclerView.setAdapter(adapter);
+                        adapter.updateResenas(userResenas);
+                        if (userResenas.isEmpty()) {
+                            Toast.makeText(MisResenasActivity.this, "No se encontraron reseñas para el usuario.", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
                         Toast.makeText(MisResenasActivity.this, "No se encontraron reseñas.", Toast.LENGTH_SHORT).show();
                     }

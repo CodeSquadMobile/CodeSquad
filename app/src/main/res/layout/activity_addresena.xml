@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddResenaActivity">
+    tools:context=".AddResenasActivity">
 
     <!-- Spinner para seleccionar una opción -->
     <Spinner
