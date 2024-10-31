@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.example.mercadolibromobile.AddResenasActivity;
+import com.example.mercadolibromobile.activities.MisResenasActivity;
 
 import com.example.mercadolibromobile.R;
 import com.example.mercadolibromobile.adapters.ResenaAdapter;

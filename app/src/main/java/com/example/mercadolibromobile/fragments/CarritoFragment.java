@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,6 +37,7 @@ public class CarritoFragment extends Fragment {
 
     private RecyclerView recyclerViewCarrito;
     private TextView precioTotal;
+    private Button btnFinalizarCompra;  // Botón para finalizar compra e ir a DireccionFragment
     private List<ItemCarrito> itemsCarrito;
     private final String API_URL = "https://backend-mercado-libro-mobile.onrender.com/api/carrito/";
 
@@ -45,6 +48,7 @@ public class CarritoFragment extends Fragment {
 
         recyclerViewCarrito = view.findViewById(R.id.recyclerViewCarrito);
         precioTotal = view.findViewById(R.id.precioTotal);
+        btnFinalizarCompra = view.findViewById(R.id.btnFinalizarCompra);  // Inicializar el botón de finalizar compra
 
         itemsCarrito = new ArrayList<>();
 
@@ -53,6 +57,14 @@ public class CarritoFragment extends Fragment {
         recyclerViewCarrito.setAdapter(adapter);
 
         obtenerDatosCarrito(adapter);
+
+
+        btnFinalizarCompra.setOnClickListener(v -> {
+            FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container, new DireccionFragment());
+            transaction.addToBackStack(null);
+            transaction.commit();
+        });
 
         return view;
     }
@@ -73,7 +85,6 @@ public class CarritoFragment extends Fragment {
             }
 
             @Override
-
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String responseData = response.body().string();
@@ -86,9 +97,9 @@ public class CarritoFragment extends Fragment {
                         adapter.notifyDataSetChanged();
                         actualizarPrecioTotal();
                     });
-
                 } else {
                     requireActivity().runOnUiThread(() -> {
+                        // Mostrar error si la respuesta no es exitosa
                     });
                 }
             }
@@ -108,4 +119,3 @@ public class CarritoFragment extends Fragment {
         precioTotal.setText("Total: $" + total);
     }
 }
-
