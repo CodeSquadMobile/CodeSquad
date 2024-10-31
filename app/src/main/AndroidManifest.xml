@@ -15,35 +15,40 @@
         android:supportsRtl="false"
         android:theme="@style/Base.Theme.MercadoLibroMobile"
         tools:targetApi="31">
+
+        <activity
+            android:name=".activities.SplashActivity"
+            android:exported="true"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".AddResenasActivity"
             android:label="Agregar Reseña"
             android:exported="true">
         </activity>
-        <activity android:name=".MisResenasActivity" />
-        <activity
-            android:name=".SplashActivity"
-            android:exported="true"
-            android:theme="@style/SplashTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        <activity
+            android:name=".activities.LoginActivity"
+            android:theme="@style/Base.Theme.MercadoLibroMobile">
         </activity>
+
         <activity
-            android:name=".LoginActivity"
-            android:theme="@style/Base.Theme.MercadoLibroMobile"></activity>
+            android:name=".activities.MainActivity"
+            android:theme="@style/Base.Theme.MercadoLibroMobile">
+        </activity>
+
         <activity
-            android:name=".MainActivity"
-            android:theme="@style/Base.Theme.MercadoLibroMobile"></activity>
-        <activity
-            android:name=".Politicas"
-            android:theme="@style/Base.Theme.MercadoLibroMobile" />
+            android:name=".activities.Politicas"
+            android:theme="@style/Base.Theme.MercadoLibroMobile">
+        </activity>
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
-
 </manifest>
