@@ -33,13 +33,21 @@ public class ResenaAdapter extends RecyclerView.Adapter<ResenaAdapter.ResenaView
         Resena resena = resenas.get(position);
         holder.commentTextView.setText(resena.getComentario());
         holder.dateTextView.setText(resena.getFechaCreacion());
-        holder.libroTextView.setText("Libro: " + resena.getTituloLibro());
+        holder.libroTextView.setText("Libro ID: " + resena.getLibro()); // Mostrar solo el ID del libro
+        holder.libroTextView.setText("Título: " + resena.getTituloLibro());
         holder.usuarioTextView.setText("Usuario: " + resena.getEmailUsuario());
     }
 
     @Override
     public int getItemCount() {
         return resenas.size();
+    }
+
+    // Método para actualizar la lista de reseñas
+    public void updateResenas(List<Resena> newResenas) {
+        this.resenas.clear(); // Limpiar la lista actual
+        this.resenas.addAll(newResenas); // Agregar las nuevas reseñas
+        notifyDataSetChanged(); // Notificar al adaptador que los datos han cambiado
     }
 
     static class ResenaViewHolder extends RecyclerView.ViewHolder {
