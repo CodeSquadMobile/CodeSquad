@@ -1,4 +1,4 @@
-package com.example.mercadolibromobile;
+package com.example.mercadolibromobile.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.mercadolibromobile.R;
 import com.example.mercadolibromobile.api.LoginApi;
 import com.example.mercadolibromobile.api.RetrofitClient;
 import com.example.mercadolibromobile.models.AuthModels;

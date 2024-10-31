@@ -16,8 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.mercadolibromobile.LoginActivity;
 import com.example.mercadolibromobile.R;
+import com.example.mercadolibromobile.activities.LoginActivity;
 import com.example.mercadolibromobile.api.deleteApi;
 
 import okhttp3.OkHttpClient;
