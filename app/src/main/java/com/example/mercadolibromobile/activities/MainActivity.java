@@ -15,8 +15,8 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.mercadolibromobile.R;
+import com.example.mercadolibromobile.fragments.BooksFragment;
 import com.example.mercadolibromobile.fragments.ContactFragment;
-import com.example.mercadolibromobile.fragments.ProductsFragment;
 import com.example.mercadolibromobile.fragments.ProfileFragment;
 import com.example.mercadolibromobile.fragments.CarritoFragment;
 import com.google.android.material.navigation.NavigationView;
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new ProductsFragment())
+                    .replace(R.id.fragment_container, new BooksFragment())
                     .commit();
             navigationView.setCheckedItem(R.id.nav_products);
         }
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         if (id == R.id.nav_products) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new ProductsFragment())
+                    .replace(R.id.fragment_container, new BooksFragment())
                     .addToBackStack(null)
                     .commit();
         } else if (id == R.id.nav_contact) {

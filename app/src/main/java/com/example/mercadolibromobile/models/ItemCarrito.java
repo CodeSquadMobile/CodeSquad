@@ -1,24 +1,22 @@
 package com.example.mercadolibromobile.models;
 
 public class ItemCarrito {
-    private int id_libro;
+    private int libro;
     private int cantidad;
-    private double precio;
 
     // Constructor
-    public ItemCarrito(int id_libro, int cantidad, double precio) {
-        this.id_libro = id_libro;
+    public ItemCarrito(int libro, int cantidad) {
+        this.libro = libro;
         this.cantidad = cantidad;
-        this.precio = precio;
     }
 
     // Getters y setters
-    public int getId_libro() {
-        return id_libro;
+    public int getLibro() {
+        return libro;
     }
 
-    public void setId_libro(int id_libro) {
-        this.id_libro = id_libro;
+    public void setLibro(int libro) {
+        this.libro = libro;
     }
 
     public int getCantidad() {
@@ -27,13 +25,5 @@ public class ItemCarrito {
 
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
-    }
-
-    public double getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(double precio) {
-        this.precio = precio;
     }
 }
