@@ -49,4 +49,12 @@ public class ItemCarrito {
     public double getTotal() {
         return cantidad * precioUnitario;
     }
+
+    public void aumentarCantidad() {
+        cantidad++;
+    }
+
+    public void disminuirCantidad() {
+        if (cantidad > 1) cantidad--;
+    }
 }
