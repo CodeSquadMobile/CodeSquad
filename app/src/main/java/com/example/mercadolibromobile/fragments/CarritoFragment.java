@@ -3,21 +3,10 @@ package com.example.mercadolibromobile.fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
-
-import com.example.mercadolibromobile.api.BookApi;
-import com.example.mercadolibromobile.api.CarritoApi;
-import com.example.mercadolibromobile.api.RetrofitClient;
-import com.example.mercadolibromobile.adapters.CarritoAdapter;
-
-import com.example.mercadolibromobile.models.Book;
-import com.example.mercadolibromobile.models.ItemCarrito;
-import com.example.mercadolibromobile.R;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,21 +14,29 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mercadolibromobile.R;
+import com.example.mercadolibromobile.adapters.CarritoAdapter;
+import com.example.mercadolibromobile.models.ItemCarrito;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class CarritoFragment extends Fragment {
 
     private RecyclerView recyclerViewCarrito;
-    private CarritoAdapter carritoAdapter;
-    private Button btnFinalizarCompra;
-    private List<ItemCarrito> itemsCarrito = new ArrayList<>();
-    private static final String BASE_URL = "https://backend-mercado-libro-mobile.onrender.com/api/";
-    private static final String TAG = "Fragment_Finalizar";
+    private TextView precioTotal;
+    private List<ItemCarrito> itemsCarrito;
+    private final String API_URL = "https://backend-mercado-libro-mobile.onrender.com/api/carrito/";
 
     @Nullable
     @Override
@@ -47,89 +44,65 @@ public class CarritoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_carrito, container, false);
 
         recyclerViewCarrito = view.findViewById(R.id.recyclerViewCarrito);
+        precioTotal = view.findViewById(R.id.precioTotal);
+
+        itemsCarrito = new ArrayList<>();
+
         recyclerViewCarrito.setLayoutManager(new LinearLayoutManager(getContext()));
-        btnFinalizarCompra = view.findViewById(R.id.btnFinalizarCompra);
+        CarritoAdapter adapter = new CarritoAdapter(itemsCarrito, getContext());
+        recyclerViewCarrito.setAdapter(adapter);
 
-        obtenerCarrito();
-
-        btnFinalizarCompra.setOnClickListener(v -> finalizarCompra());
+        obtenerDatosCarrito(adapter);
 
         return view;
     }
 
-    private void obtenerCarrito() {
+    private void obtenerDatosCarrito(CarritoAdapter adapter) {
+        OkHttpClient client = new OkHttpClient();
         String token = getAccessToken();
 
-        if (token == null) {
-            Toast.makeText(getContext(), "Token no encontrado. Por favor, inicia sesión nuevamente.", Toast.LENGTH_SHORT).show();
-            Log.e(TAG, "Token no encontrado.");
-            return;
-        }
+        Request request = new Request.Builder()
+                .url(API_URL)
+                .addHeader("Authorization", "Bearer " + token)
+                .build();
 
-        CarritoApi carritoApi = RetrofitClient.getInstance(BASE_URL).create(CarritoApi.class);
-        Call<List<ItemCarrito>> call = carritoApi.obtenerCarrito("Bearer " + token);
-
-        call.enqueue(new Callback<List<ItemCarrito>>() {
+        client.newCall(request).enqueue(new Callback() {
             @Override
-            public void onResponse(Call<List<ItemCarrito>> call, Response<List<ItemCarrito>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    itemsCarrito = response.body();
-                    getBooks(); // Llamar a getBooks después de obtener itemsCarrito
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String responseData = response.body().string();
+                    Type listType = new TypeToken<List<ItemCarrito>>() {}.getType();
+                    List<ItemCarrito> nuevosItems = new Gson().fromJson(responseData, listType);
+
+                    requireActivity().runOnUiThread(() -> {
+                        itemsCarrito.clear();
+                        itemsCarrito.addAll(nuevosItems);
+                        adapter.notifyDataSetChanged();
+                        actualizarPrecioTotal();
+                    });
                 } else {
-                    Log.e(TAG, "Error al obtener el carrito. Código de respuesta: " + response.code());
-                    Toast.makeText(getContext(), "Error al obtener el carrito.", Toast.LENGTH_SHORT).show();
+                    requireActivity().runOnUiThread(() -> {
+                    });
                 }
             }
-
-            @Override
-            public void onFailure(Call<List<ItemCarrito>> call, Throwable t) {
-                Log.e(TAG, "Fallo la conexión: " + t.getMessage());
-                Toast.makeText(getContext(), "Fallo la conexión", Toast.LENGTH_SHORT).show();
-            }
         });
-    }
-
-
-    private void getBooks() {
-        BookApi bookApi = RetrofitClient.getInstance(BASE_URL).create(BookApi.class);
-        Call<List<Book>> call = bookApi.getBooks();
-
-        call.enqueue(new Callback<List<Book>>() {
-            @Override
-            public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    List<Book> libros = response.body();
-                    configurarAdapter(itemsCarrito, libros);
-                } else {
-                    Log.e(TAG, "Error al obtener los libros. Código de respuesta: " + response.code());
-                    Toast.makeText(getContext(), "Error al obtener los libros.", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Book>> call, Throwable t) {
-                Log.e(TAG, "Fallo la conexión al obtener los libros: " + t.getMessage());
-                Toast.makeText(getContext(), "Fallo la conexión", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void configurarAdapter(List<ItemCarrito> itemsCarrito, List<Book> libros) {
-        carritoAdapter = new CarritoAdapter(itemsCarrito, libros);
-        recyclerViewCarrito.setAdapter(carritoAdapter);
-    }
-
-    private void finalizarCompra() {
-        Fragment direccionFragment = new DireccionFragment();
-        requireActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, direccionFragment)
-                .addToBackStack(null)
-                .commit();
     }
 
     private String getAccessToken() {
         SharedPreferences prefs = requireActivity().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
-        return prefs.getString("access_token", null);
+        return prefs.getString("access_token", null); // Devuelve el token de acceso
+    }
+
+    private void actualizarPrecioTotal() {
+        double total = 0.0;
+        for (ItemCarrito item : itemsCarrito) {
+            total += item.getTotal();
+        }
+        precioTotal.setText("Total: $" + total);
     }
 }

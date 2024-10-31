@@ -22,6 +22,7 @@ import com.example.mercadolibromobile.api.RetrofitClient;
 import com.example.mercadolibromobile.fragments.SinopsisFragment;
 import com.example.mercadolibromobile.models.Book;
 import com.example.mercadolibromobile.models.ItemCarrito;
+import com.example.mercadolibromobile.utils.AuthUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,8 +84,16 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
 
         // Botón para comprar (Agregar al carrito)
         holder.btnComprar.setOnClickListener(v -> {
-            ItemCarrito itemCarrito = new ItemCarrito(book.getIdLibro(), 1, 1);
-            agregarAlCarrito(itemCarrito);
+            String token = getAccessToken();
+            int userId = AuthUtils.obtenerUsuarioIdDesdeToken(token);
+
+            if (userId != -1) {
+                double precio = book.getPrecio();
+                ItemCarrito itemCarrito = new ItemCarrito(book.getIdLibro(), userId, 1, precio);
+                agregarAlCarrito(itemCarrito);
+            } else {
+                Toast.makeText(v.getContext(), "Usuario no autenticado", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
