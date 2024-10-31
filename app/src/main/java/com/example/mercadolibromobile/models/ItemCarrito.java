@@ -12,10 +12,17 @@ public class ItemCarrito {
     @SerializedName("cantidad")
     private int cantidad;
 
-    public ItemCarrito(int libro, int usuario, int cantidad) {
+    private double precioUnitario;
+
+    @SerializedName("titulo_libro")
+    private String tituloLibro;
+
+    public ItemCarrito(int libro, int usuario, int cantidad, double precioUnitario) {
         this.libro = libro;
         this.usuario = usuario;
         this.cantidad = cantidad;
+        this.precioUnitario = precioUnitario;
+        this.tituloLibro = tituloLibro;
     }
 
     // Getters y Setters
@@ -23,23 +30,23 @@ public class ItemCarrito {
         return libro;
     }
 
-    public void setLibro(int libro) {
-        this.libro = libro;
-    }
-
     public int getUsuario() {
         return usuario;
-    }
-
-    public void setUsuario(int usuario) {
-        this.usuario = usuario;
     }
 
     public int getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
+    public double getPrecioUnitario() {
+        return precioUnitario;
+    }
+
+    public String getTituloLibro() {
+        return tituloLibro;
+    }
+
+    public double getTotal() {
+        return cantidad * precioUnitario;
     }
 }
