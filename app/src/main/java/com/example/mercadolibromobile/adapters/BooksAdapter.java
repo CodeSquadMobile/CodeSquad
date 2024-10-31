@@ -83,7 +83,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
 
         // Botón para comprar (Agregar al carrito)
         holder.btnComprar.setOnClickListener(v -> {
-            ItemCarrito itemCarrito = new ItemCarrito(book.getIdLibro(), 1);
+            ItemCarrito itemCarrito = new ItemCarrito(book.getIdLibro(), 1, 1);
             agregarAlCarrito(itemCarrito);
         });
     }
@@ -125,7 +125,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
     }
 
     private void agregarAlCarrito(ItemCarrito itemCarrito) {
-        String token = getAccessToken();
+        String token = getAccessToken();  // Obtiene el token desde SharedPreferences
 
         if (token == null) {
             Toast.makeText(activity, "Token no encontrado. Por favor, inicia sesión nuevamente.", Toast.LENGTH_SHORT).show();
@@ -145,58 +145,6 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
                 } else {
                     Log.e(TAG, "Error al agregar al carrito. Código de respuesta: " + response.code() + " - " + response.message());
                     Toast.makeText(activity, "Error al agregar al carrito. Código: " + response.code(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ItemCarrito> call, Throwable t) {
-                Log.e(TAG, "Fallo la conexión: " + t.getMessage());
-                Toast.makeText(activity, "Fallo la conexión", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void agregarNuevoAlCarrito(ItemCarrito itemCarrito) {
-        String token = getAccessToken();
-
-        CarritoApi carritoApi = RetrofitClient.getInstance(BASE_URL).create(CarritoApi.class);
-        Call<ItemCarrito> call = carritoApi.agregarAlCarrito("Bearer " + token, itemCarrito);
-
-        call.enqueue(new Callback<ItemCarrito>() {
-            @Override
-            public void onResponse(Call<ItemCarrito> call, Response<ItemCarrito> response) {
-                if (response.isSuccessful()) {
-                    Log.d(TAG, "Libro agregado al carrito exitosamente.");
-                    Toast.makeText(activity, "Libro agregado al carrito", Toast.LENGTH_SHORT).show();
-                } else {
-                    Log.e(TAG, "Error al agregar al carrito. Código de respuesta: " + response.code() + " - " + response.message());
-                    Toast.makeText(activity, "Error al agregar al carrito. Código: " + response.code(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ItemCarrito> call, Throwable t) {
-                Log.e(TAG, "Fallo la conexión: " + t.getMessage());
-                Toast.makeText(activity, "Fallo la conexión", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void actualizarCarrito(ItemCarrito itemCarrito) {
-        String token = getAccessToken();
-
-        CarritoApi carritoApi = RetrofitClient.getInstance(BASE_URL).create(CarritoApi.class);
-        Call<ItemCarrito> call = carritoApi.actualizarCarrito("Bearer " + token, itemCarrito);
-
-        call.enqueue(new Callback<ItemCarrito>() {
-            @Override
-            public void onResponse(Call<ItemCarrito> call, Response<ItemCarrito> response) {
-                if (response.isSuccessful()) {
-                    Log.d(TAG, "Carrito actualizado exitosamente.");
-                    Toast.makeText(activity, "Carrito actualizado", Toast.LENGTH_SHORT).show();
-                } else {
-                    Log.e(TAG, "Error al actualizar el carrito. Código de respuesta: " + response.code() + " - " + response.message());
-                    Toast.makeText(activity, "Error al actualizar el carrito. Código: " + response.code(), Toast.LENGTH_SHORT).show();
                 }
             }
 
