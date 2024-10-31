@@ -1,106 +1,114 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fondo2">
 
-    android:background="@drawable/fondo2" android:layout_height="match_parent">
-
-
-    <!-- Título de contacto -->
-
-    <EditText
-        android:id="@+id/etNombre"
-        android:layout_width="353dp"
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etAsunto"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="20dp"
-        android:autofillHints="username"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="20dp"
-        android:hint="@string/nombre"
-        android:inputType="textPersonName"
-        android:textColor="@color/crim"
-        android:textColorHint="@color/black" />
+        android:layout_margin="16dp"
+        app:cardElevation="8dp"
+        app:cardCornerRadius="8dp"
+        app:cardBackgroundColor="@android:color/transparent"
 
-    <EditText
-        android:id="@+id/etAsunto"
-        android:layout_width="353dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvContactoTitulo"
-        android:layout_alignParentStart="true"
-        android:autofillHints="none"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="45dp"
-        android:layout_marginEnd="20dp"
-        android:hint="@string/asunto"
-        android:inputType="text"
-        android:textColor="@color/crim"
-        android:textColorHint="@color/black" />
+        >
 
-    <EditText
-        android:id="@+id/etEmail"
-        android:layout_width="353dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/etNombre"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="20dp"
-        android:autofillHints="emailAddress"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="20dp"
-        android:hint="@string/Email"
-        android:inputType="textEmailAddress"
-        android:textColor="@color/crim"
-        android:textColorHint="@color/black" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@drawable/borde_card">
 
-    <TextView
-        android:id="@+id/tvContactoTitulo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Contact"
-        android:textColor="@color/crim"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+            <TextView
+                android:id="@+id/tvContactoTitulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Contact"
+                android:textColor="@color/black"
+                android:textAlignment="center"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:layout_gravity="center" />
 
-    <!-- Saludo personalizado -->
+            <EditText
+                android:id="@+id/etAsunto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:layout_marginTop="20dp"
+                android:hint="@string/asunto"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black" />
 
-    <!-- Cuadro de input para la consulta -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/black" />
 
-    <!-- Botón para enviar la consulta -->
+            <EditText
+                android:id="@+id/etNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:layout_marginTop="20dp"
+                android:hint="@string/nombre"
+                android:inputType="textPersonName"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black" />
 
-    <EditText
-        android:id="@+id/etConsulta"
-        android:layout_width="353dp"
-        android:layout_height="wrap_content"
-        android:autofillHints="none"
-        android:layout_below="@+id/etEmail"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="20dp"
-        android:hint="@string/consulta_hint"
-        android:inputType="text"
-        android:textColor="@color/crim"
-        android:textColorHint="@color/black"
-        android:textSize="18sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/black" />
 
-    <Button
-        android:id="@+id/btnEnviarConsulta"
-        android:text="@string/enviar"
-        android:layout_width="266dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/etConsulta"
-        android:textColor="@color/crim"
-        android:background="?attr/selectableItemBackground"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="67dp"
-        android:layout_marginTop="118dp"/>
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:layout_marginTop="20dp"
+                android:hint="@string/Email"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/black" />
+
+            <EditText
+                android:id="@+id/etConsulta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:layout_marginTop="20dp"
+                android:hint="@string/consulta_hint"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/black" />
+
+            <Button
+                android:id="@+id/btnEnviarConsulta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/enviar"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/azul_electrico"
+                android:layout_marginTop="24dp"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

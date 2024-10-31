@@ -1,26 +1,52 @@
 package com.example.mercadolibromobile.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Book {
+    @SerializedName("id_libro")  // Mapeo del campo 'id_libro'
+    private int idLibro;  // Campo renombrado a idLibro
+
+    @SerializedName("titulo")  // Mapeo del campo 'titulo'
     private String titulo;
+
+    @SerializedName("autor")  // Mapeo del campo 'autor'
     private String autor;
+
+    @SerializedName("categoria")  // Mapeo del campo 'categoria'
     private String categoria;
+
+    @SerializedName("precio")  // Mapeo del campo 'precio'
     private double precio;
+
+    @SerializedName("stock")  // Mapeo del campo 'stock'
     private int stock;
+
+    @SerializedName("portada")  // Mapeo del campo 'portada'
     private String portada;
-    private String descripcion; // Nuevo campo para la descripción del libro
+
+    @SerializedName("descripcion")  // Mapeo del campo 'descripcion'
+    private String descripcion;
 
     // Constructor
-    public Book(String titulo, String autor, String categoria, double precio, int stock, String portada, String descripcion) {
+    public Book(int idLibro, String titulo, String autor, String categoria, double precio, int stock, String portada, String descripcion) {
+        this.idLibro = idLibro;
         this.titulo = titulo;
         this.autor = autor;
         this.categoria = categoria;
         this.precio = precio;
         this.stock = stock;
         this.portada = portada;
-        this.descripcion = descripcion; // Inicializar la descripción
+        this.descripcion = descripcion;
     }
 
     // Getters y Setters
+    public int getIdLibro() {
+        return idLibro;
+    }
+
+    public void setIdLibro(int idLibro) {
+        this.idLibro = idLibro;
+    }
 
     public String getTitulo() {
         return titulo;
@@ -70,11 +96,25 @@ public class Book {
         this.portada = portada;
     }
 
-    public String getDescripcion() { // Nuevo getter para la descripción
+    public String getDescripcion() {
         return descripcion;
     }
 
-    public void setDescripcion(String descripcion) { // Nuevo setter para la descripción
+    public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "idLibro=" + idLibro +
+                ", titulo='" + titulo + '\'' +
+                ", autor='" + autor + '\'' +
+                ", categoria='" + categoria + '\'' +
+                ", precio=" + precio +
+                ", stock=" + stock +
+                ", portada='" + portada + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                '}';
     }
 }

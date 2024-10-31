@@ -73,7 +73,7 @@
     <string name="error_obtener_contactos">Error al obtener los contactos.</string>
     <string name="error_general">Error: %1$s</string>
 
-    <!-- ProductsFragment -->
+    <!-- BooksFragment -->
 
     <string name="error_cargar_categorias">Error al cargar las categorías: %1$s</string>
     <string name="error_respuesta">Error en la respuesta: %1$s</string>

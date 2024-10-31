@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fondo2"
-    tools:context=".Politicas">
+    tools:context=".activities.Politicas">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -26,7 +26,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="12dp"
+                android:background="@drawable/borde_card">
 
                 <!-- Título principal -->
                 <TextView
@@ -34,7 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Políticas de Calidad y Seguridad"
-                    android:textColor="@color/crim"
+                    android:textColor="@color/black"
                     android:textSize="24sp"
                     android:textStyle="bold"
                     android:gravity="center"
@@ -47,7 +48,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Calidad del Producto"
-                    android:textColor="@color/crim"
+                    android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:padding="10dp"
@@ -56,7 +57,7 @@
                     android:clickable="true"
                     android:focusable="true" />
 
-                <!-- Contenido Calidad del Producto -->
+
                 <TextView
                     android:id="@+id/contentCalidad"
                     android:layout_width="match_parent"
@@ -74,7 +75,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Garantía de Satisfacción"
-                    android:textColor="@color/crim"
+                    android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:padding="10dp"
@@ -101,7 +102,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Seguridad en Transacciones"
-                    android:textColor="@color/crim"
+                    android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:padding="10dp"
@@ -110,7 +111,7 @@
                     android:clickable="true"
                     android:focusable="true" />
 
-                <!-- Contenido Seguridad en las Transacciones -->
+
                 <TextView
                     android:id="@+id/contentSeguridad"
                     android:layout_width="match_parent"
@@ -122,13 +123,13 @@
                     android:visibility="gone"
                     android:padding="5dp" />
 
-                <!-- Título Privacidad de los Datos -->
+
                 <TextView
                     android:id="@+id/titlePrivacidad"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Privacidad de los Datos"
-                    android:textColor="@color/crim"
+                    android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:padding="10dp"
@@ -137,7 +138,7 @@
                     android:clickable="true"
                     android:focusable="true" />
 
-                <!-- Contenido Privacidad de los Datos -->
+
                 <TextView
                     android:id="@+id/contentPrivacidad"
                     android:layout_width="match_parent"
@@ -149,13 +150,13 @@
                     android:visibility="gone"
                     android:padding="5dp" />
 
-                <!-- Título Envío Seguro y Confiable -->
+
                 <TextView
                     android:id="@+id/titleEnvio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Envío Seguro y Confiable"
-                    android:textColor="@color/crim"
+                    android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:padding="10dp"
@@ -164,7 +165,7 @@
                     android:clickable="true"
                     android:focusable="true" />
 
-                <!-- Contenido Envío Seguro y Confiable -->
+
                 <TextView
                     android:id="@+id/contentEnvio"
                     android:layout_width="match_parent"
@@ -176,13 +177,13 @@
                     android:visibility="gone"
                     android:padding="5dp" />
 
-                <!-- Título Atención al Cliente -->
+
                 <TextView
                     android:id="@+id/titleAtencion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Atención al Cliente"
-                    android:textColor="@color/crim"
+                    android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:padding="10dp"
@@ -191,7 +192,7 @@
                     android:clickable="true"
                     android:focusable="true" />
 
-                <!-- Contenido Atención al Cliente -->
+
                 <TextView
                     android:id="@+id/contentAtencion"
                     android:layout_width="match_parent"
@@ -203,13 +204,13 @@
                     android:visibility="gone"
                     android:padding="5dp" />
 
-                <!-- Pie de página -->
+
                 <TextView
                     android:id="@+id/footerText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/agradecimiento"
-                    android:textColor="@color/crim"
+                    android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:gravity="center"
@@ -223,4 +224,5 @@
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
 
