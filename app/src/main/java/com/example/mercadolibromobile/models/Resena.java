@@ -1,32 +1,54 @@
 package com.example.mercadolibromobile.models;
 
+import com.google.gson.annotations.SerializedName;
 
 public class Resena {
-    private String titulo_libro;
-    private String email_usuario;
-    private String comentario;
-    private String fecha_creacion;
+    private int id; // ID de la reseña (si es necesario)
 
-    public Resena(String titulo_libro, String email_usuario, String comentario, String fecha_creacion) {
-        this.titulo_libro = titulo_libro;
-        this.email_usuario = email_usuario;
+    @SerializedName("libro") // Asocia el campo JSON "libro" con este atributo
+    private int libro; // ID del libro
+
+    @SerializedName("email_usuario") // Asocia el campo JSON "email_usuario" con este atributo
+    private String emailUsuario; // Correo del usuario
+    private String titulo_libro;
+    private String comentario; // Comentario de la reseña
+    private String fechaCreacion; // Fecha de creación de la reseña
+
+    // Constructor
+    public Resena(int libro, String emailUsuario, String comentario, String fechaCreacion) {
+        this.libro = libro;
+        this.emailUsuario = emailUsuario;
         this.comentario = comentario;
-        this.fecha_creacion = fecha_creacion;
+        this.fechaCreacion = fechaCreacion;
+        this.titulo_libro = titulo_libro;
+    }
+
+    // Getters
+    public int getId() {
+        return id; // Devuelve el ID de la reseña
     }
 
     public String getTituloLibro() {
         return titulo_libro;
     }
 
+    public void setId(int id) {
+        this.id = id; // Establece el ID de la reseña (útil al agregar o actualizar)
+    }
+
+    public int getLibro() {
+        return libro; // Devuelve el ID del libro
+    }
+
     public String getEmailUsuario() {
-        return email_usuario;
+        return emailUsuario; // Devuelve el correo del usuario
     }
 
     public String getComentario() {
-        return comentario;
+        return comentario; // Devuelve el comentario
     }
 
     public String getFechaCreacion() {
-        return fecha_creacion;
+        return fechaCreacion; // Devuelve la fecha de creación
     }
 }

@@ -1,28 +1,31 @@
-package com.example.mercadolibromobile;
+package com.example.mercadolibromobile.activities;
 
 import android.content.Intent;
-import android.net.Uri;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ProgressBar;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.mercadolibromobile.R;
+import com.example.mercadolibromobile.api.LoginApi;
+import com.example.mercadolibromobile.api.RetrofitClient;
+import com.example.mercadolibromobile.models.AuthModels;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import android.content.SharedPreferences;
-import com.example.mercadolibromobile.api.LoginApi;
-import com.example.mercadolibromobile.models.AuthModels;
-import com.example.mercadolibromobile.api.RetrofitClient;
 
 public class LoginActivity extends AppCompatActivity {
     private TextInputLayout usernameLayout, passwordLayout, nameLayout;
@@ -131,20 +134,6 @@ public class LoginActivity extends AppCompatActivity {
         String password = passwordEditText.getText().toString().trim();
         progressBar.setVisibility(View.VISIBLE);
 
-        // Validar correo
-        if (!isEmailValid(email)) {
-            usernameLayout.setError("Correo electrónico inválido");
-            progressBar.setVisibility(View.GONE);
-            return;
-        }
-
-        // Validar contraseña
-        if (!isPasswordValid(password)) {
-            passwordLayout.setError("La contraseña debe tener al menos 6 caracteres y no incluir caracteres especiales");
-            progressBar.setVisibility(View.GONE);
-            return;
-        }
-
         LoginApi api = RetrofitClient.getInstance(BASE_URL).create(LoginApi.class);
         Call<AuthModels.LoginResponse> call = api.login(email, password);
 
@@ -152,16 +141,35 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<AuthModels.LoginResponse> call, Response<AuthModels.LoginResponse> response) {
                 progressBar.setVisibility(View.GONE);
-                if (response.isSuccessful()) {
+
+                // Agrega logs para ver el contenido de la respuesta y verificar errores de usuario
+                Log.d("LoginActivity", "Código de respuesta: " + response.code());
+                if (response.body() != null) {
+                    Log.d("LoginActivity", "Respuesta del backend: " + response.body().toString());
+                } else {
+                    Log.e("LoginActivity", "Error en la respuesta, body es null");
+                }
+
+                if (response.isSuccessful() && response.body() != null) {
+                    AuthModels.LoginResponse loginResponse = response.body();
+                    int userId = loginResponse.getUserId();
+                    String accessToken = loginResponse.getAccess();
+                    String refreshToken = loginResponse.getRefresh();
+
+                    // Log para verificar valores recibidos
+                    Log.d("LoginActivity", "UserID recibido: " + userId);
+                    Log.d("LoginActivity", "Access token recibido: " + accessToken);
+                    Log.d("LoginActivity", "Refresh token recibido: " + refreshToken);
+
+                    // Guardar en SharedPreferences
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("access_token", response.body().getAccess());
-                    editor.putString("refresh_token", response.body().getRefresh());
+                    editor.putString("access_token", accessToken);
+                    editor.putString("refresh_token", refreshToken);
                     editor.putString("user_email", email);
-                    editor.putInt("user_id", response.body().getUserId()); // Guardar user_id
+                    editor.putInt("user_id", userId);  // Guardar el userId
                     editor.apply();
 
-                    // Log para mostrar el user_id
-                    Log.d("LoginActivity", "User ID: " + response.body().getUserId());
+                    Log.d("LoginActivity", "UserID guardado en SharedPreferences: " + userId);
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
@@ -175,9 +183,12 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailure(Call<AuthModels.LoginResponse> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
                 Toast.makeText(LoginActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+                Log.e("LoginActivity", "Error en la conexión con el backend", t);
             }
         });
     }
+
+
 
     private boolean isEmailValid(String email) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
@@ -234,9 +245,11 @@ public class LoginActivity extends AppCompatActivity {
         // Inflar el layout personalizado
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_alert, null);
 
+
         androidx.appcompat.app.AlertDialog dialog = new androidx.appcompat.app.AlertDialog.Builder(this)
                 .setView(dialogView)
                 .create();
+
 
         dialog.setOnShowListener(dialogInterface -> {
             Button positiveButton = dialogView.findViewById(R.id.positive_button);
@@ -246,14 +259,18 @@ public class LoginActivity extends AppCompatActivity {
         dialog.show();
     }
 
+
     private abstract class SimpleTextWatcher implements TextWatcher {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
 
         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
 
         @Override
-        public void afterTextChanged(Editable s) {}
+        public void afterTextChanged(Editable s) {
+        }
     }
 }

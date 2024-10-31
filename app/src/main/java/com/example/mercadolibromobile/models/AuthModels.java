@@ -4,7 +4,7 @@ public class AuthModels {
     public static class LoginResponse {
         private String access;
         private String refresh;
-        private int user_id;
+        private int userId;  // Agregar el campo userId
 
         public String getAccess() {
             return access;
@@ -15,7 +15,7 @@ public class AuthModels {
         }
 
         public int getUserId() {
-            return user_id;
+            return userId;  // Método para obtener el userId
         }
     }
 
@@ -56,21 +56,13 @@ public class AuthModels {
         }
     }
 
-    public static class LoginRequest {  // Cambiado a 'static' para mantener la coherencia
+    public class LoginRequest {
         private String email;
         private String password;
 
         public LoginRequest(String email, String password) {
             this.email = email;
             this.password = password;
-        }
-
-        public String getEmail() {  // Agregado método getter para email
-            return email;
-        }
-
-        public String getPassword() {  // Agregado método getter para password
-            return password;
         }
     }
 }
