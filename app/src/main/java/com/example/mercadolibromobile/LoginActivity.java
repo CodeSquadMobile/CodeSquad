@@ -157,7 +157,11 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("access_token", response.body().getAccess());
                     editor.putString("refresh_token", response.body().getRefresh());
                     editor.putString("user_email", email);
+                    editor.putInt("user_id", response.body().getUserId()); // Guardar user_id
                     editor.apply();
+
+                    // Log para mostrar el user_id
+                    Log.d("LoginActivity", "User ID: " + response.body().getUserId());
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
@@ -230,11 +234,9 @@ public class LoginActivity extends AppCompatActivity {
         // Inflar el layout personalizado
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_alert, null);
 
-
         androidx.appcompat.app.AlertDialog dialog = new androidx.appcompat.app.AlertDialog.Builder(this)
                 .setView(dialogView)
                 .create();
-
 
         dialog.setOnShowListener(dialogInterface -> {
             Button positiveButton = dialogView.findViewById(R.id.positive_button);
@@ -244,18 +246,14 @@ public class LoginActivity extends AppCompatActivity {
         dialog.show();
     }
 
-
     private abstract class SimpleTextWatcher implements TextWatcher {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-        }
+        public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
         @Override
-        public void afterTextChanged(Editable s) {
-        }
+        public void afterTextChanged(Editable s) {}
     }
 }

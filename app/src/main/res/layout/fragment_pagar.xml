@@ -86,7 +86,21 @@
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
                 android:inputType="text" />
-
+            <TextView
+                android:id="@+id/tvTipoTarjeta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tipo de Tarjeta: "
+                android:textSize="18sp"
+                android:textColor="@color/black" />
+            <EditText
+                android:id="@+id/etTipoTarjeta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ingrese el tipo de tarjeta"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:inputType="text" />
             <!-- TextViews para mostrar la información ingresada -->
             <TextView
                 android:id="@+id/tvNumeroTarjetaMostrar"
@@ -115,6 +129,14 @@
                 android:textColor="@color/black"
                 android:layout_marginTop="8dp" />
 
+            <TextView
+                android:id="@+id/tvmostarTipoTarjeta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="El tipo de tarjeta ingresada es: "
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="16dp" />
             <TextView
                 android:id="@+id/tvInformacionPago"
                 android:layout_width="wrap_content"
