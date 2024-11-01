@@ -11,7 +11,7 @@ public class ApiClient {
     private static Retrofit retrofit = null;
 
     // Método para obtener el cliente Retrofit
-    public static Retrofit getClient() {
+    public static Retrofit getClient(String url) {
         // Configurar Retrofit con la URL base
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()

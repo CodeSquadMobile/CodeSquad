@@ -1,39 +1,61 @@
 package com.example.mercadolibromobile.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ItemCarrito {
-    private int id_libro;  // ID del libro
+    @SerializedName("libro")
+    private int libro;
+
+    @SerializedName("usuario")
+    private int usuario;
+
+    @SerializedName("cantidad")
     private int cantidad;
-    private double precio;  // Agregar precio
 
-    // Constructor
-    public ItemCarrito(int id_libro, int cantidad, double precio) {
-        this.id_libro = id_libro;
+    @SerializedName("precio_unitario")
+    private double precioUnitario;
+
+    @SerializedName("titulo_libro")
+    private String tituloLibro;
+
+    public ItemCarrito(int libro, int usuario, int cantidad, double precioUnitario) {
+        this.libro = libro;
+        this.usuario = usuario;
         this.cantidad = cantidad;
-        this.precio = precio;  // Asignar el precio al constructor
+        this.precioUnitario = precioUnitario;
+        this.tituloLibro = tituloLibro;
     }
 
-    // Getters y setters
-    public int getId_libro() {
-        return id_libro;
+    // Getters y Setters
+    public int getLibro() {
+        return libro;
     }
 
-    public void setId_libro(int id_libro) {
-        this.id_libro = id_libro;
+    public int getUsuario() {
+        return usuario;
     }
 
     public int getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
+    public double getPrecioUnitario() {
+        return precioUnitario;
     }
 
-    public double getPrecio() {
-        return precio;
+    public String getTituloLibro() {
+        return tituloLibro;
     }
 
-    public void setPrecio(double precio) {
-        this.precio = precio;
+    public double getTotal() {
+        return cantidad * precioUnitario;
+    }
+
+    public void aumentarCantidad() {
+        cantidad++;
+    }
+
+    public void disminuirCantidad() {
+        if (cantidad > 1) cantidad--;
     }
 }

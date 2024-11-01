@@ -1,9 +1,11 @@
-package com.example.mercadolibromobile;
+package com.example.mercadolibromobile.activities;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.mercadolibromobile.R;
 
 public class Politicas extends AppCompatActivity {
     private boolean isCalidadExpanded = false;

@@ -121,6 +121,15 @@
                 android:layout_marginTop="8dp" />
 
             <TextView
+                android:id="@+id/tvCiudadIngresada"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ciudad ingresada: "
+             android:textSize="18sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="8dp" />
+
+            <TextView
                 android:id="@+id/tvProvinciaIngresada"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -133,7 +142,7 @@
                 android:id="@+id/btnIrAlPago"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Ir al Pago"
+                android:text="Guardar Datos"
                 android:textColor="@color/white"
                 android:backgroundTint="@color/azul_electrico"
                 android:layout_marginTop="24dp"
