@@ -19,6 +19,7 @@ import com.example.mercadolibromobile.R;
 import com.example.mercadolibromobile.api.PagoApi;
 import com.example.mercadolibromobile.api.RetrofitClient;
 import com.example.mercadolibromobile.models.Pago;
+import com.example.mercadolibromobile.utils.AuthUtils;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -66,10 +67,6 @@ public class PagoFragment extends Fragment {
         String vencimiento = etVencimiento.getText().toString().trim();
         String tipoTarjeta = etTipoTarjeta.getText().toString().trim().toLowerCase();
 
-        if (!validarDatos(numeroTarjeta, cvv, vencimiento, tipoTarjeta)) {
-            return;  // Detener si los datos no son válidos
-        }
-
         String token = "Bearer " + sharedPreferences.getString("access_token", "");
 
         if (!token.isEmpty()) {
@@ -86,8 +83,8 @@ public class PagoFragment extends Fragment {
                 public void onResponse(Call<Pago> call, Response<Pago> response) {
                     if (response.isSuccessful() && response.body() != null) {
                         Pago pagoRespuesta = response.body();
-                        // Log del ID del pago
 
+                        // Mostrar los datos de la respuesta en los TextViews
                         tvNumeroTarjetaMostrar.setText("Número de Tarjeta: " + pagoRespuesta.getNumero_tarjeta());
                         tvCVVMostrar.setText("CVV: " + pagoRespuesta.getCvv());
                         tvVencimientoMostrar.setText("Vencimiento: " + pagoRespuesta.getVencimiento());
@@ -95,7 +92,6 @@ public class PagoFragment extends Fragment {
                         Toast.makeText(getActivity(), "Pago realizado con éxito", Toast.LENGTH_SHORT).show();
                     } else {
                         try {
-                            // Obtener mensaje de error detallado
                             String errorMessage = response.errorBody() != null ? response.errorBody().string() : "Error desconocido";
                             Log.e(TAG, "Error al realizar el pago: " + errorMessage);
                             Toast.makeText(getActivity(), "Error al realizar el pago: " + errorMessage, Toast.LENGTH_LONG).show();
@@ -116,7 +112,7 @@ public class PagoFragment extends Fragment {
         }
     }
 
-    private boolean validarDatos(String numeroTarjeta, String cvv, String vencimiento, String tipoTarjeta) {
+    private boolean validarDatos(String numeroTarjeta, String cvv, String tipoTarjeta) {
         // Validar número de tarjeta
         if (numeroTarjeta.length() != 16 || !numeroTarjeta.matches("\\d+")) {
             Toast.makeText(getActivity(), "El número de tarjeta debe tener 16 dígitos.", Toast.LENGTH_SHORT).show();
@@ -126,15 +122,6 @@ public class PagoFragment extends Fragment {
         // Validar CVV
         if (cvv.length() != 3 || !cvv.matches("\\d+")) {
             Toast.makeText(getActivity(), "El CVV debe tener 3 dígitos.", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        // Agregar log para depurar el valor de vencimiento
-        Log.d(TAG, "Vencimiento ingresado: " + vencimiento);
-
-        // Validar vencimiento (formato MM/AA)
-        if (!vencimiento.matches("(0[1-9]|1[0-2])/[0-9]{2}")) {
-            Toast.makeText(getActivity(), "El formato de vencimiento debe ser MM/AA.", Toast.LENGTH_SHORT).show();
             return false;
         }
 
