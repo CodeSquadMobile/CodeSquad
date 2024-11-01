@@ -1,10 +1,13 @@
 package com.example.mercadolibromobile.adapters;
 
+import android.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,7 +19,7 @@ import java.util.List;
 public class ResenaAdapter extends RecyclerView.Adapter<ResenaAdapter.ResenaViewHolder> {
 
     private List<Resena> resenas;
-    private OnResenaDeleteListener deleteListener;  // Añadir interfaz de escucha
+    private OnResenaDeleteListener deleteListener;
 
     // Constructor que recibe la lista de reseñas y el listener de eliminación
     public ResenaAdapter(List<Resena> resenas, OnResenaDeleteListener deleteListener) {
@@ -39,9 +42,16 @@ public class ResenaAdapter extends RecyclerView.Adapter<ResenaAdapter.ResenaView
         holder.libroTextView.setText("Título: " + resena.getTituloLibro());
         holder.usuarioTextView.setText("Usuario: " + resena.getEmailUsuario());
 
-        // Configurar el listener para el botón de eliminar
+        // Configurar el listener para el botón de eliminar con confirmación
         holder.deleteButton.setOnClickListener(v -> {
-            eliminarResena(position);
+            new AlertDialog.Builder(v.getContext())
+                    .setTitle("Confirmación de Eliminación")
+                    .setMessage("¿Estás seguro de que deseas eliminar esta reseña?")
+                    .setPositiveButton("Eliminar", (dialog, which) -> {
+                        eliminarResena(position);  // Llamar al método de eliminación
+                    })
+                    .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss())
+                    .show();
         });
     }
 
@@ -64,9 +74,9 @@ public class ResenaAdapter extends RecyclerView.Adapter<ResenaAdapter.ResenaView
 
     // Método para actualizar la lista de reseñas
     public void updateResenas(List<Resena> nuevasResenas) {
-        this.resenas.clear();           // Limpiar la lista actual
-        this.resenas.addAll(nuevasResenas); // Agregar las nuevas reseñas
-        notifyDataSetChanged();         // Notificar el cambio en el adaptador
+        this.resenas.clear();
+        this.resenas.addAll(nuevasResenas);
+        notifyDataSetChanged();
     }
 
     // Interfaz para notificar la eliminación de una reseña
