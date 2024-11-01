@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mercadolibromobile.R;
 import com.example.mercadolibromobile.adapters.ResenaAdapter;
-import com.example.mercadolibromobile.api.ApiService;
+import com.example.mercadolibromobile.api.PedidoApi;
 import com.example.mercadolibromobile.models.Resena;
 
 import java.util.ArrayList;
@@ -33,6 +33,7 @@ public class MisResenasActivity extends AppCompatActivity implements ResenaAdapt
     private ResenaAdapter adapter;
     private ApiService apiService;
     private static final int REQUEST_CODE_ADD_REVIEW = 1; // Código de solicitud
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class MisResenasActivity extends AppCompatActivity implements ResenaAdapt
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
-        apiService = retrofit.create(ApiService.class);
+        apiService = retrofit.create(PedidoApi.class);
 
         // Realizar la llamada a la API
         getResenas();
