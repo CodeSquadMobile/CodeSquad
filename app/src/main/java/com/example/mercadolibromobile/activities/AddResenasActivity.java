@@ -122,6 +122,10 @@ public class AddResenasActivity extends AppCompatActivity {
                     // Si la reseña se ha agregado con éxito
                     editTextResena.setText("");
                     Toast.makeText(AddResenasActivity.this, "Reseña agregada con éxito", Toast.LENGTH_SHORT).show();
+
+                    // Establecer el resultado como exitoso y finalizar la actividad
+                    setResult(RESULT_OK);
+                    finish(); // Finaliza la actividad y regresa a MisResenasActivity
                 } else {
                     Toast.makeText(AddResenasActivity.this, "Error al agregar reseña", Toast.LENGTH_SHORT).show();
                 }
@@ -133,6 +137,7 @@ public class AddResenasActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void obtenerListaDeLibros() {
         // Llamar a la API para obtener la lista de libros
