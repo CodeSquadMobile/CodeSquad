@@ -19,12 +19,12 @@ import java.util.List;
 public class ResenaAdapter extends RecyclerView.Adapter<ResenaAdapter.ResenaViewHolder> {
 
     private List<Resena> resenas;
-    private OnResenaDeleteListener deleteListener;
+    private OnResenaInteractionListener interactionListener; // Listener de interacción
 
-    // Constructor que recibe la lista de reseñas y el listener de eliminación
-    public ResenaAdapter(List<Resena> resenas, OnResenaDeleteListener deleteListener) {
+    // Constructor que recibe la lista de reseñas y el listener de interacción
+    public ResenaAdapter(List<Resena> resenas, OnResenaInteractionListener interactionListener) {
         this.resenas = resenas;
-        this.deleteListener = deleteListener;
+        this.interactionListener = interactionListener; // Inicializar el listener de interacción
     }
 
     @NonNull
@@ -53,6 +53,13 @@ public class ResenaAdapter extends RecyclerView.Adapter<ResenaAdapter.ResenaView
                     .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss())
                     .show();
         });
+
+        // Configurar el listener para el botón de editar
+        holder.editButton.setOnClickListener(v -> {
+            if (interactionListener != null) {
+                interactionListener.onResenaEdit(resena); // Llamar al método de edición en la actividad
+            }
+        });
     }
 
     @Override
@@ -67,8 +74,8 @@ public class ResenaAdapter extends RecyclerView.Adapter<ResenaAdapter.ResenaView
         notifyItemRemoved(position);  // Notificar el cambio en el adaptador
 
         // Llamar al listener de eliminación para manejar la acción en la actividad
-        if (deleteListener != null) {
-            deleteListener.onResenaDelete(resenaEliminada);
+        if (interactionListener != null) {
+            interactionListener.onResenaDelete(resenaEliminada);
         }
     }
 
@@ -79,14 +86,15 @@ public class ResenaAdapter extends RecyclerView.Adapter<ResenaAdapter.ResenaView
         notifyDataSetChanged();
     }
 
-    // Interfaz para notificar la eliminación de una reseña
-    public interface OnResenaDeleteListener {
+    // Interfaz para notificar las acciones de eliminar y editar de una reseña
+    public interface OnResenaInteractionListener {
         void onResenaDelete(Resena resena);
+        void onResenaEdit(Resena resena);
     }
 
     static class ResenaViewHolder extends RecyclerView.ViewHolder {
         TextView commentTextView, dateTextView, libroTextView, usuarioTextView;
-        ImageView deleteButton;
+        ImageView deleteButton, editButton; // Botones de eliminar y editar
 
         ResenaViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -95,6 +103,7 @@ public class ResenaAdapter extends RecyclerView.Adapter<ResenaAdapter.ResenaView
             libroTextView = itemView.findViewById(R.id.libroTextView);
             usuarioTextView = itemView.findViewById(R.id.usuarioTextView);
             deleteButton = itemView.findViewById(R.id.deleteButton); // Inicializar el botón de eliminar
+            editButton = itemView.findViewById(R.id.editButton); // Inicializar el botón de editar
         }
     }
 }

@@ -15,46 +15,41 @@
         android:supportsRtl="false"
         android:theme="@style/Base.Theme.MercadoLibroMobile"
         tools:targetApi="31">
-
         <activity
-
+            android:name=".activities.EditResenaActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.AddResenasActivity"
-            android:label="Agregar Reseña"
-            android:exported="true">
-        </activity>
+            android:exported="true"
+            android:label="Agregar Reseña"></activity>
         <activity
-
             android:name=".activities.SplashActivity"
             android:exported="true"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".AddResenasActivity"
-            android:label="Agregar Reseña"
-            android:exported="true">
-        </activity>
-
+            android:exported="true"
+            android:label="Agregar Reseña"></activity>
         <activity
             android:name=".activities.LoginActivity"
-
-            android:theme="@style/Base.Theme.MercadoLibroMobile"></activity>
+            android:theme="@style/Base.Theme.MercadoLibroMobile" />
         <activity
             android:name=".activities.MainActivity"
-            android:theme="@style/Base.Theme.MercadoLibroMobile"></activity>
+            android:theme="@style/Base.Theme.MercadoLibroMobile" />
         <activity
             android:name=".activities.Politicas"
             android:theme="@style/Base.Theme.MercadoLibroMobile" />
         <activity android:name=".activities.MisResenasActivity" />
 
-
-
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
+
 </manifest>
