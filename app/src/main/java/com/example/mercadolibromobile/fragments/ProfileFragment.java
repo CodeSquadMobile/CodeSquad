@@ -1,6 +1,7 @@
 package com.example.mercadolibromobile.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,12 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.example.mercadolibromobile.R;
+import com.example.mercadolibromobile.activities.SplashActivity;
 import com.example.mercadolibromobile.activities.MisResenasActivity;
 import com.example.mercadolibromobile.api.deleteApi;
 import com.example.mercadolibromobile.models.User;
@@ -27,7 +31,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ProfileFragment extends Fragment {
-
     private TextView emailTextView;
     private String authToken;
 
@@ -43,7 +46,6 @@ public class ProfileFragment extends Fragment {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
         String userEmail = sharedPreferences.getString("user_email", "No email found");
         authToken = sharedPreferences.getString("access_token", null);
-
         Log.d("ProfileFragment", "Token: " + authToken);
 
         // Mostrar el correo electrónico en el TextView
@@ -61,13 +63,22 @@ public class ProfileFragment extends Fragment {
         Button deleteUserButton = rootView.findViewById(R.id.button9);
         deleteUserButton.setOnClickListener(v -> {
             if (authToken != null) {
-                obtenerUsuarioAutenticado("Bearer " + authToken);
+                confirmarEliminacionUsuario();
             } else {
                 Log.d("ProfileFragment", "Token inválido: No se puede obtener el ID del usuario");
             }
         });
 
         return rootView;
+    }
+
+    private void confirmarEliminacionUsuario() {
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Confirmar Eliminación")
+                .setMessage("¿Está seguro de que desea eliminar su cuenta de usuario?")
+                .setPositiveButton("Sí", (dialog, which) -> obtenerUsuarioAutenticado("Bearer " + authToken))
+                .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
+                .show();
     }
 
     private void obtenerUsuarioAutenticado(String authToken) {
@@ -78,7 +89,6 @@ public class ProfileFragment extends Fragment {
 
         deleteApi apiService = retrofit.create(deleteApi.class);
         Call<User> call = apiService.getAuthenticatedUser(authToken);
-
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -106,13 +116,16 @@ public class ProfileFragment extends Fragment {
 
         deleteApi apiService = retrofit.create(deleteApi.class);
         Call<Void> call = apiService.deleteUser(userId, authToken);
-
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     Log.d("ProfileFragment", "Usuario eliminado con éxito");
-                    // Opcional: Redirigir al usuario a la pantalla de inicio de sesión o cerrar sesión
+                    SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+                    sharedPreferences.edit().clear().apply();
+                    Intent intent = new Intent(getActivity(), SplashActivity.class);
+                    startActivity(intent);
+                    requireActivity().finish();
                 } else {
                     Log.d("ProfileFragment", "Error al eliminar usuario: " + response.code());
                 }
