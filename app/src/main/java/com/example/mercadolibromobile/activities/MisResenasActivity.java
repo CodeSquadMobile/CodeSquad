@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,6 +32,7 @@ public class MisResenasActivity extends AppCompatActivity implements ResenaAdapt
     private RecyclerView recyclerView;
     private ResenaAdapter adapter;
     private ApiService apiService;
+    private static final int REQUEST_CODE_ADD_REVIEW = 1; // Código de solicitud
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +62,7 @@ public class MisResenasActivity extends AppCompatActivity implements ResenaAdapt
         Button button = findViewById(R.id.button);
         button.setOnClickListener(v -> {
             Intent intent = new Intent(MisResenasActivity.this, AddResenasActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_CODE_ADD_REVIEW); // Usar startActivityForResult
         });
     }
 
@@ -140,4 +142,15 @@ public class MisResenasActivity extends AppCompatActivity implements ResenaAdapt
             Toast.makeText(this, "No se encontró el token. Inicia sesión nuevamente.", Toast.LENGTH_SHORT).show();
         }
     }
+
+    // Sobrescribir onActivityResult para actualizar la lista al regresar de AddResenasActivity
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_ADD_REVIEW && resultCode == RESULT_OK) {
+            getResenas(); // Llama a getResenas() para actualizar la lista
+        }
+    }
+
 }
