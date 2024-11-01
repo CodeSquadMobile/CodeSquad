@@ -17,7 +17,8 @@ import androidx.fragment.app.Fragment;
 
 import com.example.mercadolibromobile.R;
 import com.example.mercadolibromobile.activities.MisResenasActivity;
-import com.example.mercadolibromobile.api.deleteApi;  // Importar la interfaz deleteApi
+import com.example.mercadolibromobile.api.deleteApi;
+import com.example.mercadolibromobile.models.User;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,6 +29,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ProfileFragment extends Fragment {
 
     private TextView emailTextView;
+    private String authToken;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -40,42 +42,60 @@ public class ProfileFragment extends Fragment {
         // Obtener el correo electrónico desde SharedPreferences
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
         String userEmail = sharedPreferences.getString("user_email", "No email found");
+        authToken = sharedPreferences.getString("access_token", null);
 
-        // Actualizar la clave del ID de usuario a "user_id"
-        int userId = sharedPreferences.getInt("user_id", 0);  // Revisa si el ID es válido
-        String token = sharedPreferences.getString("access_token", null);  // Revisa si el token está presente
-
-        Log.d("ProfileFragment", "User ID: " + userId);
-        Log.d("ProfileFragment", "Token: " + token);
+        Log.d("ProfileFragment", "Token: " + authToken);
 
         // Mostrar el correo electrónico en el TextView
         emailTextView.setText(userEmail);
 
         // Configurar el botón "Mis Reseñas"
         Button reviewsButton = rootView.findViewById(R.id.button2);
-        reviewsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Abrir MisResenasActivity
-                Intent intent = new Intent(getActivity(), MisResenasActivity.class);
-                startActivity(intent); // Iniciar la actividad
-            }
+        reviewsButton.setOnClickListener(v -> {
+            // Abrir MisResenasActivity
+            Intent intent = new Intent(getActivity(), MisResenasActivity.class);
+            startActivity(intent); // Iniciar la actividad
         });
 
         // Configurar el botón "Dar de baja usuario"
         Button deleteUserButton = rootView.findViewById(R.id.button9);
-        deleteUserButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (userId != 0 && token != null) {
-                    eliminarUsuario(userId, "Bearer " + token);
-                } else {
-                    Log.d("ProfileFragment", "No se puede eliminar el usuario: token o ID inválido");
-                }
+        deleteUserButton.setOnClickListener(v -> {
+            if (authToken != null) {
+                obtenerUsuarioAutenticado("Bearer " + authToken);
+            } else {
+                Log.d("ProfileFragment", "Token inválido: No se puede obtener el ID del usuario");
             }
         });
 
         return rootView;
+    }
+
+    private void obtenerUsuarioAutenticado(String authToken) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://backend-mercado-libro-mobile.onrender.com/api/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        deleteApi apiService = retrofit.create(deleteApi.class);
+        Call<User> call = apiService.getAuthenticatedUser(authToken);
+
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    int userId = response.body().getId();
+                    Log.d("ProfileFragment", "User ID obtenido: " + userId);
+                    eliminarUsuario(userId, authToken);
+                } else {
+                    Log.d("ProfileFragment", "Error al obtener usuario: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.e("ProfileFragment", "Fallo en la llamada de usuario autenticado: " + t.getMessage());
+            }
+        });
     }
 
     private void eliminarUsuario(int userId, String authToken) {
@@ -84,7 +104,7 @@ public class ProfileFragment extends Fragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        deleteApi apiService = retrofit.create(deleteApi.class);  // Instanciar deleteApi
+        deleteApi apiService = retrofit.create(deleteApi.class);
         Call<Void> call = apiService.deleteUser(userId, authToken);
 
         call.enqueue(new Callback<Void>() {
@@ -100,7 +120,7 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Log.e("ProfileFragment", "Fallo en la llamada: " + t.getMessage());
+                Log.e("ProfileFragment", "Fallo en la llamada de eliminación de usuario: " + t.getMessage());
             }
         });
     }
