@@ -12,6 +12,7 @@ public class ItemCarrito {
     @SerializedName("cantidad")
     private int cantidad;
 
+    @SerializedName("precio_unitario")
     private double precioUnitario;
 
     @SerializedName("titulo_libro")
