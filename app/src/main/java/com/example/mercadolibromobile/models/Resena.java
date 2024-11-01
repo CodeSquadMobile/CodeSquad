@@ -1,16 +1,17 @@
 package com.example.mercadolibromobile.models;
 
 import com.google.gson.annotations.SerializedName;
+import java.io.Serializable;
 
-public class Resena {
-    private int id; // ID de la reseña (si es necesario)
+public class Resena implements Serializable {
+    private int id; // ID de la reseña
 
     @SerializedName("libro") // Asocia el campo JSON "libro" con este atributo
     private int libro; // ID del libro
 
     @SerializedName("email_usuario") // Asocia el campo JSON "email_usuario" con este atributo
     private String emailUsuario; // Correo del usuario
-    private String titulo_libro;
+    private String titulo_libro; // Título del libro
     private String comentario; // Comentario de la reseña
     private String fechaCreacion; // Fecha de creación de la reseña
 
@@ -20,7 +21,6 @@ public class Resena {
         this.emailUsuario = emailUsuario;
         this.comentario = comentario;
         this.fechaCreacion = fechaCreacion;
-        this.titulo_libro = titulo_libro;
     }
 
     // Getters
@@ -29,11 +29,7 @@ public class Resena {
     }
 
     public String getTituloLibro() {
-        return titulo_libro;
-    }
-
-    public void setId(int id) {
-        this.id = id; // Establece el ID de la reseña (útil al agregar o actualizar)
+        return titulo_libro; // Devuelve el título del libro
     }
 
     public int getLibro() {
@@ -50,5 +46,18 @@ public class Resena {
 
     public String getFechaCreacion() {
         return fechaCreacion; // Devuelve la fecha de creación
+    }
+
+    // Setters
+    public void setId(int id) {
+        this.id = id; // Establece el ID de la reseña (útil al agregar o actualizar)
+    }
+
+    public void setTituloLibro(String tituloLibro) {
+        this.titulo_libro = tituloLibro; // Establece el título del libro
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario; // Establece el nuevo comentario
     }
 }
