@@ -3,6 +3,7 @@ package com.example.mercadolibromobile.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,15 +16,17 @@ import java.util.List;
 public class ResenaAdapter extends RecyclerView.Adapter<ResenaAdapter.ResenaViewHolder> {
 
     private List<Resena> resenas;
+    private OnResenaDeleteListener deleteListener;  // Añadir interfaz de escucha
 
-    public ResenaAdapter(List<Resena> resenas) {
+    // Constructor que recibe la lista de reseñas y el listener de eliminación
+    public ResenaAdapter(List<Resena> resenas, OnResenaDeleteListener deleteListener) {
         this.resenas = resenas;
+        this.deleteListener = deleteListener;
     }
 
     @NonNull
     @Override
     public ResenaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Inflar el layout item_resena.xml
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_resena, parent, false);
         return new ResenaViewHolder(view);
     }
@@ -33,9 +36,13 @@ public class ResenaAdapter extends RecyclerView.Adapter<ResenaAdapter.ResenaView
         Resena resena = resenas.get(position);
         holder.commentTextView.setText(resena.getComentario());
         holder.dateTextView.setText(resena.getFechaCreacion());
-        holder.libroTextView.setText("Libro ID: " + resena.getLibro()); // Mostrar solo el ID del libro
         holder.libroTextView.setText("Título: " + resena.getTituloLibro());
         holder.usuarioTextView.setText("Usuario: " + resena.getEmailUsuario());
+
+        // Configurar el listener para el botón de eliminar
+        holder.deleteButton.setOnClickListener(v -> {
+            eliminarResena(position);
+        });
     }
 
     @Override
@@ -43,26 +50,41 @@ public class ResenaAdapter extends RecyclerView.Adapter<ResenaAdapter.ResenaView
         return resenas.size();
     }
 
+    // Método para eliminar la reseña y llamar al listener
+    public void eliminarResena(int position) {
+        Resena resenaEliminada = resenas.get(position);
+        resenas.remove(position);  // Eliminar la reseña de la lista
+        notifyItemRemoved(position);  // Notificar el cambio en el adaptador
+
+        // Llamar al listener de eliminación para manejar la acción en la actividad
+        if (deleteListener != null) {
+            deleteListener.onResenaDelete(resenaEliminada);
+        }
+    }
+
     // Método para actualizar la lista de reseñas
-    public void updateResenas(List<Resena> newResenas) {
-        this.resenas.clear(); // Limpiar la lista actual
-        this.resenas.addAll(newResenas); // Agregar las nuevas reseñas
-        notifyDataSetChanged(); // Notificar al adaptador que los datos han cambiado
+    public void updateResenas(List<Resena> nuevasResenas) {
+        this.resenas.clear();           // Limpiar la lista actual
+        this.resenas.addAll(nuevasResenas); // Agregar las nuevas reseñas
+        notifyDataSetChanged();         // Notificar el cambio en el adaptador
+    }
+
+    // Interfaz para notificar la eliminación de una reseña
+    public interface OnResenaDeleteListener {
+        void onResenaDelete(Resena resena);
     }
 
     static class ResenaViewHolder extends RecyclerView.ViewHolder {
-        TextView commentTextView;
-        TextView dateTextView;
-        TextView libroTextView;  // Añadir declaración de libroTextView
-        TextView usuarioTextView; // Añadir declaración de usuarioTextView
+        TextView commentTextView, dateTextView, libroTextView, usuarioTextView;
+        ImageView deleteButton;
 
         ResenaViewHolder(@NonNull View itemView) {
             super(itemView);
-            // Inicializar los TextViews desde el layout
             commentTextView = itemView.findViewById(R.id.comentarioTextView);
             dateTextView = itemView.findViewById(R.id.fechaTextView);
-            libroTextView = itemView.findViewById(R.id.libroTextView); // Inicializar libroTextView
-            usuarioTextView = itemView.findViewById(R.id.usuarioTextView); // Inicializar usuarioTextView
+            libroTextView = itemView.findViewById(R.id.libroTextView);
+            usuarioTextView = itemView.findViewById(R.id.usuarioTextView);
+            deleteButton = itemView.findViewById(R.id.deleteButton); // Inicializar el botón de eliminar
         }
     }
 }

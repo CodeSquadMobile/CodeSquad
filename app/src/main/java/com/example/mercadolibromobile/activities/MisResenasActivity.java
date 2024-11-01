@@ -11,9 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
-import com.example.mercadolibromobile.activities.MisResenasActivity;
-
 import com.example.mercadolibromobile.R;
 import com.example.mercadolibromobile.adapters.ResenaAdapter;
 import com.example.mercadolibromobile.api.ApiService;
@@ -29,7 +26,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MisResenasActivity extends AppCompatActivity {
+public class MisResenasActivity extends AppCompatActivity implements ResenaAdapter.OnResenaDeleteListener {
 
     private RecyclerView recyclerView;
     private ResenaAdapter adapter;
@@ -43,8 +40,8 @@ public class MisResenasActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Inicializar el adaptador con una lista vacía
-        adapter = new ResenaAdapter(new ArrayList<>());
+        // Inicializar el adaptador con una lista vacía y el listener
+        adapter = new ResenaAdapter(new ArrayList<>(), this);
         recyclerView.setAdapter(adapter);
 
         // Inicializar Retrofit y apiService antes de llamar a getResenas()
@@ -110,6 +107,37 @@ public class MisResenasActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "No se encontró el token o el correo del usuario. Inicia sesión nuevamente.", Toast.LENGTH_SHORT).show();
             // Puedes agregar un intent para redirigir al usuario al LoginActivity
+        }
+    }
+
+    @Override
+    public void onResenaDelete(Resena resena) {
+        // Aquí puedes manejar la lógica para eliminar la reseña en el backend
+        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        String token = sharedPreferences.getString("access_token", null);
+
+        if (token != null) {
+            String resenaId = String.valueOf(resena.getId()); // Convierte el ID a String
+            Call<Void> call = apiService.deleteResena("Bearer " + token, resenaId); // Pasar el token y el ID como Strings
+            call.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(MisResenasActivity.this, "Reseña eliminada correctamente.", Toast.LENGTH_SHORT).show();
+                        getResenas(); // Actualizar la lista después de eliminar
+                    } else {
+                        Toast.makeText(MisResenasActivity.this, "Error al eliminar la reseña.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    Log.e("MisResenasActivity", "Error al eliminar reseña", t);
+                    Toast.makeText(MisResenasActivity.this, "Error al eliminar la reseña.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Toast.makeText(this, "No se encontró el token. Inicia sesión nuevamente.", Toast.LENGTH_SHORT).show();
         }
     }
 }
