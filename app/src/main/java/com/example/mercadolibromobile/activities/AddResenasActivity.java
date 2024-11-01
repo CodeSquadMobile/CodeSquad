@@ -15,7 +15,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mercadolibromobile.R;
-import com.example.mercadolibromobile.api.ApiService;
+import com.example.mercadolibromobile.api.PedidoApi;
 import com.example.mercadolibromobile.api.RetrofitClient;
 import com.example.mercadolibromobile.models.Resena;
 import com.example.mercadolibromobile.models.Book;
@@ -35,7 +35,7 @@ public class AddResenasActivity extends AppCompatActivity {
     private EditText editTextResena;
     private Button buttonAgregar;
     private String selectedBookTitle;
-    private ApiService apiService;
+    private PedidoApi apiService;
     private List<Book> libros; // Lista para almacenar los libros
 
     @Override
@@ -44,7 +44,7 @@ public class AddResenasActivity extends AppCompatActivity {
         setContentView(R.layout.activity_addresena);
 
         // Inicializar el API
-        apiService = RetrofitClient.getInstance("https://backend-mercado-libro-mobile.onrender.com/").create(ApiService.class);
+        apiService = RetrofitClient.getInstance("https://backend-mercado-libro-mobile.onrender.com/").create(PedidoApi.class);
 
         spinnerOpciones = findViewById(R.id.spinnerOpciones);
         editTextResena = findViewById(R.id.editTextResena);

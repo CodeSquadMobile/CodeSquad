@@ -17,6 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.mercadolibromobile.R;
 import com.example.mercadolibromobile.activities.SplashActivity;
@@ -41,6 +43,19 @@ public class ProfileFragment extends Fragment {
 
         // Referencia al TextView del email
         emailTextView = rootView.findViewById(R.id.textView9);
+
+        // Dentro de onCreateView o en el evento OnClick del botón
+        Button estadoEnvioButton = rootView.findViewById(R.id.button8);
+        estadoEnvioButton.setOnClickListener(v -> {
+            Log.d("ProfileFragment", "Botón estadoEnvioButton presionado - Iniciando PedidosFragment");
+            FragmentManager fragmentManager = getParentFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, new PedidosFragment());
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        });
+
+
 
         // Obtener el correo electrónico desde SharedPreferences
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);

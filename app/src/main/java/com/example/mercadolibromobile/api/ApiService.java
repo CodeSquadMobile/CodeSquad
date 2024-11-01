@@ -13,6 +13,7 @@ import retrofit2.http.Path;
 
 import com.example.mercadolibromobile.models.AuthModels;
 import com.example.mercadolibromobile.models.Book;
+import com.example.mercadolibromobile.models.Pedido;
 import com.example.mercadolibromobile.models.Resena;
 import com.example.mercadolibromobile.models.User;
 
