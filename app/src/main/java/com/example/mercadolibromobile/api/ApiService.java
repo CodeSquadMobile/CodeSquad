@@ -7,9 +7,11 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 import com.example.mercadolibromobile.models.AuthModels;
 import com.example.mercadolibromobile.models.Book;
+import com.example.mercadolibromobile.models.Pedido;
 import com.example.mercadolibromobile.models.Resena;
 import com.example.mercadolibromobile.models.User;
 
@@ -28,4 +30,6 @@ public interface ApiService {
 
     @GET("/api/libros/") // Agrega esta línea para obtener la lista de libros
     Call<List<Book>> getBooks(); // Cambia esto según tu modelo de libro
+
+
 }

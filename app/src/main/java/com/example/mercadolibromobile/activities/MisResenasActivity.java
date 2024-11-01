@@ -12,11 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.example.mercadolibromobile.activities.MisResenasActivity;
-
 import com.example.mercadolibromobile.R;
 import com.example.mercadolibromobile.adapters.ResenaAdapter;
-import com.example.mercadolibromobile.api.ApiService;
+import com.example.mercadolibromobile.api.PedidoApi;
 import com.example.mercadolibromobile.models.Resena;
 
 import java.util.ArrayList;
@@ -33,7 +31,7 @@ public class MisResenasActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private ResenaAdapter adapter;
-    private ApiService apiService;
+    private PedidoApi apiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +52,7 @@ public class MisResenasActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
-        apiService = retrofit.create(ApiService.class);
+        apiService = retrofit.create(PedidoApi.class);
 
         // Realizar la llamada a la API
         getResenas();
