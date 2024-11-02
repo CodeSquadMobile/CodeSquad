@@ -60,16 +60,26 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
         holder.tvBookPrice.setText("Precio: $" + book.getPrecio());
         holder.tvBookStock.setText("En stock: " + book.getStock());
 
-        Log.d(TAG, "Book ID: " + book.getIdLibro() + ", Title: " + book.getTitulo() + ", Price: " + book.getPrecio());
+        // Muestra el nombre del autor y la categoría
+        holder.tvAuthor.setText("Autor: " + book.getAutor().getNombreAutor());
+        holder.tvCategory.setText("Categoría: " + book.getCategoria().getNombreCategoria());
+
+        String portadaUrl = book.getPortada();
+
+        if (portadaUrl.startsWith("image/upload/")) {
+            portadaUrl = portadaUrl.replace("image/upload/https://", "https://");
+        }
+
+        Log.d("URL Debug", "URL de la imagen: " + portadaUrl);
 
         Glide.with(holder.itemView.getContext())
-                .load(book.getPortada())
+                .load(portadaUrl)
                 .timeout(10000)
                 .into(holder.ivBookCover);
 
+
         // Botón para ver la sinopsis
         holder.btnSinopsis.setOnClickListener(v -> {
-            Log.d(TAG, "Mostrando sinopsis para: " + book.getTitulo());
             SinopsisFragment fragment = SinopsisFragment.newInstance(
                     book.getTitulo(),
                     book.getDescripcion(),
@@ -97,6 +107,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
         });
     }
 
+
     @Override
     public int getItemCount() {
         return books.size();
@@ -119,8 +130,9 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
 
     static class BookViewHolder extends RecyclerView.ViewHolder {
         ImageView ivBookCover;
-        TextView tvBookTitle, tvBookPrice, tvBookStock;
+        TextView tvBookTitle, tvBookPrice, tvBookStock, tvAuthor, tvCategory;
         Button btnSinopsis, btnComprar;
+
 
         public BookViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -128,6 +140,8 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
             tvBookTitle = itemView.findViewById(R.id.tvBookTitle);
             tvBookPrice = itemView.findViewById(R.id.tvBookPrice);
             tvBookStock = itemView.findViewById(R.id.tvBookStock);
+            tvAuthor = itemView.findViewById(R.id.tvAuthor);
+            tvCategory = itemView.findViewById(R.id.tvCategory);
             btnSinopsis = itemView.findViewById(R.id.btnSinopsis);
             btnComprar = itemView.findViewById(R.id.btnComprar);
         }
