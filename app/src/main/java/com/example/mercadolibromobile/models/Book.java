@@ -3,32 +3,32 @@ package com.example.mercadolibromobile.models;
 import com.google.gson.annotations.SerializedName;
 
 public class Book {
-    @SerializedName("id_libro")  // Mapeo del campo 'id_libro'
-    private int idLibro;  // Campo renombrado a idLibro
+    @SerializedName("id_libro")
+    private int idLibro;
 
-    @SerializedName("titulo")  // Mapeo del campo 'titulo'
+    @SerializedName("titulo")
     private String titulo;
 
-    @SerializedName("autor")  // Mapeo del campo 'autor'
-    private String autor;
+    @SerializedName("autor")
+    private Autor autor;
 
-    @SerializedName("categoria")  // Mapeo del campo 'categoria'
-    private String categoria;
+    @SerializedName("categoria")
+    private Categoria categoria;
 
-    @SerializedName("precio")  // Mapeo del campo 'precio'
+    @SerializedName("precio")
     private double precio;
 
-    @SerializedName("stock")  // Mapeo del campo 'stock'
+    @SerializedName("stock")
     private int stock;
 
-    @SerializedName("portada")  // Mapeo del campo 'portada'
+    @SerializedName("portada")
     private String portada;
 
-    @SerializedName("descripcion")  // Mapeo del campo 'descripcion'
+    @SerializedName("descripcion")
     private String descripcion;
 
     // Constructor
-    public Book(int idLibro, String titulo, String autor, String categoria, double precio, int stock, String portada, String descripcion) {
+    public Book(int idLibro, String titulo, Autor autor, Categoria categoria, double precio, int stock, String portada, String descripcion) {
         this.idLibro = idLibro;
         this.titulo = titulo;
         this.autor = autor;
@@ -56,19 +56,19 @@ public class Book {
         this.titulo = titulo;
     }
 
-    public String getAutor() {
+    public Autor getAutor() {
         return autor;
     }
 
-    public void setAutor(String autor) {
+    public void setAutor(Autor autor) {
         this.autor = autor;
     }
 
-    public String getCategoria() {
+    public Categoria getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(String categoria) {
+    public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
 
@@ -102,19 +102,5 @@ public class Book {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
-    }
-
-    @Override
-    public String toString() {
-        return "Book{" +
-                "idLibro=" + idLibro +
-                ", titulo='" + titulo + '\'' +
-                ", autor='" + autor + '\'' +
-                ", categoria='" + categoria + '\'' +
-                ", precio=" + precio +
-                ", stock=" + stock +
-                ", portada='" + portada + '\'' +
-                ", descripcion='" + descripcion + '\'' +
-                '}';
     }
 }
