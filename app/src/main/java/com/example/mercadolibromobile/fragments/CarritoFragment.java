@@ -148,7 +148,7 @@ public class CarritoFragment extends Fragment implements CarritoAdapter.CarritoL
                 .build()
                 .create(CarritoApi.class);
 
-        retrofit2.Call<Void> call = carritoApi.eliminarDelCarrito("Bearer " + token, item.getLibro());
+        retrofit2.Call<Void> call = carritoApi.eliminarDelCarrito("Bearer " + token, item.getId());
         call.enqueue(new retrofit2.Callback<Void>() {
             @Override
             public void onResponse(@NonNull retrofit2.Call<Void> call, @NonNull retrofit2.Response<Void> response) {
