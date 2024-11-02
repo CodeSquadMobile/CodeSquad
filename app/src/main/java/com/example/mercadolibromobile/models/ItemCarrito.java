@@ -12,6 +12,7 @@ public class ItemCarrito {
     @SerializedName("cantidad")
     private int cantidad;
 
+    @SerializedName("precio_unitario")
     private double precioUnitario;
 
     @SerializedName("titulo_libro")
@@ -48,5 +49,13 @@ public class ItemCarrito {
 
     public double getTotal() {
         return cantidad * precioUnitario;
+    }
+
+    public void aumentarCantidad() {
+        cantidad++;
+    }
+
+    public void disminuirCantidad() {
+        if (cantidad > 1) cantidad--;
     }
 }

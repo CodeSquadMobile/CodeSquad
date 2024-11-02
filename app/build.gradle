@@ -38,6 +38,11 @@ dependencies {
     implementation libs.lifecycle.livedata.ktx
     implementation libs.lifecycle.viewmodel.ktx
 
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3' // Asegúrate de usar la última versión
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0' // Asegúrate de usar la última versión
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0' // Si usas Gson
+
+
     // Retrofit y Gson
     implementation 'com.github.bumptech.glide:glide:4.14.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
@@ -53,3 +58,4 @@ dependencies {
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
 }
+

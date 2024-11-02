@@ -24,6 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ContactFragment extends Fragment {
 
     private ContactoApi contactoApi;
+    private EditText nombreEditText, asuntoEditText, emailEditText, consultaEditText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -32,18 +33,17 @@ public class ContactFragment extends Fragment {
 
         // Inicializar Retrofit con la URL base fija
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://backend-mercado-libro-mobile.onrender.com/api/") // Coloca aquí la URL base de tu backend
+                .baseUrl("https://backend-mercado-libro-mobile.onrender.com/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         contactoApi = retrofit.create(ContactoApi.class);
 
         // Referencias a los elementos del layout
-        EditText nombreEditText = view.findViewById(R.id.etNombre);
-        EditText asuntoEditText = view.findViewById(R.id.etAsunto);
-        EditText emailEditText = view.findViewById(R.id.etEmail);
-        EditText consultaEditText = view.findViewById(R.id.etConsulta);
-
+        nombreEditText = view.findViewById(R.id.etNombre);
+        asuntoEditText = view.findViewById(R.id.etAsunto);
+        emailEditText = view.findViewById(R.id.etEmail);
+        consultaEditText = view.findViewById(R.id.etConsulta);
         Button enviarConsultaButton = view.findViewById(R.id.btnEnviarConsulta);
 
         // Establecer el comportamiento del botón "Enviar consulta"
@@ -89,6 +89,7 @@ public class ContactFragment extends Fragment {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(getActivity(), "Consulta enviada con éxito", Toast.LENGTH_SHORT).show();
+                    limpiarCampos();  // Limpiar los campos al enviar con éxito
                 } else {
                     Toast.makeText(getActivity(), "Error al enviar la consulta", Toast.LENGTH_SHORT).show();
                 }
@@ -99,5 +100,12 @@ public class ContactFragment extends Fragment {
                 Toast.makeText(getActivity(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void limpiarCampos() {
+        nombreEditText.setText("");
+        asuntoEditText.setText("");
+        emailEditText.setText("");
+        consultaEditText.setText("");
     }
 }

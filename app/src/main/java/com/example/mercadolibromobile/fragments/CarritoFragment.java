@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,12 +33,14 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class CarritoFragment extends Fragment {
+public class CarritoFragment extends Fragment implements CarritoAdapter.CarritoListener {
 
     private RecyclerView recyclerViewCarrito;
     private TextView precioTotal;
+    private Button btnFinalizarCompra;  // Botón para finalizar compra e ir a DireccionFragment
     private List<ItemCarrito> itemsCarrito;
     private final String API_URL = "https://backend-mercado-libro-mobile.onrender.com/api/carrito/";
+    private CarritoAdapter adapter;
 
     @Nullable
     @Override
@@ -45,14 +49,24 @@ public class CarritoFragment extends Fragment {
 
         recyclerViewCarrito = view.findViewById(R.id.recyclerViewCarrito);
         precioTotal = view.findViewById(R.id.precioTotal);
+        btnFinalizarCompra = view.findViewById(R.id.btnFinalizarCompra);  // Inicializar el botón de finalizar compra
 
         itemsCarrito = new ArrayList<>();
+        adapter = new CarritoAdapter(itemsCarrito, getContext(), this);
+        //CarritoAdapter adapter = new CarritoAdapter(itemsCarrito, getContext());
 
         recyclerViewCarrito.setLayoutManager(new LinearLayoutManager(getContext()));
-        CarritoAdapter adapter = new CarritoAdapter(itemsCarrito, getContext());
         recyclerViewCarrito.setAdapter(adapter);
 
         obtenerDatosCarrito(adapter);
+
+
+        btnFinalizarCompra.setOnClickListener(v -> {
+            FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container, new DireccionFragment());
+            transaction.addToBackStack(null);
+            transaction.commit();
+        });
 
         return view;
     }
@@ -104,5 +118,28 @@ public class CarritoFragment extends Fragment {
             total += item.getTotal();
         }
         precioTotal.setText("Total: $" + total);
+    }
+
+    @Override
+    public void aumentarCantidad(ItemCarrito item) {
+        item.aumentarCantidad();
+        adapter.notifyDataSetChanged();
+        actualizarPrecioTotal();
+    }
+
+    @Override
+    public void disminuirCantidad(ItemCarrito item) {
+        if (item.getCantidad() > 1) {
+            item.disminuirCantidad();
+            adapter.notifyDataSetChanged();
+            actualizarPrecioTotal();
+        }
+    }
+
+    @Override
+    public void eliminarItem(ItemCarrito item) {
+        itemsCarrito.remove(item);
+        adapter.notifyDataSetChanged();
+        actualizarPrecioTotal();
     }
 }
