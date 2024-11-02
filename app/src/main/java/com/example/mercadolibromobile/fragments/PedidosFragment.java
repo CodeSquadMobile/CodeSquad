@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mercadolibromobile.R;
 import com.example.mercadolibromobile.adapters.PedidoAdapter;
 import com.example.mercadolibromobile.api.ApiClient;
-import com.example.mercadolibromobile.api.ApiClient2;
 import com.example.mercadolibromobile.api.ApiService;
 import com.example.mercadolibromobile.api.PedidoApi;
 import com.example.mercadolibromobile.models.Pedido;
@@ -56,7 +55,7 @@ public class PedidosFragment extends Fragment {
     }
 
     private void cargarPedidos(String authToken) {
-        PedidoApi pedidoApi = ApiClient2.getClient().create(PedidoApi.class);
+        PedidoApi pedidoApi = ApiClient.getClient().create(PedidoApi.class);
         Call<List<Pedido>> call = pedidoApi.getPedidos(authToken);
         call.enqueue(new Callback<List<Pedido>>() {
             @Override
