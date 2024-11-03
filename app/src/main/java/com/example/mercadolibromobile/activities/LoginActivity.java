@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputEditText usernameEditText, passwordEditText, nameEditText;
     private Button loginButton, toggleModeButton, poliButton; // Botón de políticas
     private ProgressBar progressBar;
-    private boolean isLoginMode = true;
+    private boolean isLoginMode = true; // Modo de inicio de sesión por defecto
     private final String BASE_URL = "https://backend-mercado-libro-mobile.onrender.com/api/";
     private SharedPreferences sharedPreferences;
 
@@ -41,8 +41,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // Inicialización de SharedPreferences
         sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
 
+        // Referencias a elementos de la interfaz
         usernameLayout = findViewById(R.id.textInputLayout2);
         passwordLayout = findViewById(R.id.textInputLayout);
         nameLayout = findViewById(R.id.textInputLayoutName);
@@ -54,13 +56,16 @@ public class LoginActivity extends AppCompatActivity {
         poliButton = findViewById(R.id.buttonpoli); // Botón de políticas
         progressBar = findViewById(R.id.progressBar);
 
+        // Animaciones para el cambio de modo
         final Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         final Animation fadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
 
+        // Listener para el botón de cambiar entre iniciar sesión y registrarse
         toggleModeButton.setOnClickListener(v -> {
             toggleLoginMode(fadeIn, fadeOut);
         });
 
+        // Listener para el botón de iniciar sesión o registrarse
         loginButton.setOnClickListener(v -> {
             if (isLoginMode) {
                 loginUser();
@@ -75,6 +80,7 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        // Validación de campos de entrada
         usernameEditText.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -97,6 +103,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    // Cambia entre modo de inicio de sesión y registro
     private void toggleLoginMode(Animation fadeIn, Animation fadeOut) {
         isLoginMode = !isLoginMode;
         if (isLoginMode) {
@@ -117,6 +124,7 @@ public class LoginActivity extends AppCompatActivity {
         validateButtonState();
     }
 
+    // Habilita o deshabilita el botón de inicio de sesión / registro
     private void validateButtonState() {
         String username = usernameEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
@@ -125,10 +133,10 @@ public class LoginActivity extends AppCompatActivity {
                 !TextUtils.isEmpty(username) && !TextUtils.isEmpty(password) :
                 !TextUtils.isEmpty(username) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(name);
         loginButton.setEnabled(isEnabled);
-
         Log.d("LoginActivity", "Botón de login habilitado: " + isEnabled);
     }
 
+    // Método para iniciar sesión
     private void loginUser() {
         String email = usernameEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
@@ -141,27 +149,13 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<AuthModels.LoginResponse> call, Response<AuthModels.LoginResponse> response) {
                 progressBar.setVisibility(View.GONE);
-
-                // Agrega logs para ver el contenido de la respuesta y verificar errores de usuario
-                Log.d("LoginActivity", "Código de respuesta: " + response.code());
-                if (response.body() != null) {
-                    Log.d("LoginActivity", "Respuesta del backend: " + response.body().toString());
-                } else {
-                    Log.e("LoginActivity", "Error en la respuesta, body es null");
-                }
-
                 if (response.isSuccessful() && response.body() != null) {
                     AuthModels.LoginResponse loginResponse = response.body();
                     int userId = loginResponse.getUserId();
                     String accessToken = loginResponse.getAccess();
                     String refreshToken = loginResponse.getRefresh();
 
-                    // Log para verificar valores recibidos
-                    Log.d("LoginActivity", "UserID recibido: " + userId);
-                    Log.d("LoginActivity", "Access token recibido: " + accessToken);
-                    Log.d("LoginActivity", "Refresh token recibido: " + refreshToken);
-
-                    // Guardar en SharedPreferences
+                    // Guardar tokens y datos del usuario en SharedPreferences
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("access_token", accessToken);
                     editor.putString("refresh_token", refreshToken);
@@ -171,6 +165,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     Log.d("LoginActivity", "UserID guardado en SharedPreferences: " + userId);
 
+                    // Redirigir a MainActivity después del inicio de sesión exitoso
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
@@ -188,16 +183,17 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-
-
+    // Validación de email
     private boolean isEmailValid(String email) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
+    // Validación de contraseña
     private boolean isPasswordValid(String password) {
         return password.length() >= 6 && !password.matches(".*[^a-zA-Z0-9].*");
     }
 
+    // Método para registrar un nuevo usuario
     private void registerUser() {
         String email = usernameEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
@@ -229,7 +225,7 @@ public class LoginActivity extends AppCompatActivity {
                     // Muestra el dialogo de registro exitoso
                     showSuccessDialog();
                 } else {
-                    usernameLayout.setError("Error al registrarse. Intenta nuevamente.");
+                    usernameLayout.setError("Error en el registro");
                 }
             }
 
@@ -237,40 +233,28 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailure(Call<AuthModels.SignupResponse> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
                 Toast.makeText(LoginActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+                Log.e("LoginActivity", "Error en la conexión con el backend", t);
             }
         });
     }
 
+    // Mostrar diálogo de éxito
     private void showSuccessDialog() {
-        // Inflar el layout personalizado
-        View dialogView = getLayoutInflater().inflate(R.layout.dialog_alert, null);
-
-
-        androidx.appcompat.app.AlertDialog dialog = new androidx.appcompat.app.AlertDialog.Builder(this)
-                .setView(dialogView)
-                .create();
-
-
-        dialog.setOnShowListener(dialogInterface -> {
-            Button positiveButton = dialogView.findViewById(R.id.positive_button);
-            positiveButton.setOnClickListener(v -> dialog.dismiss());
-        });
-
-        dialog.show();
+        Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
-
+    // Clase SimpleTextWatcher para simplificar el TextWatcher
     private abstract class SimpleTextWatcher implements TextWatcher {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-        }
+        public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
         @Override
-        public void afterTextChanged(Editable s) {
-        }
+        public void afterTextChanged(Editable s) {}
     }
 }

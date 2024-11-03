@@ -67,24 +67,25 @@ public class PagoFragment extends Fragment {
         String vencimiento = etVencimiento.getText().toString().trim();
         String tipoTarjeta = etTipoTarjeta.getText().toString().trim().toLowerCase();
 
-        String token = "Bearer " + sharedPreferences.getString("access_token", "");
+        // Obtener el token de acceso de SharedPreferences
+        String token = sharedPreferences.getString("access_token", "");
 
-        if (!token.isEmpty()) {
-            // Crear instancia del modelo Pago sin el campo usuario
-            Pago pago = new Pago(numeroTarjeta, cvv, vencimiento, tipoTarjeta);
+        // Extraer el usuario (ID) desde el token usando AuthUtils
+        int usuario = AuthUtils.obtenerUsuarioIdDesdeToken(token);
 
-            // Configurar Retrofit y PagoApi
+        if (!token.isEmpty() && usuario != -1) {
+            // Crear instancia del modelo Pago con el usuario
+            Pago pago = new Pago(usuario, numeroTarjeta, cvv, vencimiento, tipoTarjeta);
+
             Retrofit retrofit = RetrofitClient.getInstance("https://backend-mercado-libro-mobile.onrender.com/api/");
             PagoApi pagoApi = retrofit.create(PagoApi.class);
 
-            // Realizar la solicitud POST
-            pagoApi.realizarPago(token, pago).enqueue(new Callback<Pago>() {
+            pagoApi.realizarPago("Bearer " + token, pago).enqueue(new Callback<Pago>() {
                 @Override
                 public void onResponse(Call<Pago> call, Response<Pago> response) {
                     if (response.isSuccessful() && response.body() != null) {
                         Pago pagoRespuesta = response.body();
-
-                        // Mostrar los datos de la respuesta en los TextViews
+                        // Mostrar detalles del pago
                         tvNumeroTarjetaMostrar.setText("Número de Tarjeta: " + pagoRespuesta.getNumero_tarjeta());
                         tvCVVMostrar.setText("CVV: " + pagoRespuesta.getCvv());
                         tvVencimientoMostrar.setText("Vencimiento: " + pagoRespuesta.getVencimiento());
@@ -108,29 +109,23 @@ public class PagoFragment extends Fragment {
                 }
             });
         } else {
-            Toast.makeText(getActivity(), "Token no encontrado, por favor inicie sesión.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Token o ID de usuario no válido. Por favor, inicie sesión.", Toast.LENGTH_SHORT).show();
         }
     }
 
     private boolean validarDatos(String numeroTarjeta, String cvv, String tipoTarjeta) {
-        // Validar número de tarjeta
         if (numeroTarjeta.length() != 16 || !numeroTarjeta.matches("\\d+")) {
             Toast.makeText(getActivity(), "El número de tarjeta debe tener 16 dígitos.", Toast.LENGTH_SHORT).show();
             return false;
         }
-
-        // Validar CVV
         if (cvv.length() != 3 || !cvv.matches("\\d+")) {
             Toast.makeText(getActivity(), "El CVV debe tener 3 dígitos.", Toast.LENGTH_SHORT).show();
             return false;
         }
-
-        // Validar tipo de tarjeta
         if (!tipoTarjeta.equals("debito") && !tipoTarjeta.equals("credito")) {
             Toast.makeText(getActivity(), "El tipo de tarjeta debe ser 'debito' o 'credito'.", Toast.LENGTH_SHORT).show();
             return false;
         }
-
-        return true;  // Todos los datos son válidos
+        return true;
     }
 }
