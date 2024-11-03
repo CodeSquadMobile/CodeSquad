@@ -15,7 +15,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mercadolibromobile.R;
-import com.example.mercadolibromobile.api.ApiService;
+import com.example.mercadolibromobile.api.PedidoApi;
 import com.example.mercadolibromobile.api.RetrofitClient;
 import com.example.mercadolibromobile.models.Resena;
 import com.example.mercadolibromobile.models.Book;
@@ -35,7 +35,7 @@ public class AddResenasActivity extends AppCompatActivity {
     private EditText editTextResena;
     private Button buttonAgregar;
     private String selectedBookTitle;
-    private ApiService apiService;
+    private PedidoApi apiService;
     private List<Book> libros; // Lista para almacenar los libros
 
     @Override
@@ -44,7 +44,7 @@ public class AddResenasActivity extends AppCompatActivity {
         setContentView(R.layout.activity_addresena);
 
         // Inicializar el API
-        apiService = RetrofitClient.getInstance("https://backend-mercado-libro-mobile.onrender.com/").create(ApiService.class);
+        apiService = RetrofitClient.getInstance("https://backend-mercado-libro-mobile.onrender.com/").create(PedidoApi.class);
 
         spinnerOpciones = findViewById(R.id.spinnerOpciones);
         editTextResena = findViewById(R.id.editTextResena);
@@ -122,6 +122,10 @@ public class AddResenasActivity extends AppCompatActivity {
                     // Si la reseña se ha agregado con éxito
                     editTextResena.setText("");
                     Toast.makeText(AddResenasActivity.this, "Reseña agregada con éxito", Toast.LENGTH_SHORT).show();
+
+                    // Establecer el resultado como exitoso y finalizar la actividad
+                    setResult(RESULT_OK);
+                    finish(); // Finaliza la actividad y regresa a MisResenasActivity
                 } else {
                     Toast.makeText(AddResenasActivity.this, "Error al agregar reseña", Toast.LENGTH_SHORT).show();
                 }
@@ -133,6 +137,7 @@ public class AddResenasActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void obtenerListaDeLibros() {
         // Llamar a la API para obtener la lista de libros
