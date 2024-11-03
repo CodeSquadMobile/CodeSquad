@@ -60,21 +60,13 @@ public class MisResenasActivity extends AppCompatActivity implements ResenaAdapt
         getResenas();
 
         // Configurar el botón para abrir la actividad de agregar reseñas
-        Button addButton = findViewById(R.id.button);
-        addButton.setOnClickListener(v -> {
+        Button button = findViewById(R.id.button);
+        button.setOnClickListener(v -> {
             Intent intent = new Intent(MisResenasActivity.this, AddResenasActivity.class);
             Log.d("MisResenasActivity", "Abriendo AddResenasActivity para agregar una nueva reseña.");
             startActivityForResult(intent, REQUEST_CODE_ADD_REVIEW);
         });
-
-        // Configurar el botón "Volver"
-        Button volverButton = findViewById(R.id.volverButton);
-        volverButton.setOnClickListener(v -> {
-            Log.d("MisResenasActivity", "Volviendo a la actividad anterior.");
-            finish(); // Cierra la actividad actual y regresa a la anterior
-        });
     }
-
 
     private void getResenas() {
         SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
