@@ -62,6 +62,8 @@ public class AuthModels {
 
         public LoginRequest(String email, String password) {
             this.email = email;
+
+            
             this.password = password;
         }
     }

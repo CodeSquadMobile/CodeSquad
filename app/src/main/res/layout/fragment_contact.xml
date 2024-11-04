@@ -40,7 +40,8 @@
                 android:inputType="text"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
-                android:focusableInTouchMode="true" />
+                android:focusableInTouchMode="true"
+                android:background="@android:color/transparent" />
 
             <View
                 android:layout_width="match_parent"
@@ -113,9 +114,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/enviar"
                 android:textColor="@color/white"
-                android:backgroundTint="@color/azul_electrico"
                 android:layout_marginTop="24dp"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:backgroundTint="@color/azul_electrico"/>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
