@@ -9,20 +9,17 @@
     tools:context=".activities.AddResenasActivity"
     android:background="@drawable/fondo2">
 
-    <!-- Botón para regresar a la actividad anterior -->
     <Button
         android:id="@+id/buttonAtras"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_margin="16dp"
         android:text="Atrás"
         android:textColor="#FFFFFF"
         android:backgroundTint="@color/vino"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- CardView que contiene el contenido de la reseña -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewResena"
         android:layout_width="0dp"
@@ -31,7 +28,7 @@
         app:layout_constraintTop_toBottomOf="@+id/buttonAtras"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:cardElevation="4dp"
+        app:cardElevation="6dp"
         app:cardBackgroundColor="@color/white">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -40,32 +37,30 @@
             android:padding="16dp"
             android:background="@drawable/borde_card">
 
-            <!-- Spinner para seleccionar una opción -->
             <Spinner
                 android:id="@+id/spinnerOpciones"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textColor="@color/black"
                 android:background="@drawable/border"
                 android:padding="16dp" />
 
-            <!-- EditText para ingresar el texto de la reseña -->
-
-            <!-- Botón para agregar la reseña -->
             <EditText
                 android:id="@+id/editTextResena"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/borde_input"
                 android:hint="Escribe tu reseña aquí"
                 android:textColorHint="@color/black"
+                android:textColor="@color/black"
                 android:padding="16dp"
                 app:layout_constraintTop_toBottomOf="@id/spinnerOpciones"
-                tools:layout_editor_absoluteX="16dp" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <Button
                 android:id="@+id/buttonAgregar"
@@ -75,10 +70,10 @@
                 android:padding="16dp"
                 android:text="Agregar"
                 android:textColor="@color/white"
+                android:backgroundTint="@color/azul_electrico"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/editTextResena"
-                android:backgroundTint="@color/azul_electrico" />
+                app:layout_constraintTop_toBottomOf="@id/editTextResena" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
