@@ -95,6 +95,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
         // Botón para comprar (Agregar al carrito)
         holder.btnComprar.setOnClickListener(v -> {
             String token = getAccessToken();
+            Log.d(TAG, "Botón de compra clickeado");
             int userId = AuthUtils.obtenerUsuarioIdDesdeToken(token);
 
             if (userId != -1) {

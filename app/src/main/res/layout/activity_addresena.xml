@@ -50,6 +50,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:textColor="@color/black"
                 android:background="@drawable/border"
+
                 android:padding="16dp" />
 
             <!-- EditText para ingresar el texto de la reseña -->
