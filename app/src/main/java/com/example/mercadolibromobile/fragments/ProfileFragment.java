@@ -1,7 +1,6 @@
 package com.example.mercadolibromobile.fragments;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -44,7 +43,7 @@ public class ProfileFragment extends Fragment {
         // Referencia al TextView del email
         emailTextView = rootView.findViewById(R.id.textView9);
 
-        // Dentro de onCreateView o en el evento OnClick del botón
+        // Configuración del botón para ver el estado de envío
         Button estadoEnvioButton = rootView.findViewById(R.id.button8);
         estadoEnvioButton.setOnClickListener(v -> {
             Log.d("ProfileFragment", "Botón estadoEnvioButton presionado - Iniciando PedidosFragment");
@@ -54,8 +53,6 @@ public class ProfileFragment extends Fragment {
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         });
-
-
 
         // Obtener el correo electrónico desde SharedPreferences
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
@@ -71,7 +68,7 @@ public class ProfileFragment extends Fragment {
         reviewsButton.setOnClickListener(v -> {
             // Abrir MisResenasActivity
             Intent intent = new Intent(getActivity(), MisResenasActivity.class);
-            startActivity(intent); // Iniciar la actividad
+            startActivity(intent);
         });
 
         // Configurar el botón "Dar de baja usuario"
@@ -88,12 +85,31 @@ public class ProfileFragment extends Fragment {
     }
 
     private void confirmarEliminacionUsuario() {
-        new AlertDialog.Builder(requireContext())
-                .setTitle("Confirmar Eliminación")
-                .setMessage("¿Está seguro de que desea eliminar su cuenta de usuario?")
-                .setPositiveButton("Sí", (dialog, which) -> obtenerUsuarioAutenticado("Bearer " + authToken))
-                .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
-                .show();
+        // Inflar el layout personalizado del diálogo
+        View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_confirm_delete, null);
+
+        // Crear el AlertDialog con el layout personalizado
+        AlertDialog dialog = new AlertDialog.Builder(requireContext())
+                .setView(dialogView)
+                .create();
+
+        // Configurar los botones en el diálogo
+        dialog.setOnShowListener(dialogInterface -> {
+            Button positiveButton = dialogView.findViewById(R.id.positive_button);
+            Button negativeButton = dialogView.findViewById(R.id.negative_button);
+
+            // Configurar botón "Sí" para confirmar la eliminación
+            positiveButton.setOnClickListener(v -> {
+                dialog.dismiss();
+                obtenerUsuarioAutenticado("Bearer " + authToken);
+            });
+
+            // Configurar botón "No" para cerrar el diálogo
+            negativeButton.setOnClickListener(v -> dialog.dismiss());
+        });
+
+        // Mostrar el diálogo
+        dialog.show();
     }
 
     private void obtenerUsuarioAutenticado(String authToken) {

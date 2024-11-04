@@ -2,7 +2,7 @@ package com.example.mercadolibromobile.models;
 
 public class Pedido {
     private int id_pedido;
-    private String usuario;
+    private int usuario;
     private Direccion direccion;
     private String metodo_pago;
     private String estado;
@@ -18,11 +18,11 @@ public class Pedido {
         this.id_pedido = id_pedido;
     }
 
-    public String getUsuario() {
+    public int getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(String usuario) {
+    public void setUsuario(int usuario) {
         this.usuario = usuario;
     }
 
@@ -64,46 +64,5 @@ public class Pedido {
 
     public void setTotal(double total) {
         this.total = total;
-    }
-
-    // Clase interna Direccion
-    public static class Direccion {
-        private String calle;
-        private String ciudad;
-        private String estado;
-        private String codigoPostal;
-
-        // Getters y Setters para Direccion
-        public String getCalle() {
-            return calle;
-        }
-
-        public void setCalle(String calle) {
-            this.calle = calle;
-        }
-
-        public String getCiudad() {
-            return ciudad;
-        }
-
-        public void setCiudad(String ciudad) {
-            this.ciudad = ciudad;
-        }
-
-        public String getEstado() {
-            return estado;
-        }
-
-        public void setEstado(String estado) {
-            this.estado = estado;
-        }
-
-        public String getCodigoPostal() {
-            return codigoPostal;
-        }
-
-        public void setCodigoPostal(String codigoPostal) {
-            this.codigoPostal = codigoPostal;
-        }
     }
 }
