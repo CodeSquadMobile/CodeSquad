@@ -27,6 +27,8 @@
             android:id="@+id/positive_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/amarillo"
+            android:textColor="@color/black"
             android:text="Sí" />
 
         <Button
@@ -34,6 +36,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="No"
+            android:backgroundTint="@color/amarillo"
+            android:textColor="@color/black"
             android:layout_marginStart="16dp" />
     </LinearLayout>
 </LinearLayout>
