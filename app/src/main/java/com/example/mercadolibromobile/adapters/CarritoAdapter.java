@@ -1,35 +1,36 @@
 package com.example.mercadolibromobile.adapters;
 
-import android.util.Log;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mercadolibromobile.R;
-import com.example.mercadolibromobile.models.Book;
+import com.example.mercadolibromobile.fragments.CarritoFragment;
 import com.example.mercadolibromobile.models.ItemCarrito;
 
 import java.util.List;
 
 public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.CarritoViewHolder> {
 
-    private final List<ItemCarrito> itemsCarrito;
-    private final List<Book> libros;
-    private static final String TAG = "CarritoAdapter";
+    private List<ItemCarrito> itemsCarrito;
+    private Context context;
+    private CarritoListener carritoListener;
 
-    public CarritoAdapter(List<ItemCarrito> itemsCarrito, List<Book> libros) {
+    public CarritoAdapter(List<ItemCarrito> itemsCarrito, Context context, CarritoListener carritoListener) {
         this.itemsCarrito = itemsCarrito;
-        this.libros = libros;
+        this.context = context;
+        this.carritoListener = carritoListener;
     }
 
     @NonNull
     @Override
     public CarritoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_carrito, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_carrito, parent, false);
         return new CarritoViewHolder(view);
     }
 
@@ -37,29 +38,21 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.CarritoV
     public void onBindViewHolder(@NonNull CarritoViewHolder holder, int position) {
         ItemCarrito item = itemsCarrito.get(position);
 
-        // Obtener el libro correspondiente usando el ID
-        Book libro = findBookById(item.getId_libro());
+        holder.tvTituloLibro.setText(item.getTituloLibro());
+        holder.tvCantidad.setText("Cantidad: " + item.getCantidad());
+        holder.tvPrecio.setText("Precio: $" + item.getPrecioUnitario());
 
-        if (libro != null) {
-            holder.tvTituloLibro.setText(libro.getTitulo()); // Mostrar el título del libro
-            holder.tvCantidad.setText("Cantidad: " + item.getCantidad());
-            holder.tvPrecio.setText("Precio: $" + (item.getCantidad() * libro.getPrecio())); // Calcular precio total
-            Log.d(TAG, "Libro encontrado: " + libro.getTitulo());
-        } else {
-            holder.tvTituloLibro.setText("Libro no encontrado");
-            holder.tvCantidad.setText("Cantidad: " + item.getCantidad());
-            holder.tvPrecio.setText("Precio: $0"); // Mostrar precio 0 si no se encuentra el libro
-            Log.e(TAG, "Libro no encontrado para el ID: " + item.getId_libro());
-        }
-    }
+        holder.btnAumentarCantidad.setOnClickListener(v -> {
+            carritoListener.aumentarCantidad(item);
+        });
 
-    private Book findBookById(int id) {
-        for (Book libro : libros) {
-            if (libro.getIdLibro() == id) {
-                return libro;
-            }
-        }
-        return null; // Si no se encuentra el libro
+        holder.btnDisminuirCantidad.setOnClickListener(v -> {
+            carritoListener.disminuirCantidad(item);
+        });
+
+        holder.btnEliminar.setOnClickListener(v -> {
+            carritoListener.eliminarItem(item);
+        });
     }
 
     @Override
@@ -67,14 +60,24 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.CarritoV
         return itemsCarrito.size();
     }
 
-    static class CarritoViewHolder extends RecyclerView.ViewHolder {
+    public static class CarritoViewHolder extends RecyclerView.ViewHolder {
         TextView tvTituloLibro, tvCantidad, tvPrecio;
+        ImageButton btnAumentarCantidad, btnDisminuirCantidad, btnEliminar;
 
         public CarritoViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTituloLibro = itemView.findViewById(R.id.tvTituloLibro);
             tvCantidad = itemView.findViewById(R.id.tvCantidad);
             tvPrecio = itemView.findViewById(R.id.tvPrecio);
+            btnAumentarCantidad = itemView.findViewById(R.id.btnAumentarCantidad);
+            btnDisminuirCantidad = itemView.findViewById(R.id.btnDisminuirCantidad);
+            btnEliminar = itemView.findViewById(R.id.btnEliminar);
         }
+    }
+
+    public interface CarritoListener {
+        void aumentarCantidad(ItemCarrito item);
+        void disminuirCantidad(ItemCarrito item);
+        void eliminarItem(ItemCarrito item);
     }
 }

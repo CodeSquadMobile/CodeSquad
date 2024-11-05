@@ -11,7 +11,7 @@
         android:layout_margin="16dp"
         app:cardElevation="8dp"
         app:cardCornerRadius="8dp"
-        android:background="@color/white">
+        app:cardBackgroundColor="@android:color/transparent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,16 +35,19 @@
                 android:id="@+id/etAsunto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
                 android:layout_marginTop="20dp"
                 android:hint="@string/asunto"
                 android:inputType="text"
                 android:textColor="@color/black"
-                android:textColorHint="@color/black" />
+                android:textColorHint="@color/black"
+                android:focusableInTouchMode="true"
+                android:background="@android:color/transparent" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="12dp"
                 android:background="@color/black" />
 
             <EditText
@@ -56,11 +59,14 @@
                 android:hint="@string/nombre"
                 android:inputType="textPersonName"
                 android:textColor="@color/black"
-                android:textColorHint="@color/black" />
+                android:textColorHint="@color/black"
+                android:focusableInTouchMode="true" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="12dp"
                 android:background="@color/black" />
 
             <EditText
@@ -72,11 +78,14 @@
                 android:hint="@string/Email"
                 android:inputType="textEmailAddress"
                 android:textColor="@color/black"
-                android:textColorHint="@color/black" />
+                android:textColorHint="@color/black"
+                android:focusableInTouchMode="true" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="12dp"
                 android:background="@color/black" />
 
             <EditText
@@ -89,11 +98,14 @@
                 android:inputType="text"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:focusableInTouchMode="true" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="12dp"
                 android:background="@color/black" />
 
             <Button
@@ -102,11 +114,10 @@
                 android:layout_height="wrap_content"
                 android:text="@string/enviar"
                 android:textColor="@color/white"
-                android:backgroundTint="@color/azul_electrico"
                 android:layout_marginTop="24dp"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:backgroundTint="@color/azul_electrico"/>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-
 </RelativeLayout>

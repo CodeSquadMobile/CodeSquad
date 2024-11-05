@@ -1,39 +1,77 @@
 package com.example.mercadolibromobile.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ItemCarrito {
-    private int id_libro;  // ID del libro
+    @SerializedName("id")
+    private int id;
+
+    @SerializedName("libro")
+    private int libro;
+
+    @SerializedName("usuario")
+    private int usuario;
+
+    @SerializedName("cantidad")
     private int cantidad;
-    private double precio;  // Agregar precio
 
-    // Constructor
-    public ItemCarrito(int id_libro, int cantidad, double precio) {
-        this.id_libro = id_libro;
+    @SerializedName("precio_unitario")
+    private double precioUnitario;
+
+    @SerializedName("titulo_libro")
+    private String tituloLibro;
+
+    // Constructor sin id para crear un nuevo item desde la app
+    public ItemCarrito(int libro, int usuario, int cantidad, double precioUnitario) {
+        this.libro = libro;
+        this.usuario = usuario;
         this.cantidad = cantidad;
-        this.precio = precio;  // Asignar el precio al constructor
+        this.precioUnitario = precioUnitario;
     }
 
-    // Getters y setters
-    public int getId_libro() {
-        return id_libro;
+    // Constructor con id para deserialización desde el backend
+    public ItemCarrito(int id, int libro, int usuario, int cantidad, double precioUnitario) {
+        this.id = id;
+        this.libro = libro;
+        this.usuario = usuario;
+        this.cantidad = cantidad;
+        this.precioUnitario = precioUnitario;
     }
 
-    public void setId_libro(int id_libro) {
-        this.id_libro = id_libro;
+    // Getters y Setters
+    public int getId() {
+        return id;
+    }
+
+    public int getLibro() {
+        return libro;
+    }
+
+    public int getUsuario() {
+        return usuario;
     }
 
     public int getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
+    public double getPrecioUnitario() {
+        return precioUnitario;
     }
 
-    public double getPrecio() {
-        return precio;
+    public String getTituloLibro() {
+        return tituloLibro;
     }
 
-    public void setPrecio(double precio) {
-        this.precio = precio;
+    public double getTotal() {
+        return cantidad * precioUnitario;
+    }
+
+    public void aumentarCantidad() {
+        cantidad++;
+    }
+
+    public void disminuirCantidad() {
+        if (cantidad > 1) cantidad--;
     }
 }

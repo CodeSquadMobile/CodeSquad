@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,7 +6,7 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:background="@drawable/fondo2"
-    tools:context=".fragments.fragment_Finalizar">
+    tools:context=".fragments.CarritoFragment">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -32,13 +31,19 @@
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewCarrito"
+            <!-- Envolver RecyclerView en un ScrollView -->
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:layout_weight="1">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewCarrito"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </ScrollView>
 
             <TextView
                 android:id="@+id/precioTotal"
@@ -49,19 +54,18 @@
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="24dp" />
+                android:layout_marginBottom="24dp"/>
 
             <Button
                 android:id="@+id/btnFinalizarCompra"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Finalizar compra"
-                android:textSize="18sp"
+                android:layout_marginTop="8dp"
                 android:backgroundTint="@color/azul_electrico"
+                android:text="Continuar"
                 android:textColor="@android:color/white"
-                android:layout_marginTop="8dp" />
+                android:textSize="18sp" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-
 </LinearLayout>
