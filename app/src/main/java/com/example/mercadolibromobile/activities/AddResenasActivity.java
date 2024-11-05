@@ -73,6 +73,15 @@ public class AddResenasActivity extends AppCompatActivity {
                 agregarResena();
             }
         });
+
+        Button volverButton = findViewById(R.id.volverButton);
+        volverButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
 
     private void agregarResena() {

@@ -27,6 +27,7 @@ public class EditResenaActivity extends AppCompatActivity {
 
     private EditText comentarioEditText;
     private Button saveButton;
+    private Button volverButton; // Añadido para el botón Volver
     private Resena resena; // La reseña que se va a editar
     private ApiService apiService;
 
@@ -37,6 +38,7 @@ public class EditResenaActivity extends AppCompatActivity {
 
         comentarioEditText = findViewById(R.id.comentarioEditText);
         saveButton = findViewById(R.id.saveButton);
+        volverButton = findViewById(R.id.volverButton); // Inicializar el botón Volver
 
         // Obtener la reseña del Intent
         resena = (Resena) getIntent().getSerializableExtra("resena");
@@ -71,6 +73,11 @@ public class EditResenaActivity extends AppCompatActivity {
                 Toast.makeText(this, "El comentario no puede estar vacío", Toast.LENGTH_SHORT).show();
                 Log.e("EditResenaActivity", "Intento de guardar un comentario vacío.");
             }
+        });
+
+        // Configurar el botón Volver
+        volverButton.setOnClickListener(v -> {
+            finish(); // Cierra la actividad y vuelve a la anterior
         });
     }
 
