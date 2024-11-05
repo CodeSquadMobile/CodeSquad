@@ -66,6 +66,13 @@ public class MisResenasActivity extends AppCompatActivity implements ResenaAdapt
             Log.d("MisResenasActivity", "Abriendo AddResenasActivity para agregar una nueva reseña.");
             startActivityForResult(intent, REQUEST_CODE_ADD_REVIEW);
         });
+
+        // Configurar el botón "Volver"
+        Button volverButton = findViewById(R.id.volverButton);
+        volverButton.setOnClickListener(v -> {
+            Log.d("MisResenasActivity", "Volviendo a la actividad anterior.");
+            finish(); // Cierra esta actividad y vuelve a la anterior
+        });
     }
 
     private void getResenas() {
